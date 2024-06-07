@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // /register와 /home 엔드포인트에 모든 사용자가 접근할 수 있도록 설정
                         .requestMatchers("/register", "/home").permitAll()
+                        .requestMatchers("/houses/**").permitAll()
                         // 그 외의 모든 요청은 인증 요구
                         .anyRequest().authenticated()
                 )
