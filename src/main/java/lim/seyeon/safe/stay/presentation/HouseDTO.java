@@ -20,38 +20,37 @@ public class HouseDTO {
     @NotNull
     private String state;
 
-    private String zip_code;
+    @NotNull
+    private String zipCode;
 
     @NotNull
     private Double price;
 
     private String description;
 
-    private LocalDateTime created_at;
-
     public HouseDTO() {}
 
-    public HouseDTO(String name, String address, String city, String state, String zip_code, Double price, String description, LocalDateTime created_at) {
+    public HouseDTO(String name, String address, String city, String state, String zipCode,
+                    Double price, String description) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
-        this.zip_code = zip_code;
+        this.zipCode = zipCode;
         this.price = price;
         this.description = description;
-        this.created_at = created_at;
     }
 
-    public HouseDTO(Long id, String name, String address, String city, String state, String zip_code, Double price, String description, LocalDateTime created_at) {
+    public HouseDTO(Long id, String name, String address, String city, String state, String zipCode,
+                    Double price, String description) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
-        this.zip_code = zip_code;
+        this.zipCode = zipCode;
         this.price = price;
         this.description = description;
-        this.created_at = created_at;
     }
 
     public Long getId() {
@@ -75,7 +74,7 @@ public class HouseDTO {
     }
 
     public String getZipCode() {
-        return zip_code;
+        return zipCode;
     }
 
     public @NotNull Double getPrice() {
@@ -84,10 +83,6 @@ public class HouseDTO {
 
     public String getDescription() {
         return description;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return created_at;
     }
 
     public void setId(Long id) {
@@ -110,8 +105,8 @@ public class HouseDTO {
         this.state = state;
     }
 
-    public void setZipCode(String zip_code) {
-        this.zip_code = zip_code;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public void setPrice(@NotNull Double price) {
@@ -120,10 +115,6 @@ public class HouseDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setCreatedAt(LocalDateTime created_at) {
-        this.created_at = created_at;
     }
 
     public static House toEntity(HouseDTO houseDTO) {
@@ -135,8 +126,7 @@ public class HouseDTO {
                 houseDTO.getState(),
                 houseDTO.getZipCode(),
                 houseDTO.getPrice(),
-                houseDTO.getDescription(),
-                houseDTO.getCreatedAt()
+                houseDTO.getDescription()
         );
         return house;
     }
@@ -150,8 +140,7 @@ public class HouseDTO {
                 house.getState(),
                 house.getZipCode(),
                 house.getPrice(),
-                house.getDescription(),
-                house.getCreatedAt()
+                house.getDescription()
         );
         return houseDTO;
     }

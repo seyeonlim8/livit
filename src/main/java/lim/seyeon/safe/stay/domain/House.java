@@ -23,8 +23,8 @@ public class House {
     @Column(name = "state", nullable = false, length = 50)
     private String state;
 
-    @Column(name = "zip_code", length = 10)
-    private String zip_code;
+    @Column(name = "zipCode", nullable = false, length = 10)
+    private String zipCode;
 
     @Column(name = "price", nullable = false)
     private Double price;
@@ -32,25 +32,22 @@ public class House {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime created_at;
-
     public Boolean sameId(Long id) {
         return this.id.equals(id);
     }
 
     public House() {}
 
-    public House(Long id, String name, String address, String city, String state, String zip_code, Double price, String description, LocalDateTime created_at) {
+    public House(Long id, String name, String address, String city, String state, String zipCode,
+                 Double price, String description) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
-        this.zip_code = zip_code;
+        this.zipCode = zipCode;
         this.price = price;
         this.description = description;
-        this.created_at = created_at;
     }
 
     public Boolean containsName(String name) {
@@ -78,7 +75,7 @@ public class House {
     }
 
     public String getZipCode() {
-        return zip_code;
+        return zipCode;
     }
 
     public Double getPrice() {
@@ -87,10 +84,6 @@ public class House {
 
     public String getDescription() {
         return description;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return created_at;
     }
 
     public void setId(Long id) {
@@ -113,9 +106,7 @@ public class House {
         this.state = state;
     }
 
-    public void setZipCode(String zip_code) {
-        this.zip_code = this.zip_code;
-    }
+    public void setZipCode(String zipCode) { this.zipCode = zipCode; }
 
     public void setPrice(Double price) {
         this.price = price;
@@ -123,9 +114,5 @@ public class House {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setCreatedAt(LocalDateTime created_at) {
-        this.created_at = created_at;
     }
 }

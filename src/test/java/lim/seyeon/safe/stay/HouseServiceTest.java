@@ -29,8 +29,7 @@ public class HouseServiceTest {
                 "state1",
                 "zip code 1",
                 100.0,
-                "This is a description.",
-                LocalDateTime.now()
+                "This is a description."
         );
 
         HouseDTO addedHouseDTO = houseService.add(houseDTO);
@@ -43,7 +42,6 @@ public class HouseServiceTest {
         assertTrue(addedHouseDTO.getState().equals(foundHouseDTO.getState()));
         assertTrue(addedHouseDTO.getZipCode().equals(foundHouseDTO.getZipCode()));
         assertTrue(addedHouseDTO.getDescription().equals(foundHouseDTO.getDescription()));
-        assertTrue(addedHouseDTO.getCreatedAt().equals(foundHouseDTO.getCreatedAt()));
 
     }
 

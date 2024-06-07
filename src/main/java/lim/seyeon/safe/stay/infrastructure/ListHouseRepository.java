@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
-
+/*
 @Repository
 public class ListHouseRepository implements HouseRepository {
 
@@ -49,3 +49,4 @@ public class ListHouseRepository implements HouseRepository {
         houses.remove(houseToDelete);
     }
 }
+*/

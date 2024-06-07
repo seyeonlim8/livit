@@ -36,9 +36,9 @@ public class HouseController {
     }
 
     @RequestMapping(value = "/houses/{id}", method = RequestMethod.PUT)
-    public HouseDTO updateHouse(@PathVariable Long id) {
-        HouseDTO updatedHouseDTO = houseService.findHouseById(id);
-        return houseService.update(updatedHouseDTO);
+    public HouseDTO updateHouse(@PathVariable Long id, @RequestBody HouseDTO houseDTO) {
+        houseDTO.setId(id);
+        return houseService.update(houseDTO);
     }
 
     @RequestMapping(value = "/houses/{id}", method = RequestMethod.DELETE)
