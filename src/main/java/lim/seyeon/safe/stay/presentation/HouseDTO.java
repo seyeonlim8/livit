@@ -21,7 +21,7 @@ public class HouseDTO {
     private String state;
 
     @NotNull
-    private String zipCode;
+    private String zipcode;
 
     @NotNull
     private Double price;
@@ -30,25 +30,25 @@ public class HouseDTO {
 
     public HouseDTO() {}
 
-    public HouseDTO(String name, String address, String city, String state, String zipCode,
+    public HouseDTO(String name, String address, String city, String state, String zipcode,
                     Double price, String description) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
-        this.zipCode = zipCode;
+        this.zipcode = zipcode;
         this.price = price;
         this.description = description;
     }
 
-    public HouseDTO(Long id, String name, String address, String city, String state, String zipCode,
+    public HouseDTO(Long id, String name, String address, String city, String state, String zipcode,
                     Double price, String description) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
-        this.zipCode = zipCode;
+        this.zipcode = zipcode;
         this.price = price;
         this.description = description;
     }
@@ -57,27 +57,27 @@ public class HouseDTO {
         return id;
     }
 
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 
-    public @NotNull String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public @NotNull String getCity() {
+    public String getCity() {
         return city;
     }
 
-    public @NotNull String getState() {
+    public String getState() {
         return state;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZipcode() {
+        return zipcode;
     }
 
-    public @NotNull Double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -89,27 +89,27 @@ public class HouseDTO {
         this.id = id;
     }
 
-    public void setName(@NotNull String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setAddress(@NotNull String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public void setCity(@NotNull String city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public void setState(@NotNull String state) {
+    public void setState(String state) {
         this.state = state;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
-    public void setPrice(@NotNull Double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -124,7 +124,7 @@ public class HouseDTO {
                 houseDTO.getAddress(),
                 houseDTO.getCity(),
                 houseDTO.getState(),
-                houseDTO.getZipCode(),
+                houseDTO.getZipcode(),
                 houseDTO.getPrice(),
                 houseDTO.getDescription()
         );
@@ -138,7 +138,7 @@ public class HouseDTO {
                 house.getAddress(),
                 house.getCity(),
                 house.getState(),
-                house.getZipCode(),
+                house.getZipcode(),
                 house.getPrice(),
                 house.getDescription()
         );

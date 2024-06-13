@@ -3,6 +3,7 @@ package lim.seyeon.safe.stay.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "houses")
@@ -23,8 +24,8 @@ public class House {
     @Column(name = "state", nullable = false, length = 50)
     private String state;
 
-    @Column(name = "zipCode", nullable = false, length = 10)
-    private String zipCode;
+    @Column(name = "zipcode", nullable = false, length = 10)
+    private String zipcode;
 
     @Column(name = "price", nullable = false)
     private Double price;
@@ -32,20 +33,23 @@ public class House {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    private Set<Review> reviews;
+
     public Boolean sameId(Long id) {
         return this.id.equals(id);
     }
 
     public House() {}
 
-    public House(Long id, String name, String address, String city, String state, String zipCode,
+    public House(Long id, String name, String address, String city, String state, String zipcode,
                  Double price, String description) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
-        this.zipCode = zipCode;
+        this.zipcode = zipcode;
         this.price = price;
         this.description = description;
     }
@@ -74,8 +78,8 @@ public class House {
         return state;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZipcode() {
+        return zipcode;
     }
 
     public Double getPrice() {
@@ -106,7 +110,7 @@ public class House {
         this.state = state;
     }
 
-    public void setZipCode(String zipCode) { this.zipCode = zipCode; }
+    public void setZipcode(String zipcode) { this.zipcode = zipcode; }
 
     public void setPrice(Double price) {
         this.price = price;

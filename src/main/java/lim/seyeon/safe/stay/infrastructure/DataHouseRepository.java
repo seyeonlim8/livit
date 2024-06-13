@@ -31,7 +31,7 @@ public class DataHouseRepository implements HouseRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(house);
         namedParameterJdbcTemplate.update(
-                "INSERT INTO houses (id, name, address, city, state, zipCode, price, description) VALUES (:id, :name, :address, :city, :state, :zipCode, :price, :description)",
+                "INSERT INTO houses (id, name, address, city, state, zipcode, price, description) VALUES (:id, :name, :address, :city, :state, :zipcode, :price, :description)",
                 namedParameter, keyHolder
         );
         Long generatedId = keyHolder.getKey().longValue();
@@ -45,7 +45,7 @@ public class DataHouseRepository implements HouseRepository {
 
         try {
             house = namedParameterJdbcTemplate.queryForObject(
-                    "SELECT id, name, address, city, state, zipCode, price, description FROM houses WHERE id = :id",
+                    "SELECT id, name, address, city, state, zipcode, price, description FROM houses WHERE id = :id",
                     namedParameter, new BeanPropertyRowMapper<>(House.class)
             );
         } catch (EmptyResultDataAccessException e) {
@@ -73,7 +73,7 @@ public class DataHouseRepository implements HouseRepository {
     public House update(House house) {
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(house);
         namedParameterJdbcTemplate.update(
-                "UPDATE houses SET id = :id, name = :name, address = :address, city = :city, state = :state, zipCode = :zipCode, price = :price, description = :description WHERE id = :id",
+                "UPDATE houses SET id = :id, name = :name, address = :address, city = :city, state = :state, zipcode = :zipcode, price = :price, description = :description WHERE id = :id",
                 namedParameter
         );
         return house;
