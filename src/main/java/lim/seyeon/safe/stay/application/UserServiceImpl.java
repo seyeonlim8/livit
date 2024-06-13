@@ -1,5 +1,6 @@
 package lim.seyeon.safe.stay.application;
 
+import lim.seyeon.safe.stay.domain.EntityNotFoundException;
 import lim.seyeon.safe.stay.domain.User;
 import lim.seyeon.safe.stay.domain.UserRepository;
 import lim.seyeon.safe.stay.domain.UserService;
@@ -30,6 +31,15 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findUserByUsername(username);
         UserDTO userDTO = UserDTO.toDTO(user);
         return userDTO;
+    }
+
+    @Override
+    public UserDTO findUserById(Long id) {
+        User user = userRepository.findUserById(id);
+        if(user == null) {
+            throw new EntityNotFoundException("User with id " + id + " not found.");
+        }
+        return UserDTO.toDTO(user);
     }
 
     @Override

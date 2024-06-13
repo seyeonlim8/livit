@@ -17,12 +17,12 @@ public class HouseController {
         this.houseService = houseService;
     }
 
-    @RequestMapping(value = "/houses", method = RequestMethod.POST)
+    @PostMapping(value = "/houses")
     public HouseDTO createHouse(@Valid @RequestBody HouseDTO houseDTO) {
         return houseService.add(houseDTO);
     }
 
-    @RequestMapping(value = "/houses", method = RequestMethod.GET)
+    @GetMapping(value = "/houses")
     public List<HouseDTO> findHouses(@RequestParam(required = false) String name) {
         if(name == null) {
             return houseService.findAll();
@@ -30,18 +30,18 @@ public class HouseController {
         return houseService.findHouseByNameContaining(name);
     }
 
-    @RequestMapping(value = "/houses/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/houses/{id}")
     public HouseDTO findHouseById(@PathVariable Long id, @RequestBody HouseDTO houseDTO) {
         return houseService.findHouseById(id);
     }
 
-    @RequestMapping(value = "/houses/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/houses/{id}")
     public HouseDTO updateHouse(@PathVariable Long id, @RequestBody HouseDTO houseDTO) {
         houseDTO.setId(id);
         return houseService.update(houseDTO);
     }
 
-    @RequestMapping(value = "/houses/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/houses/{id}")
     public void deleteHouse(@PathVariable Long id) {
         houseService.delete(id);
     }

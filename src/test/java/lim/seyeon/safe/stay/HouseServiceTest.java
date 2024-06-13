@@ -8,12 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 public class HouseServiceTest {
 
     @Autowired
@@ -40,7 +42,7 @@ public class HouseServiceTest {
         assertTrue(addedHouseDTO.getAddress().equals(foundHouseDTO.getAddress()));
         assertTrue(addedHouseDTO.getCity().equals(foundHouseDTO.getCity()));
         assertTrue(addedHouseDTO.getState().equals(foundHouseDTO.getState()));
-        assertTrue(addedHouseDTO.getZipCode().equals(foundHouseDTO.getZipCode()));
+        assertTrue(addedHouseDTO.getZipcode().equals(foundHouseDTO.getZipcode()));
         assertTrue(addedHouseDTO.getDescription().equals(foundHouseDTO.getDescription()));
 
     }
