@@ -1,0 +1,34 @@
+package lim.seyeon.safe.stay.application;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lim.seyeon.safe.stay.domain.CrimeData;
+import lim.seyeon.safe.stay.domain.CrimeDataRepository;
+import lim.seyeon.safe.stay.presentation.CrimeDataDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.util.List;
+
+@Service
+public class CrimeDataService {
+
+    private CrimeDataRepository crimeDataRepository;
+
+    @Autowired
+    public CrimeDataService(CrimeDataRepository crimeDataRepository) {
+        this.crimeDataRepository = crimeDataRepository;
+    }
+
+    public void loadCrimeData(File file) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<CrimeDataDTO> crimeDataDTOList = objectMapper.readValue(file, new TypeReference<List<CrimeDataDTO>>(){});
+        List<CrimeData> crimeDataList = crimeDataDTOList.stream()
+                    .map(crimeDataDTO -> CrimeDataDTO.toEntity(crimeDataDTO))
+                    .toList();
+        for (CrimeData crimeData : crimeDataList) {
+            crimeDataRepository.add(crimeData);
+        }
+    }
+}

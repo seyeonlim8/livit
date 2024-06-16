@@ -52,7 +52,8 @@ public class HouseService {
     }
 
     public HouseDTO update(HouseDTO houseDTO) {
-        House updatedHouse = houseRepository.update(HouseDTO.toEntity(houseDTO));
+        House house = HouseDTO.toEntity(houseDTO);
+        House updatedHouse = houseRepository.update(house);
         HouseDTO updatedHouseDTO = HouseDTO.toDTO(updatedHouse);
         return updatedHouseDTO;
     }

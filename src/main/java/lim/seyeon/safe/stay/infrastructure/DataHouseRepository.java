@@ -27,6 +27,7 @@ public class DataHouseRepository implements HouseRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
+    @Override
     public House add(House house) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(house);
@@ -39,6 +40,7 @@ public class DataHouseRepository implements HouseRepository {
         return house;
     }
 
+    @Override
     public House findHouseById(Long id) {
         SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
         House house = null;
@@ -54,6 +56,7 @@ public class DataHouseRepository implements HouseRepository {
         return house;
     }
 
+    @Override
     public List<House> findAll() {
         List<House> houses = namedParameterJdbcTemplate.query(
                 "SELECT * FROM houses", new BeanPropertyRowMapper<>(House.class)
@@ -61,26 +64,28 @@ public class DataHouseRepository implements HouseRepository {
         return houses;
     }
 
+    @Override
     public List<House> findHouseByName(String name) {
         SqlParameterSource namedParameter = new MapSqlParameterSource("name", "%" + name + "%");
         List<House> houses = namedParameterJdbcTemplate.query(
+                //LIKE for partial matching
                 "SELECT * FROM houses WHERE name LIKE :name",
                 namedParameter, new BeanPropertyRowMapper<>(House.class)
         );
         return houses;
     }
 
+    @Override
     public House update(House house) {
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(house);
         namedParameterJdbcTemplate.update(
-                "UPDATE houses SET id = :id, name = :name, address = :address, city = :city, state = :state, zipcode = :zipcode, price = :price, description = :description WHERE id = :id",
+                "UPDATE houses SET name = :name, address = :address, city = :city, state = :state, zipcode = :zipcode, price = :price, description = :description WHERE id = :id",
                 namedParameter
         );
         return house;
     }
 
-
-
+    @Override
     public void delete(Long id) {
         SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
         namedParameterJdbcTemplate.update(

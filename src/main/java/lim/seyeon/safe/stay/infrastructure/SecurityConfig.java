@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/register", "/home").permitAll()
                         .requestMatchers("/houses/**").permitAll()
                         .requestMatchers("/reviews/**").permitAll()
+                        .requestMatchers("/api/crime-data/upload").permitAll()
                         // 그 외의 모든 요청은 인증 요구
                         .anyRequest().authenticated()
                 )
