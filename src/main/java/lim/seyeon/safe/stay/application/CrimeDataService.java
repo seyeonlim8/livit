@@ -31,4 +31,16 @@ public class CrimeDataService {
             crimeDataRepository.add(crimeData);
         }
     }
+
+    public List<CrimeDataDTO> findCrimeDataByAreaNum(Integer area_num) {
+        List<CrimeData> crimeDatas = crimeDataRepository.findCrimeDataByAreaNum(area_num);
+        List<CrimeDataDTO> crimeDataDTOS = crimeDatas.stream()
+                .map(crimeData -> CrimeDataDTO.toDTO(crimeData))
+                .toList();
+        return crimeDataDTOS;
+    }
+
+    public void deleteAllCrimes() {
+        crimeDataRepository.deleteAllCrimes();
+    }
 }

@@ -43,10 +43,6 @@ public class AreaService {
         return areaDTOS;
     }
 
-    public Double calculateAreaSafetyScore(Integer area_num) {
-        return null;
-    }
-
     public AreaDTO update(AreaDTO areaDTO) {
         Area area = AreaDTO.toEntity(areaDTO);
         Area updatedArea = areaRepository.update(area);

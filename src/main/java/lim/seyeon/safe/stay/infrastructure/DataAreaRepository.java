@@ -30,7 +30,7 @@ public class DataAreaRepository implements AreaRepository {
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(area);
 
         namedParameterJdbcTemplate.update(
-                "INSERT INTO area (area_num, name, population, safety_score) VALUES (:area_num, :name, :population, :safetyScore)",
+                "INSERT INTO areas (area_num, name) VALUES (:area_num, :name)",
                 namedParameter
         );
         return area;
@@ -43,7 +43,7 @@ public class DataAreaRepository implements AreaRepository {
 
         try {
             area = namedParameterJdbcTemplate.queryForObject(
-                    "SELECT * FROM area WHERE area_num = :area_num",
+                    "SELECT * FROM areas WHERE area_num = :area_num",
                     namedParameter, new BeanPropertyRowMapper<>(Area.class)
             );
         } catch (EmptyResultDataAccessException e) {
@@ -55,22 +55,17 @@ public class DataAreaRepository implements AreaRepository {
     @Override
     public List<Area> findAllAreas() {
         List<Area> areas = namedParameterJdbcTemplate.query(
-                "SELECT * FROM area",
+                "SELECT * FROM areas",
                 new BeanPropertyRowMapper<>(Area.class)
         );
         return areas;
     }
 
     @Override
-    public Double calculateAreaSafetyScore(Integer area_num) {
-        return null;
-    }
-
-    @Override
     public Area update(Area area) {
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(area);
         namedParameterJdbcTemplate.update(
-                "UPDATE area SET name = :name, population = :population, safety_score = :safety_score WHERE area_num = :area_num",
+                "UPDATE areas SET name = :name WHERE area_num = :area_num",
                 namedParameter
         );
         return area;
@@ -80,7 +75,7 @@ public class DataAreaRepository implements AreaRepository {
     public void delete(Integer area_num) {
         SqlParameterSource namedParameter = new MapSqlParameterSource("area_num", area_num);
         namedParameterJdbcTemplate.update(
-                "DELETE FROM area WHERE area_num = :area_num",
+                "DELETE FROM areas WHERE area_num = :area_num",
                 namedParameter
         );
     }

@@ -38,7 +38,7 @@ public class ReviewServiceTest {
     private ReviewRepository reviewRepository;
 
     @Test
-    @DisplayName("리뷰 추가 후 조회 테스트")
+    @DisplayName("Retrieves the newly added house when house id is queried")
     void addAndFindReviewByIdIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
         HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
@@ -63,7 +63,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("모든 리뷰 조회 테스트")
+    @DisplayName("All added houses should be retrieved")
     void findAllReviewsIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
         HouseDTO houseDTO = new HouseDTO("houseName", "address", "city", "state", "zipCode", 100.0, "description");
@@ -83,7 +83,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("유저 ID로 리뷰 조회 테스트")
+    @DisplayName("Review with a specific user id should be retrieved")
     void findReviewsByUserIdIntegration() {
         UserDTO userDTO = new UserDTO("username", "password");
         HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
@@ -103,7 +103,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("집 ID로 리뷰 조회 테스트")
+    @DisplayName("Review with a specific house id should be retrieved")
     void findReviewsByHouseIdIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
         HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
@@ -123,7 +123,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰 업데이트 테스트")
+    @DisplayName("Review should be updated successfully")
     void updateReviewIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
         HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
@@ -145,7 +145,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰 삭제 테스트")
+    @DisplayName("Review should be deleted successfully")
     void deleteReviewIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
         HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");

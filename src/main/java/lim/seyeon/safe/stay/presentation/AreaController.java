@@ -1,15 +1,13 @@
 package lim.seyeon.safe.stay.presentation;
 
 import lim.seyeon.safe.stay.application.AreaService;
-import lim.seyeon.safe.stay.domain.Area;
-import lim.seyeon.safe.stay.domain.AreaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/area")
+@RequestMapping("/api/areas")
 public class AreaController {
 
     private AreaService areaService;
@@ -20,16 +18,16 @@ public class AreaController {
     }
 
     @PostMapping("/upload")
-    public AreaDTO upload(@RequestParam AreaDTO areaDTO) {
+    public AreaDTO upload(@RequestBody AreaDTO areaDTO) {
         return areaService.add(areaDTO);
     }
 
-    @GetMapping("/find")
+    @GetMapping
     public List<AreaDTO> findAreas() {
         return areaService.findAll();
     }
 
-    @GetMapping("/find/{area_num}")
+    @GetMapping("/{area_num}")
     public AreaDTO findArea(@PathVariable Integer area_num) {
         return areaService.findAreaByAreaNum(area_num);
     }
@@ -39,22 +37,12 @@ public class AreaController {
         return areaService.findAreaByAreaNum(area_num).getName();
     }
 
-    @GetMapping("/{area_num}/population")
-    public Long findAreaPopulation(@PathVariable Integer area_num) {
-        return areaService.findAreaByAreaNum(area_num).getPopulation();
-    }
-
-    @GetMapping("/{area_num}/safety-score")
-    public Double findAreaSafetyScore(@PathVariable Integer area_num) {
-        return null;
-    }
-
-    @PutMapping("/{area_num}/update")
-    public AreaDTO update(@RequestParam AreaDTO areaDTO) {
+    @PutMapping("/{area_num}")
+    public AreaDTO update(@RequestBody AreaDTO areaDTO) {
         return areaService.update(areaDTO);
     }
 
-    @DeleteMapping("/{area_num}/delete")
+    @DeleteMapping("/{area_num}")
     public void deleteArea(@PathVariable Integer area_num) {
         areaService.delete(area_num);
     }

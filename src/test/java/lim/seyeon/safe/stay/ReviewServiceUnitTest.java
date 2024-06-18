@@ -162,7 +162,7 @@ public class ReviewServiceUnitTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 유저로 리뷰 업데이트 테스트")
+    @DisplayName("Throws EntityNotFoundException when a review with non-existent user id is queried")
     void updateReviewWithNonExistingUser() {
         ReviewDTO reviewDTO = new ReviewDTO(1L, 1L, 1L, 5, "title", "content", LocalDateTime.now());
 
@@ -172,7 +172,7 @@ public class ReviewServiceUnitTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 집으로 리뷰 업데이트 테스트")
+    @DisplayName("Throws EntityNotFoundException when a review with non-existent house id is queried")
     void updateReviewWithNonExistingHouse() {
         UserDTO userDTO = new UserDTO(1L, "username", "password");
         ReviewDTO reviewDTO = new ReviewDTO(1L, 1L, 1L, 5, "title", "content", LocalDateTime.now());
@@ -184,7 +184,7 @@ public class ReviewServiceUnitTest {
     }
 
     @Test
-    @DisplayName("리뷰 삭제 테스트")
+    @DisplayName("Review should be deleted successfully")
     void deleteReview() {
         doNothing().when(reviewRepository).delete(1L);
 

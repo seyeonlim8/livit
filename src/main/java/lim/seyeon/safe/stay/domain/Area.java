@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "area")
+@Table(name = "areas")
 public class Area {
 
     @Id
@@ -16,25 +16,11 @@ public class Area {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "population")
-    private Long population;
-
-    @Column(name = "safety_score")
-    private Integer safety_score;
-
     public Area() {}
 
-    public Area(Integer area_num, String name, Long population) {
+    public Area(Integer area_num, String name) {
         this.area_num = area_num;
         this.name = name;
-        this.population = population;
-    }
-
-    public Area(Integer area_num, String name, Long population, Integer safety_score) {
-        this.area_num = area_num;
-        this.name = name;
-        this.population = population;
-        this.safety_score = safety_score;
     }
 
     public Integer getArea_num() {
@@ -45,27 +31,11 @@ public class Area {
         return name;
     }
 
-    public Long getPopulation() {
-        return population;
-    }
-
-    public Integer getSafety_score() {
-        return safety_score;
-    }
-
     public void setArea_num(Integer area_num) {
         this.area_num = area_num;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPopulation(Long population) {
-        this.population = population;
-    }
-
-    public void setSafety_score(Integer safety_score) {
-        this.safety_score = safety_score;
     }
 }
