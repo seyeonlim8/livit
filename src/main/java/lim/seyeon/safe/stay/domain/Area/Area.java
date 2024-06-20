@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.Area;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

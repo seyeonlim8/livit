@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.Neighborhood;
 
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,7 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.DTO;
 
 import jakarta.validation.constraints.NotNull;
-import lim.seyeon.safe.stay.domain.User;
+import lim.seyeon.safe.stay.domain.User.User;
 
 public class UserDTO {
     private Long id;

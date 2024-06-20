@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.CrimeData;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

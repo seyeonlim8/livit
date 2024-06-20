@@ -1,8 +1,8 @@
 package lim.seyeon.safe.stay.application;
 
-import lim.seyeon.safe.stay.domain.House;
-import lim.seyeon.safe.stay.domain.HouseRepository;
-import lim.seyeon.safe.stay.presentation.HouseDTO;
+import lim.seyeon.safe.stay.domain.House.House;
+import lim.seyeon.safe.stay.domain.House.HouseRepository;
+import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.Review;
 
 import java.util.List;
 

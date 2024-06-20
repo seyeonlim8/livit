@@ -1,10 +1,9 @@
 package lim.seyeon.safe.stay.infrastructure;
 
-import lim.seyeon.safe.stay.domain.EntityNotFoundException;
-import lim.seyeon.safe.stay.domain.House;
-import lim.seyeon.safe.stay.domain.HouseRepository;
+import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
+import lim.seyeon.safe.stay.domain.House.House;
+import lim.seyeon.safe.stay.domain.House.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -47,7 +46,7 @@ public class DataHouseRepository implements HouseRepository {
 
         try {
             house = namedParameterJdbcTemplate.queryForObject(
-                    "SELECT id, name, address, city, state, zipcode, price, description FROM houses WHERE id = :id",
+                    "SELECT * FROM houses WHERE id = :id",
                     namedParameter, new BeanPropertyRowMapper<>(House.class)
             );
         } catch (EmptyResultDataAccessException e) {
@@ -77,10 +76,22 @@ public class DataHouseRepository implements HouseRepository {
 
     @Override
     public House update(House house) {
-        SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(house);
+        Long id = house.getId();
+        SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
+
+        try {
+            namedParameterJdbcTemplate.queryForObject(
+                    "SELECT * FROM houses WHERE id = :id",
+                    namedParameter, new BeanPropertyRowMapper<>(House.class)
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("House with id " + id + " not found");
+        }
+
+        SqlParameterSource namedParameter2 = new BeanPropertySqlParameterSource(house);
         namedParameterJdbcTemplate.update(
                 "UPDATE houses SET name = :name, address = :address, city = :city, state = :state, zipcode = :zipcode, price = :price, description = :description WHERE id = :id",
-                namedParameter
+                namedParameter2
         );
         return house;
     }

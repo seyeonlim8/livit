@@ -1,9 +1,9 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.DTO;
 
 import jakarta.validation.constraints.NotNull;
-import lim.seyeon.safe.stay.domain.House;
-import lim.seyeon.safe.stay.domain.Review;
-import lim.seyeon.safe.stay.domain.User;
+import lim.seyeon.safe.stay.domain.House.House;
+import lim.seyeon.safe.stay.domain.Review.Review;
+import lim.seyeon.safe.stay.domain.User.User;
 
 import java.time.LocalDateTime;
 

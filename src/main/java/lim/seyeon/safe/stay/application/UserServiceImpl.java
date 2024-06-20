@@ -1,15 +1,13 @@
 package lim.seyeon.safe.stay.application;
 
-import lim.seyeon.safe.stay.domain.EntityNotFoundException;
-import lim.seyeon.safe.stay.domain.User;
-import lim.seyeon.safe.stay.domain.UserRepository;
-import lim.seyeon.safe.stay.domain.UserService;
-import lim.seyeon.safe.stay.presentation.UserDTO;
+import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
+import lim.seyeon.safe.stay.domain.User.User;
+import lim.seyeon.safe.stay.domain.User.UserRepository;
+import lim.seyeon.safe.stay.domain.User.UserService;
+import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -1,12 +1,12 @@
 package lim.seyeon.safe.stay.infrastructure;
 
-import lim.seyeon.safe.stay.domain.House;
-import lim.seyeon.safe.stay.domain.Review;
+import lim.seyeon.safe.stay.domain.House.House;
+import lim.seyeon.safe.stay.domain.Review.Review;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import lim.seyeon.safe.stay.domain.User;
+import lim.seyeon.safe.stay.domain.User.User;
 
 public class ReviewRowMapper implements RowMapper<Review> {
 

@@ -1,15 +1,5 @@
 package lim.seyeon.safe.stay.infrastructure;
 
-import jakarta.persistence.EntityExistsException;
-import lim.seyeon.safe.stay.domain.Area;
-import lim.seyeon.safe.stay.domain.AreaRepository;
-import lim.seyeon.safe.stay.domain.EntityNotFoundException;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 /*
 @Repository
 @Profile("test")

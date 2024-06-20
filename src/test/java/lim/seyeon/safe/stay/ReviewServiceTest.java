@@ -3,11 +3,11 @@ package lim.seyeon.safe.stay;
 import lim.seyeon.safe.stay.application.HouseService;
 import lim.seyeon.safe.stay.application.ReviewService;
 import lim.seyeon.safe.stay.application.UserServiceImpl;
-import lim.seyeon.safe.stay.domain.EntityNotFoundException;
-import lim.seyeon.safe.stay.domain.ReviewRepository;
-import lim.seyeon.safe.stay.presentation.HouseDTO;
-import lim.seyeon.safe.stay.presentation.ReviewDTO;
-import lim.seyeon.safe.stay.presentation.UserDTO;
+import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
+import lim.seyeon.safe.stay.domain.Review.ReviewRepository;
+import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
+import lim.seyeon.safe.stay.presentation.DTO.ReviewDTO;
+import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

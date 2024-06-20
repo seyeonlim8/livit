@@ -1,7 +1,7 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.Controller;
 
 import lim.seyeon.safe.stay.application.CrimeDataService;
-import lim.seyeon.safe.stay.domain.CrimeData;
+import lim.seyeon.safe.stay.presentation.DTO.CrimeDataDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

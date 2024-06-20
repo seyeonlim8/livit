@@ -1,21 +1,7 @@
 package lim.seyeon.safe.stay;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-
-import lim.seyeon.safe.stay.application.CrimeDataService;
 //import lim.seyeon.safe.stay.infrastructure.TestConfigCrimeDataSerevice;
-import lim.seyeon.safe.stay.presentation.CrimeDataDTO;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+
 /*
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfigCrimeDataSerevice.class})

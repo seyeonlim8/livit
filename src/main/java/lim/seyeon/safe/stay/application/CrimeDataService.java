@@ -2,9 +2,9 @@ package lim.seyeon.safe.stay.application;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lim.seyeon.safe.stay.domain.CrimeData;
-import lim.seyeon.safe.stay.domain.CrimeDataRepository;
-import lim.seyeon.safe.stay.presentation.CrimeDataDTO;
+import lim.seyeon.safe.stay.domain.CrimeData.CrimeData;
+import lim.seyeon.safe.stay.domain.CrimeData.CrimeDataRepository;
+import lim.seyeon.safe.stay.presentation.DTO.CrimeDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

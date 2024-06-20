@@ -1,6 +1,5 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.CrimeData;
 
-import java.awt.geom.Area;
 import java.util.List;
 
 public interface CrimeDataRepository {

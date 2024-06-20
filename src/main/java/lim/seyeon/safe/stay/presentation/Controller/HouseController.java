@@ -1,7 +1,8 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.Controller;
 
 import jakarta.validation.Valid;
 import lim.seyeon.safe.stay.application.HouseService;
+import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class HouseController {
     }
 
     @GetMapping(value = "/houses/{id}")
-    public HouseDTO findHouseById(@PathVariable Long id, @RequestBody HouseDTO houseDTO) {
+    public HouseDTO findHouseById(@PathVariable Long id) {
         return houseService.findHouseById(id);
     }
 

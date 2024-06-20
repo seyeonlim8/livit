@@ -1,6 +1,4 @@
-package lim.seyeon.safe.stay.domain;
-
-import org.springframework.stereotype.Repository;
+package lim.seyeon.safe.stay.domain.House;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lim.seyeon.safe.stay.domain.CrimeData;
+import lim.seyeon.safe.stay.domain.CrimeData.CrimeData;
 
 public class CrimeDataDTO {
     @JsonProperty("DR_NO")
@@ -16,7 +16,7 @@ public class CrimeDataDTO {
     @JsonProperty("Time_Occ")
     private Integer time_occ;
 
-    @JsonProperty("Area")
+    @JsonProperty("lim/seyeon/safe/stay/domain/Area")
     private Integer area;
 
     @JsonProperty("Area_Name")

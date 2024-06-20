@@ -1,7 +1,8 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.Controller;
 
 import jakarta.validation.Valid;
 import lim.seyeon.safe.stay.application.ReviewService;
+import lim.seyeon.safe.stay.presentation.DTO.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

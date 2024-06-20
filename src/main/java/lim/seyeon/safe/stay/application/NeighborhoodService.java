@@ -1,13 +1,12 @@
 package lim.seyeon.safe.stay.application;
 
-import lim.seyeon.safe.stay.domain.CrimeDataRepository;
-import lim.seyeon.safe.stay.domain.Neighborhood;
-import lim.seyeon.safe.stay.domain.NeighborhoodRepository;
-import lim.seyeon.safe.stay.presentation.NeighborhoodDTO;
+import lim.seyeon.safe.stay.domain.CrimeData.CrimeDataRepository;
+import lim.seyeon.safe.stay.domain.Neighborhood.Neighborhood;
+import lim.seyeon.safe.stay.domain.Neighborhood.NeighborhoodRepository;
+import lim.seyeon.safe.stay.presentation.DTO.NeighborhoodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

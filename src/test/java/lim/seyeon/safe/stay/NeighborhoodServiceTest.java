@@ -1,9 +1,8 @@
 package lim.seyeon.safe.stay;
 
 import lim.seyeon.safe.stay.application.NeighborhoodService;
-import lim.seyeon.safe.stay.domain.EntityNotFoundException;
-import lim.seyeon.safe.stay.domain.Neighborhood;
-import lim.seyeon.safe.stay.presentation.NeighborhoodDTO;
+import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
+import lim.seyeon.safe.stay.presentation.DTO.NeighborhoodDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

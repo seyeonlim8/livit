@@ -1,8 +1,8 @@
 package lim.seyeon.safe.stay.application;
 
-import lim.seyeon.safe.stay.domain.Area;
-import lim.seyeon.safe.stay.domain.AreaRepository;
-import lim.seyeon.safe.stay.presentation.AreaDTO;
+import lim.seyeon.safe.stay.domain.Area.Area;
+import lim.seyeon.safe.stay.domain.Area.AreaRepository;
+import lim.seyeon.safe.stay.presentation.DTO.AreaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

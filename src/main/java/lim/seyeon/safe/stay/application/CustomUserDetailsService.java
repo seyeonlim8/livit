@@ -1,12 +1,11 @@
 package lim.seyeon.safe.stay.application;
 
-import lim.seyeon.safe.stay.domain.User;
-import lim.seyeon.safe.stay.domain.UserRepository;
+import lim.seyeon.safe.stay.domain.User.User;
+import lim.seyeon.safe.stay.domain.User.UserRepository;
 import java.util.Arrays;
 import java.util.Collection;
 
 import lim.seyeon.safe.stay.infrastructure.CustomUserDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

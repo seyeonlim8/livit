@@ -1,6 +1,7 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.Controller;
 
 import lim.seyeon.safe.stay.application.AreaService;
+import lim.seyeon.safe.stay.presentation.DTO.AreaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

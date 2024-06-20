@@ -1,8 +1,9 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.House;
 
 import jakarta.persistence.*;
+import lim.seyeon.safe.stay.domain.Neighborhood.Neighborhood;
+import lim.seyeon.safe.stay.domain.Review.Review;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -33,6 +34,10 @@ public class House {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @ManyToOne
+    @Column(name = "neighborhood", nullable = false)
+    private Neighborhood neighborhood;
+
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     private Set<Review> reviews;
 
@@ -43,7 +48,7 @@ public class House {
     public House() {}
 
     public House(Long id, String name, String address, String city, String state, String zipcode,
-                 Double price, String description) {
+                 Double price, String description, Neighborhood neighborhood) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -52,6 +57,7 @@ public class House {
         this.zipcode = zipcode;
         this.price = price;
         this.description = description;
+        this.neighborhood = neighborhood;
     }
 
     public Boolean containsName(String name) {
@@ -90,6 +96,8 @@ public class House {
         return description;
     }
 
+    public Neighborhood getNeighborhood() { return neighborhood; }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -118,5 +126,9 @@ public class House {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setNeighborhood(Neighborhood neighborhood) {
+        this.neighborhood = neighborhood;
     }
 }

@@ -1,6 +1,6 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.User;
 
-import lim.seyeon.safe.stay.presentation.UserDTO;
+import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 
 public interface UserService {
     UserDTO findUserByUsername(String username);

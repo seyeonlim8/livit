@@ -1,7 +1,7 @@
 package lim.seyeon.safe.stay.infrastructure;
 
-import lim.seyeon.safe.stay.domain.CrimeData;
-import lim.seyeon.safe.stay.domain.CrimeDataRepository;
+import lim.seyeon.safe.stay.domain.CrimeData.CrimeData;
+import lim.seyeon.safe.stay.domain.CrimeData.CrimeDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;

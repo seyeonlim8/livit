@@ -1,6 +1,8 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.Review;
 
 import jakarta.persistence.*;
+import lim.seyeon.safe.stay.domain.House.House;
+import lim.seyeon.safe.stay.domain.User.User;
 
 import java.time.LocalDateTime;
 

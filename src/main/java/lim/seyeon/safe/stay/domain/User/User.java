@@ -1,6 +1,7 @@
-package lim.seyeon.safe.stay.domain;
+package lim.seyeon.safe.stay.domain.User;
 
 import jakarta.persistence.*;
+import lim.seyeon.safe.stay.domain.Review.Review;
 
 import java.util.Set;
 

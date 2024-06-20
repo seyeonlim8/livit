@@ -1,8 +1,8 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.Controller;
 
-import lim.seyeon.safe.stay.domain.User;
+import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.springframework.ui.Model;
-import lim.seyeon.safe.stay.domain.UserService;
+import lim.seyeon.safe.stay.domain.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

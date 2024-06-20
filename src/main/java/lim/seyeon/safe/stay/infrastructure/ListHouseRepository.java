@@ -1,13 +1,5 @@
 package lim.seyeon.safe.stay.infrastructure;
 
-import lim.seyeon.safe.stay.domain.House;
-import lim.seyeon.safe.stay.domain.HouseRepository;
-import lim.seyeon.safe.stay.domain.EntityNotFoundException;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 /*
 @Repository
 public class ListHouseRepository implements HouseRepository {

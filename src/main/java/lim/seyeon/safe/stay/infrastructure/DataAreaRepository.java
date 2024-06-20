@@ -1,8 +1,8 @@
 package lim.seyeon.safe.stay.infrastructure;
 
-import lim.seyeon.safe.stay.domain.Area;
-import lim.seyeon.safe.stay.domain.AreaRepository;
-import lim.seyeon.safe.stay.domain.EntityNotFoundException;
+import lim.seyeon.safe.stay.domain.Area.Area;
+import lim.seyeon.safe.stay.domain.Area.AreaRepository;
+import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController

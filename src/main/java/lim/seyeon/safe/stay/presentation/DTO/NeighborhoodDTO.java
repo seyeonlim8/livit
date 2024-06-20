@@ -1,7 +1,7 @@
-package lim.seyeon.safe.stay.presentation;
+package lim.seyeon.safe.stay.presentation.DTO;
 
 import jakarta.validation.constraints.NotNull;
-import lim.seyeon.safe.stay.domain.Neighborhood;
+import lim.seyeon.safe.stay.domain.Neighborhood.Neighborhood;
 
 public class NeighborhoodDTO {
 
