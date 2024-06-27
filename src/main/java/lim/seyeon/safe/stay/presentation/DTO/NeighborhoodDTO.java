@@ -62,4 +62,8 @@ public class NeighborhoodDTO {
         );
         return neighborhoodDTO;
     }
+
+    public String toString() {
+        return this.getName() + " (" + this.getPopulation() + ")";
+    }
 }

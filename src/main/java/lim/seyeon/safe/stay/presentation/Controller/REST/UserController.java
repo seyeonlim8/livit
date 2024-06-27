@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.presentation.Controller;
+package lim.seyeon.safe.stay.presentation.Controller.REST;
 
 import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.springframework.ui.Model;
@@ -23,33 +23,33 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @GetMapping("/home")
     public String home(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
+        if (principal != null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("userdetail", userDetails);
+            return "home";
         }
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-        model.addAttribute("userdetail", userDetails);
-        return "home";
+        return "publicHome";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public String login(Model model, UserDTO userDTO) {
         model.addAttribute("userDTO", userDTO);
         return "login";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @GetMapping("/register")
     public String register(Model model, UserDTO userDTO) {
         model.addAttribute("userDTO", userDTO);
         return "register";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping("/register")
     public String registerSavable(@ModelAttribute("userDTO") UserDTO userDTO, Model model) {
         UserDTO existingUserDTO = userService.findUserByUsername(userDTO.getUsername());
         if(existingUserDTO != null) {
-            model.addAttribute("userDTO", userDTO);
+            model.addAttribute("usernameTaken", true);
             return "register";
         }
         userService.save(userDTO);

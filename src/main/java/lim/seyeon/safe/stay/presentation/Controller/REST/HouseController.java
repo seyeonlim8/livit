@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.presentation.Controller;
+package lim.seyeon.safe.stay.presentation.Controller.REST;
 
 import jakarta.validation.Valid;
 import lim.seyeon.safe.stay.application.HouseService;
@@ -24,11 +24,14 @@ public class HouseController {
     }
 
     @GetMapping(value = "/houses")
-    public List<HouseDTO> findHouses(@RequestParam(required = false) String name) {
-        if(name == null) {
+    public List<HouseDTO> findHouses(@RequestParam(required = false) String name, @RequestParam(required = false) String neighborhood) {
+        if(name == null && neighborhood == null) {
             return houseService.findAll();
         }
-        return houseService.findHouseByNameContaining(name);
+        if(name != null && neighborhood == null) {
+            return houseService.findHouseByNameContaining(name);
+        }
+        return houseService.findHouseByNeighborhood(neighborhood);
     }
 
     @GetMapping(value = "/houses/{id}")
@@ -46,4 +49,6 @@ public class HouseController {
     public void deleteHouse(@PathVariable Long id) {
         houseService.delete(id);
     }
+
+
 }

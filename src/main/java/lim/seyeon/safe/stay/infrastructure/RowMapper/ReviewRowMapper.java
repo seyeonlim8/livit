@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.infrastructure;
+package lim.seyeon.safe.stay.infrastructure.RowMapper;
 
 import lim.seyeon.safe.stay.domain.House.House;
 import lim.seyeon.safe.stay.domain.Review.Review;

@@ -30,19 +30,23 @@ public class HouseServiceTest {
                 "state1",
                 "zip code 1",
                 100.0,
-                "This is a description."
+                "This is a description.",
+                "Central City"
         );
 
         HouseDTO addedHouseDTO = houseService.add(houseDTO);
         Long id = addedHouseDTO.getId();
         HouseDTO foundHouseDTO = houseService.findHouseById(id);
 
-        assertTrue(addedHouseDTO.getId().equals(foundHouseDTO.getId()));
-        assertTrue(addedHouseDTO.getAddress().equals(foundHouseDTO.getAddress()));
-        assertTrue(addedHouseDTO.getCity().equals(foundHouseDTO.getCity()));
-        assertTrue(addedHouseDTO.getState().equals(foundHouseDTO.getState()));
-        assertTrue(addedHouseDTO.getZipcode().equals(foundHouseDTO.getZipcode()));
-        assertTrue(addedHouseDTO.getDescription().equals(foundHouseDTO.getDescription()));
+        assertEquals(addedHouseDTO.getId(),foundHouseDTO.getId());
+        assertEquals(addedHouseDTO.getName(),foundHouseDTO.getName());
+        assertEquals(addedHouseDTO.getAddress(),foundHouseDTO.getAddress());
+        assertEquals(addedHouseDTO.getCity(),foundHouseDTO.getCity());
+        assertEquals(addedHouseDTO.getState(),foundHouseDTO.getState());
+        assertEquals(addedHouseDTO.getZipcode(), foundHouseDTO.getZipcode());
+        assertEquals(addedHouseDTO.getPrice(), foundHouseDTO.getPrice());
+        assertEquals(addedHouseDTO.getDescription(),foundHouseDTO.getDescription());
+        assertEquals(addedHouseDTO.getNeighborhood(), foundHouseDTO.getNeighborhood());
     }
 
     @Test
@@ -62,7 +66,8 @@ public class HouseServiceTest {
                 "state1",
                 "zip code 1",
                 100.0,
-                "This is a description."
+                "This is a description.",
+                "Central City"
         );
 
         HouseDTO houseDTO2 = new HouseDTO(
@@ -72,7 +77,8 @@ public class HouseServiceTest {
                 "state2",
                 "zip code 2",
                 200.0,
-                "This is another description."
+                "This is another description.",
+                "South Los Angeles"
         );
 
         houseService.add(houseDTO1);
@@ -93,7 +99,8 @@ public class HouseServiceTest {
                 "state1",
                 "zip code 1",
                 100.0,
-                "This is a description."
+                "This is a description.",
+                "Central City"
         );
 
         HouseDTO houseDTO2 = new HouseDTO(
@@ -103,7 +110,8 @@ public class HouseServiceTest {
                 "state2",
                 "zip code 2",
                 200.0,
-                "This is another description."
+                "This is another description.",
+                "South Los Angeles"
         );
 
         houseService.add(houseDTO1);
@@ -125,7 +133,8 @@ public class HouseServiceTest {
                 "state1",
                 "zip code 1",
                 100.0,
-                "This is a description."
+                "This is a description.",
+                "Central City"
         );
         HouseDTO addedHouseDTO = houseService.add(houseDTO);
 
@@ -145,7 +154,8 @@ public class HouseServiceTest {
                 "state1",
                 "zip code 1",
                 100.0,
-                "This is a description."
+                "This is a description.",
+                "Central City"
         );
 
         HouseDTO addedHouseDTO = houseService.add(houseDTO);

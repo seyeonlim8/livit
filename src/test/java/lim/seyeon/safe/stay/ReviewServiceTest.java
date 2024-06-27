@@ -40,7 +40,8 @@ public class ReviewServiceTest {
     @DisplayName("Retrieves the newly added house when house id is queried")
     void addAndFindReviewByIdIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
-        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
+        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state",
+                "zipCode", 100.0, "description", "Central City");
         UserDTO savedUserDTO = userService.save(userDTO);
         HouseDTO savedHouseDTO = houseService.add(houseDTO);
 
@@ -65,7 +66,8 @@ public class ReviewServiceTest {
     @DisplayName("All added houses should be retrieved")
     void findAllReviewsIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
-        HouseDTO houseDTO = new HouseDTO("houseName", "address", "city", "state", "zipCode", 100.0, "description");
+        HouseDTO houseDTO = new HouseDTO("houseName", "address", "city", "state",
+                "zipCode", 100.0, "description", "Central City");
         UserDTO savedUserDTO = userService.save(userDTO);
         HouseDTO savedHouseDTO = houseService.add(houseDTO);
 
@@ -85,7 +87,8 @@ public class ReviewServiceTest {
     @DisplayName("Review with a specific user id should be retrieved")
     void findReviewsByUserIdIntegration() {
         UserDTO userDTO = new UserDTO("username", "password");
-        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
+        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state",
+                "zipCode", 100.0, "description", "Central City");
         UserDTO savedUserDTO = userService.save(userDTO);
         HouseDTO savedHouseDTO = houseService.add(houseDTO);
 
@@ -105,7 +108,8 @@ public class ReviewServiceTest {
     @DisplayName("Review with a specific house id should be retrieved")
     void findReviewsByHouseIdIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
-        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
+        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state",
+                "zipCode", 100.0, "description", "Central City");
         UserDTO savedUserDTO = userService.save(userDTO);
         HouseDTO savedHouseDTO = houseService.add(houseDTO);
 
@@ -125,7 +129,8 @@ public class ReviewServiceTest {
     @DisplayName("Review should be updated successfully")
     void updateReviewIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
-        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
+        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state",
+                "zipCode", 100.0, "description", "Central City");
         UserDTO savedUserDTO = userService.save(userDTO);
         HouseDTO savedHouseDTO = houseService.add(houseDTO);
 
@@ -147,7 +152,8 @@ public class ReviewServiceTest {
     @DisplayName("Review should be deleted successfully")
     void deleteReviewIntegration() {
         UserDTO userDTO = new UserDTO( "username", "password");
-        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state", "zipCode", 100.0, "description");
+        HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state",
+                "zipCode", 100.0, "description", "Central City");
         UserDTO savedUserDTO = userService.save(userDTO);
         HouseDTO savedHouseDTO = houseService.add(houseDTO);
 

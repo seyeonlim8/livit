@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.infrastructure;
+package lim.seyeon.safe.stay.infrastructure.DataRepository;
 
 import lim.seyeon.safe.stay.domain.CrimeData.CrimeData;
 import lim.seyeon.safe.stay.domain.CrimeData.CrimeDataRepository;

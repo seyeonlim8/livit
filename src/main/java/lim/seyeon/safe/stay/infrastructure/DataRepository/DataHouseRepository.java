@@ -1,8 +1,10 @@
-package lim.seyeon.safe.stay.infrastructure;
+package lim.seyeon.safe.stay.infrastructure.DataRepository;
 
 import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
 import lim.seyeon.safe.stay.domain.House.House;
 import lim.seyeon.safe.stay.domain.House.HouseRepository;
+import lim.seyeon.safe.stay.infrastructure.RowMapper.HouseRowMapper;
+import lim.seyeon.safe.stay.presentation.DTO.HouseFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -29,9 +31,18 @@ public class DataHouseRepository implements HouseRepository {
     @Override
     public House add(House house) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(house);
+        SqlParameterSource namedParameter = new MapSqlParameterSource()
+                .addValue("id", house.getId())
+                .addValue("name", house.getName())
+                .addValue("address", house.getAddress())
+                .addValue("city", house.getCity())
+                .addValue("state", house.getState())
+                .addValue("zipcode", house.getZipcode())
+                .addValue("price", house.getPrice())
+                .addValue("description", house.getDescription())
+                .addValue("neighborhood", house.getNeighborhood().getName());
         namedParameterJdbcTemplate.update(
-                "INSERT INTO houses (id, name, address, city, state, zipcode, price, description) VALUES (:id, :name, :address, :city, :state, :zipcode, :price, :description)",
+                "INSERT INTO houses (id, name, address, city, state, zipcode, price, description, neighborhood) VALUES (:id, :name, :address, :city, :state, :zipcode, :price, :description, :neighborhood)",
                 namedParameter, keyHolder
         );
         Long generatedId = keyHolder.getKey().longValue();
@@ -47,7 +58,7 @@ public class DataHouseRepository implements HouseRepository {
         try {
             house = namedParameterJdbcTemplate.queryForObject(
                     "SELECT * FROM houses WHERE id = :id",
-                    namedParameter, new BeanPropertyRowMapper<>(House.class)
+                    namedParameter, new HouseRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("House with id " + id + " not found");
@@ -58,7 +69,7 @@ public class DataHouseRepository implements HouseRepository {
     @Override
     public List<House> findAll() {
         List<House> houses = namedParameterJdbcTemplate.query(
-                "SELECT * FROM houses", new BeanPropertyRowMapper<>(House.class)
+                "SELECT * FROM houses", new HouseRowMapper()
         );
         return houses;
     }
@@ -69,9 +80,44 @@ public class DataHouseRepository implements HouseRepository {
         List<House> houses = namedParameterJdbcTemplate.query(
                 //LIKE for partial matching
                 "SELECT * FROM houses WHERE name LIKE :name",
-                namedParameter, new BeanPropertyRowMapper<>(House.class)
+                namedParameter, new HouseRowMapper()
         );
         return houses;
+    }
+
+    @Override
+    public List<House> findHouseByNeighborhood(String neighborhood) {
+        SqlParameterSource namedParameter = new MapSqlParameterSource("neighborhood", neighborhood);
+        List<House> houses = namedParameterJdbcTemplate.query(
+                "SELECT * FROM houses WHERE neighborhood = :neighborhood",
+                namedParameter, new HouseRowMapper()
+        );
+        return houses;
+    }
+
+    @Override
+    public List<House> findHouses(HouseFilter filter) {
+        String baseSql = "SELECT * FROM houses WHERE 1=1";
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+
+        if(filter.getName() != null && !filter.getName().isEmpty()) {
+            baseSql += " AND name LIKE :name";
+            parameters.addValue("name", "%" + filter.getName() + "%");
+        }
+        if(filter.getNeighborhood() != null && !filter.getNeighborhood().isEmpty()) {
+            baseSql += " AND neighborhood LIKE :neighborhood";
+            parameters.addValue("neighborhood", "%" + filter.getNeighborhood() + "%");
+        }
+        if(filter.getMinPrice() != null) {
+            baseSql += " AND price >= :minPrice";
+            parameters.addValue("minPrice", filter.getMinPrice());
+        }
+        if(filter.getMaxPrice() != null) {
+            baseSql += " AND price <= :maxPrice";
+            parameters.addValue("maxPrice", filter.getMaxPrice());
+        }
+
+        return namedParameterJdbcTemplate.query(baseSql, parameters, new HouseRowMapper());
     }
 
     @Override
@@ -82,7 +128,7 @@ public class DataHouseRepository implements HouseRepository {
         try {
             namedParameterJdbcTemplate.queryForObject(
                     "SELECT * FROM houses WHERE id = :id",
-                    namedParameter, new BeanPropertyRowMapper<>(House.class)
+                    namedParameter, new HouseRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("House with id " + id + " not found");

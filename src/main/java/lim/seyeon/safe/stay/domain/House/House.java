@@ -35,7 +35,7 @@ public class House {
     private String description;
 
     @ManyToOne
-    @Column(name = "neighborhood", nullable = false)
+    @JoinColumn(name = "neighborhood", nullable = false)
     private Neighborhood neighborhood;
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)

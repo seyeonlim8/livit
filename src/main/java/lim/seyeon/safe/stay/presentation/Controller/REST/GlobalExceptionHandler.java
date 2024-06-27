@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.presentation.Controller;
+package lim.seyeon.safe.stay.presentation.Controller.REST;
 
 import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
 import lim.seyeon.safe.stay.presentation.DTO.ErrorMessageDTO;

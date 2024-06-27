@@ -28,12 +28,12 @@ public class HouseDTO {
     private String description;
 
     @NotNull
-    private Neighborhood neighborhood;
+    private String neighborhood;
 
     public HouseDTO() {}
 
     public HouseDTO(String name, String address, String city, String state, String zipcode,
-                    Double price, String description, Neighborhood neighborhood) {
+                    Double price, String description, String neighborhood) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -45,7 +45,7 @@ public class HouseDTO {
     }
 
     public HouseDTO(Long id, String name, String address, String city, String state, String zipcode,
-                    Double price, String description, Neighborhood neighborhood) {
+                    Double price, String description, String neighborhood) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -89,7 +89,7 @@ public class HouseDTO {
         return description;
     }
 
-    public Neighborhood getNeighborhood() { return neighborhood; }
+    public String getNeighborhood() { return neighborhood; }
 
     public void setId(Long id) {
         this.id = id;
@@ -123,11 +123,11 @@ public class HouseDTO {
         this.description = description;
     }
 
-    public void setNeighborhood(Neighborhood neighborhood) {
+    public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
     }
 
-    public static House toEntity(HouseDTO houseDTO) {
+    public static House toEntity(HouseDTO houseDTO, Neighborhood neighborhood) {
         House house = new House(
                 houseDTO.getId(),
                 houseDTO.getName(),
@@ -137,7 +137,7 @@ public class HouseDTO {
                 houseDTO.getZipcode(),
                 houseDTO.getPrice(),
                 houseDTO.getDescription(),
-                houseDTO.getNeighborhood()
+                neighborhood
         );
         return house;
     }
@@ -152,7 +152,7 @@ public class HouseDTO {
                 house.getZipcode(),
                 house.getPrice(),
                 house.getDescription(),
-                house.getNeighborhood()
+                house.getNeighborhood().getName()
         );
         return houseDTO;
     }

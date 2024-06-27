@@ -32,6 +32,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean existsByUsername(String username) {
+        User user = userRepository.findUserByUsername(username);
+        return user != null;
+    }
+
+    @Override
     public UserDTO findUserById(Long id) {
         User user = userRepository.findUserById(id);
         if(user == null) {

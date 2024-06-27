@@ -2,10 +2,12 @@ package lim.seyeon.safe.stay.application;
 
 import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
 import lim.seyeon.safe.stay.domain.House.House;
+import lim.seyeon.safe.stay.domain.Neighborhood.Neighborhood;
 import lim.seyeon.safe.stay.domain.Review.Review;
 import lim.seyeon.safe.stay.domain.Review.ReviewRepository;
 import lim.seyeon.safe.stay.domain.User.User;
 import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
+import lim.seyeon.safe.stay.presentation.DTO.NeighborhoodDTO;
 import lim.seyeon.safe.stay.presentation.DTO.ReviewDTO;
 import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import java.util.List;
 @Service
 public class ReviewService {
 
+    private final NeighborhoodService neighborhoodService;
     private ReviewRepository reviewRepository;
     private ValidationService validationService;
     private UserServiceImpl userService;
@@ -23,18 +26,33 @@ public class ReviewService {
 
     @Autowired
     public ReviewService(ReviewRepository reviewRepository, ValidationService validationService
-    , UserServiceImpl userService, HouseService houseService) {
+    , UserServiceImpl userService, HouseService houseService, NeighborhoodService neighborhoodService) {
         this.reviewRepository = reviewRepository;
         this.validationService = validationService;
         this.userService = userService;
         this.houseService = houseService;
+        this.neighborhoodService = neighborhoodService;
     }
 
     public ReviewDTO add(ReviewDTO reviewDTO) {
         UserDTO userDTO = userService.findUserById(reviewDTO.getUserid());
+        if (userDTO == null) {
+            throw new EntityNotFoundException("User with ID " + reviewDTO.getUserid() + " not found");
+        }
         User user = UserDTO.toEntity(userDTO);
+
         HouseDTO houseDTO = houseService.findHouseById(reviewDTO.getHouseid());
-        House house = HouseDTO.toEntity(houseDTO);
+        if (houseDTO == null) {
+            throw new EntityNotFoundException("House with ID " + reviewDTO.getHouseid() + " not found");
+        }
+
+        NeighborhoodDTO neighborhoodDTO = neighborhoodService.findNeighborhoodByName(houseDTO.getNeighborhood());
+        if(neighborhoodDTO == null) {
+            throw new EntityNotFoundException("Neighborhood with name " + houseDTO.getNeighborhood() + " not found");
+        }
+        Neighborhood neighborhood = NeighborhoodDTO.toEntity(neighborhoodDTO);
+        House house = HouseDTO.toEntity(houseDTO, neighborhood);
+
         Review review = ReviewDTO.toEntity(reviewDTO, user, house);
         validationService.checkValid(review);
 
@@ -93,7 +111,14 @@ public class ReviewService {
         if (houseDTO == null) {
             throw new EntityNotFoundException("House with ID " + reviewDTO.getHouseid() + " not found");
         }
-        House house = HouseDTO.toEntity(houseDTO);
+
+        NeighborhoodDTO neighborhoodDTO = neighborhoodService.findNeighborhoodByName(houseDTO.getNeighborhood());
+        if(neighborhoodDTO == null) {
+            throw new EntityNotFoundException("Neighborhood with name " + houseDTO.getNeighborhood() + " not found");
+        }
+        Neighborhood neighborhood = NeighborhoodDTO.toEntity(neighborhoodDTO);
+        House house = HouseDTO.toEntity(houseDTO, neighborhood);
+
         Review updatedReview = reviewRepository.update(ReviewDTO.toEntity(reviewDTO, user, house));
         ReviewDTO updatedReviewDTO = ReviewDTO.toDTO(updatedReview);
         return updatedReviewDTO;

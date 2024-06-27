@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.presentation.Controller;
+package lim.seyeon.safe.stay.presentation.Controller.REST;
 
 import lim.seyeon.safe.stay.application.NeighborhoodService;
 import lim.seyeon.safe.stay.presentation.DTO.NeighborhoodDTO;

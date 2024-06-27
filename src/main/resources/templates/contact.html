@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Livit - Home</title>
+    <title>SafeStay - Contact</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
@@ -68,35 +68,6 @@
             background-color: #299d00;
         }
 
-        .slideshow-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-        }
-
-        .slideshow-slide {
-            display: none;
-            height: 100%;
-            width: 100%;
-            background-size: cover;
-            background-position: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: fade 1s ease-in-out;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 0.4
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
         .content {
             padding: 40px;
             text-align: center;
@@ -113,12 +84,64 @@
             color: #333;
             line-height: 1.6;
         }
+
+        .contact-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #568CD4;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .contact-form button {
+            color: #fff;
+            background-color: #568CD4;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .contact-form button:hover {
+            background-color: #299d00;
+        }
+
+        .contact-info {
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        .contact-info p {
+            margin: 0 0 10px;
+        }
     </style>
 </head>
 
 <body>
 <div class="navbar">
-    <a href="#" class="navbar_logo"><img src="LivitLogo.png" alt="SafeStay Logo"></a>
+    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="SafeStay Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
@@ -133,36 +156,31 @@
     </div>
 </div>
 
-<div class="slideshow-container">
-    <div class="slideshow-slide" style="background-image: url('/house1.jpg');"></div>
-    <div class="slideshow-slide" style="background-image: url('/house2.jpg');"></div>
-    <div class="slideshow-slide" style="background-image: url('/house3.jpg');"></div>
-    <!-- Add more slides as needed -->
-</div>
-
 <div class="content">
-    <h2 class="content_title">Your Perfect Home Awaits</h2>
-    <p class="content_text">Discover a variety of houses and find your ideal roommate with SafeStay. Our platform
-        ensures safety and comfort for everyone.</p>
+    <h2 class="content_title">Contact Us</h2>
+    <div class="content_text">Feel free to reach out to us with any questions or feedback.</div>
+
+    <div class="contact-info">
+        <p><strong>Email:</strong> info@safestay.com</p>
+        <p><strong>Phone:</strong> (123) 456-7890</p>
+        <p><strong>Address:</strong> 123 SafeStay Street, City, State, ZIP</p>
+    </div>
+
+    <div class="contact-form">
+        <form th:action="@{/send-message}" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
 </div>
-
-<script>
-    let slideIndex = 0;
-    showSlides();
-
-    function showSlides() {
-        let slides = document.getElementsByClassName("slideshow-slide");
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        slideIndex++;
-        if (slideIndex > slides.length) {
-            slideIndex = 1;
-        }
-        slides[slideIndex - 1].style.display = "block";
-        setTimeout(showSlides, 4000); // Change image every 4 seconds
-    }
-</script>
 </body>
 
 </html>

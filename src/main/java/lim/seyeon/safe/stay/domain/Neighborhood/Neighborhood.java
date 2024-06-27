@@ -1,9 +1,10 @@
 package lim.seyeon.safe.stay.domain.Neighborhood;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lim.seyeon.safe.stay.domain.House.House;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "neighborhoods")
@@ -18,6 +19,9 @@ public class Neighborhood {
 
     @Column(name = "safety_score")
     private Double safety_score;
+
+    @OneToMany(mappedBy = "neighborhood", cascade = CascadeType.ALL)
+    private Set<House> houses;
 
     public Neighborhood() {}
 

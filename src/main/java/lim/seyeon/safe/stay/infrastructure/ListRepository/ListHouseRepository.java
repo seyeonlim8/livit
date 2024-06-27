@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.infrastructure;
+package lim.seyeon.safe.stay.infrastructure.ListRepository;
 
 /*
 @Repository

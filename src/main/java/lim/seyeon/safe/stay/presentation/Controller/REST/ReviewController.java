@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.presentation.Controller;
+package lim.seyeon.safe.stay.presentation.Controller.REST;
 
 import jakarta.validation.Valid;
 import lim.seyeon.safe.stay.application.ReviewService;

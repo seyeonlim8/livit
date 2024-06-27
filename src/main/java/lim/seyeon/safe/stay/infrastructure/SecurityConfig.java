@@ -29,14 +29,14 @@ public class SecurityConfig {
                 //REST API를 사용하는 경우, 특히 JWT와 같은 토큰 기반 인증 방식을 사용할 때, CSRF 보호를 비활성화하는 것이 일반적
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        // /register와 /home 엔드포인트에 모든 사용자가 접근할 수 있도록 설정
-                        .requestMatchers("/register", "/home").permitAll()
+                        .requestMatchers("/register", "/login", "/home").permitAll()
                         .requestMatchers("/houses/**").permitAll()
                         .requestMatchers("/reviews/**").permitAll()
                         .requestMatchers("/api/crime-datas/**").permitAll()
                         .requestMatchers("/api/areas/**").permitAll()
                         .requestMatchers("/api/neighborhoods/**").permitAll()
-                        // 그 외의 모든 요청은 인증 요구
+                        .requestMatchers("/static/**", "/resources/**", "/webjars/**").permitAll()
+                        .requestMatchers("/houses", "/roommate-search", "/features").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

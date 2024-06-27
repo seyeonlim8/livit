@@ -1,8 +1,9 @@
-package lim.seyeon.safe.stay.infrastructure;
+package lim.seyeon.safe.stay.infrastructure.DataRepository;
 
 import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
 import lim.seyeon.safe.stay.domain.Review.Review;
 import lim.seyeon.safe.stay.domain.Review.ReviewRepository;
+import lim.seyeon.safe.stay.infrastructure.RowMapper.ReviewRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
