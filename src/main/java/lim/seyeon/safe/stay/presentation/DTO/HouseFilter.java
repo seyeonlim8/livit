@@ -5,6 +5,7 @@ public class HouseFilter {
     private String neighborhood;
     private Integer maxPrice;
     private Integer minPrice;
+    private String sort;
 
     public String getName() {
         return name;
@@ -22,6 +23,10 @@ public class HouseFilter {
         return minPrice;
     }
 
+    public String getSort() {
+        return sort;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -36,5 +41,9 @@ public class HouseFilter {
 
     public void setMinPrice(Integer minPrice) {
         this.minPrice = minPrice;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

@@ -9,7 +9,8 @@ import lim.seyeon.safe.stay.presentation.DTO.NeighborhoodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class HouseService {
@@ -68,9 +69,11 @@ public class HouseService {
 
     public List<HouseDTO> findHouses(HouseFilter filter) {
         List<House> houses = houseRepository.findHouses(filter);
-        return houses.stream()
+        List<HouseDTO> houseDTOS = houses.stream()
                 .map(house -> HouseDTO.toDTO(house))
                 .toList();
+        List<HouseDTO> mutableHouseDTOS = new ArrayList<>(houseDTOS);
+        return sort(mutableHouseDTOS, filter);
     }
 
     public HouseDTO update(HouseDTO houseDTO) {
@@ -85,5 +88,28 @@ public class HouseService {
 
     public void delete(Long id) {
         houseRepository.delete(id);
+    }
+
+    private List<HouseDTO> sort(List<HouseDTO> houseDTOS, HouseFilter filter) {
+        if("priceLowHigh".equals(filter.getSort())) {
+            houseDTOS.sort(Comparator.comparing(HouseDTO::getPrice));
+        } else if("priceHighLow".equals(filter.getSort())) {
+            houseDTOS.sort(Comparator.comparing(HouseDTO::getPrice).reversed());
+        } else if ("safetyLowHigh".equals(filter.getSort())) {
+            Map<String, Double> safetyScoreMap = getSafetyScoreMap(houseDTOS);
+            houseDTOS.sort(Comparator.comparing(houseDTO -> safetyScoreMap.get(houseDTO.getNeighborhood())));
+        } else if ("safetyHighLow".equals(filter.getSort())) {
+            Map<String, Double> safetyScoreMap = getSafetyScoreMap(houseDTOS);
+            Comparator<HouseDTO> comparator = Comparator.comparing(houseDTO -> safetyScoreMap.get(houseDTO.getNeighborhood()));
+            houseDTOS.sort(comparator.reversed());
+        }
+        return houseDTOS;
+    }
+
+    private Map<String, Double> getSafetyScoreMap(List<HouseDTO> houseDTOS) {
+        Map<String, Double> map = neighborhoodService.findAll()
+                .stream()
+                .collect(Collectors.toMap(NeighborhoodDTO::getName, NeighborhoodDTO::getSafety_score));
+        return map;
     }
 }

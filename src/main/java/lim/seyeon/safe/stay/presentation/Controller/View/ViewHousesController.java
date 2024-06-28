@@ -36,6 +36,7 @@ public class ViewHousesController {
                              @RequestParam(required = false) String neighborhood,
                              @RequestParam(required = false) Integer minPrice,
                              @RequestParam(required = false) Integer maxPrice,
+                             @RequestParam(required = false) String sort,
                              Model model,
                              Principal principal) {
         HouseFilter filter = new HouseFilter();
@@ -43,13 +44,13 @@ public class ViewHousesController {
         filter.setNeighborhood(neighborhood);
         filter.setMinPrice(minPrice);
         filter.setMaxPrice(maxPrice);
+        filter.setSort(sort);
 
         List<HouseDTO> houses = houseService.findHouses(filter);
         model.addAttribute("houses", houses);
 
         if (principal != null) {
             String username = principal.getName();
-            logger.debug("Principal name: {}", username);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             model.addAttribute("userdetail", userDetails);
         } else {

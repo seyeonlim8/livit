@@ -94,7 +94,8 @@
         }
 
         .sidebar input[type="text"],
-        .sidebar input[type="number"] {
+        .sidebar input[type="number"],
+        .sidebar select {
             width: 100%;
             padding: 8px;
             margin-bottom: 16px;
@@ -124,34 +125,24 @@
             flex-grow: 1;
         }
 
-        .search-bar {
+        .sort-bar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .search-bar input[type="text"] {
-            width: 80%;
-            padding: 10px;
+        .sort-bar label {
+            margin-right: 10px;
+            color: #333;
+        }
+
+        .sort-bar select {
+            width: 200px;
+            padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-        }
-
-        .search-bar button {
-            color: #fff;
-            background-color: #568CD4;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .search-bar button:hover {
-            background-color: #299d00;
+            box-sizing: border-box;
         }
 
         .range-slider {
@@ -168,6 +159,30 @@
         .range-values span {
             font-size: 14px;
             color: #333;
+        }
+
+        .noUi-target {
+            background: #f5f5f5;
+        }
+
+        .noUi-connect {
+            background: #299d00;
+        }
+
+        .noUi-handle {
+            background: #568CD4;
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            top: -5px;
+            cursor: pointer;
+            box-shadow: none;
+        }
+
+        .noUi-horizontal .noUi-handle {
+            width: 20px;
+            height: 20px;
+            top: -3px;
         }
 
         .house-list {
@@ -233,6 +248,16 @@
         .house-actions button:hover {
             background-color: #299d00;
         }
+
+        .info-box {
+            background-color: #e0f7fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #00796b;
+            font-size: 16px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"></script>
@@ -246,6 +271,7 @@
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
         <li><a href="/features" class="navbar_menu_item">Features</a></li>
         <li><a href="/contact" class="navbar_menu_item">Contact</a></li>
+        <li><a href="/how-it-works" class="navbar_menu_item">How It Works</a></li>
     </ul>
     <div class="profile">
         Hello, <span th:text="${userdetail.username}"></span>
@@ -263,10 +289,30 @@
             <input type="text" id="name" name="name">
 
             <label for="neighborhood">Neighborhood:</label>
-            <input type="text" id="neighborhood" name="neighborhood">
+            <select id="neighborhood" name="neighborhood">
+                <option value="">All</option>
+                <option value="Boyle Heights">Boyle Heights</option>
+                <option value="Canoga Park">Canoga Park</option>
+                <option value="Central City">Central City</option>
+                <option value="Hollywood">Hollywood</option>
+                <option value="Mission Hills">Mission Hills</option>
+                <option value="North Hollywood">North Hollywood</option>
+                <option value="Northeast Los Angeles">Northeast Los Angeles</option>
+                <option value="Northridge">Northridge</option>
+                <option value="Palms-Mar Vista-Del Rey">Palms-Mar Vista-Del Rey</option>
+                <option value="Reseda">Reseda</option>
+                <option value="San Pedro">San Pedro</option>
+                <option value="South Los Angeles">South Los Angeles</option>
+                <option value="Southeast Los Angeles">Southeast Los Angeles</option>
+                <option value="Sun Valley-La Tuna Canyon">Sun Valley-La Tuna Canyon</option>
+                <option value="Van Nuys">Van Nuys</option>
+                <option value="West Los Angeles">West Los Angeles</option>
+                <option value="Westlake">Westlake</option>
+                <option value="Wilshire">Wilshire</option>
+            </select>
 
             <div class="range-slider">
-                <label for="priceRange">Price Range(USD)</label>
+                <label for="priceRange">Price Range:</label>
                 <div id="priceRange"></div>
                 <div class="range-values">
                     <span id="minPriceOutput">0</span>
@@ -276,16 +322,23 @@
                 <input type="hidden" id="maxPrice" name="maxPrice">
             </div>
 
+            <label for="sort">Sort By:</label>
+            <select id="sort" name="sort">
+                <option value="">Select</option>
+                <option value="priceLowHigh">Price: Low to High</option>
+                <option value="priceHighLow">Price: High to Low</option>
+                <option value="safetyLowHigh">Safety Score: Low to High</option>
+                <option value="safetyHighLow">Safety Score: High to Low</option>
+            </select>
+
             <button type="submit">Apply Filters</button>
         </form>
     </div>
 
     <div class="content">
-        <div class="search-bar">
-            <input type="text" placeholder="Search within results">
-            <button>Search</button>
+        <div class="info-box">
+            For more information on safety scores, please look at the How It Works tab.
         </div>
-
         <div class="house-list">
             <div th:each="house : ${houses}" class="house-item">
                 <div class="image-container">

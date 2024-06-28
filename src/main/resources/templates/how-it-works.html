@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SafeStay - How It Works</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar_logo img {
+            height: 40px;
+        }
+
+        .navbar_menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar_menu_item {
+            color: #568CD4;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .navbar_menu_item:hover {
+            color: #299d00;
+        }
+
+        .profile {
+            color: #568CD4;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout a {
+            color: #fff;
+            background-color: #568CD4;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .logout a:hover {
+            background-color: #299d00;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.8;
+        }
+
+        .content h1 {
+            color: #568CD4;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .content h2 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .content h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .content ul, .content ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .content ul {
+            list-style: disc;
+        }
+
+        .content ol {
+            list-style: decimal;
+        }
+
+        .content pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content table, .content th, .content td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .content th {
+            background-color: #568CD4;
+            color: #fff;
+        }
+
+        .highlight {
+            background-color: #ffffcc;
+        }
+
+        .important {
+            color: #299d00;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<div class="navbar">
+    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="SafeStay Logo"></a>
+    <ul class="navbar_menu">
+        <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
+        <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
+        <li><a href="/how-it-works" class="navbar_menu_item">How It Works</a></li>
+        <li><a href="/contact" class="navbar_menu_item">Contact</a></li>
+    </ul>
+    <div class="profile">
+        Hello, <span th:text="${userdetail.username}"></span>
+        <div class="logout">
+            <a href="/logout" sec:authorize="isAuthenticated">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+        <h1>Neighborhood Safety Score Calculation Methodology</h1>
+        <p>The website aims to help potential homeowners in Los Angeles make informed decisions by providing a safety score for each neighborhood based on crime rates. The safety scores are calculated using <strong><a href="https://catalog.data.gov/dataset/crime-data-from-2020-to-present" target="_blank">crime data</a></strong> from the Los Angeles Police Department (LAPD) and <strong><a href="https://planning.lacity.gov/resources/demographics" target="_blank">population data</a></strong> from Los Angeles City Planning. Crime data from <span class="highlight">2022 to 2024</span> was used in the calculations. Below is a detailed explanation of the methodology:</p>
+
+        <h2>Data Sources</h2>
+        <ul>
+            <li><strong>Crime Data:</strong> Obtained from the LAPD's Crime Data, an official U.S. government website.</li>
+            <li><strong>Population Data:</strong> Sourced from Los Angeles City Planning.</li>
+        </ul>
+
+        <h2>Calculation Steps</h2>
+        <h3>1. Grouping Crime Data by Area:</h3>
+        <p>Crimes were grouped based on the police station area number provided for each crime. For instance, a crime with area number 1 falls under the Central Area police station. Each police station area was mapped to its corresponding neighborhood (see table below for mappings).</p>
+
+        <h3>2. Mapping Areas to Neighborhoods:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Neighborhood</th>
+                <th>Area Numbers</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Central City</td><td>Area 1</td></tr>
+            <tr><td>Westlake</td><td>Area 2</td></tr>
+            <tr><td>South Los Angeles</td><td>Areas 3, 13, 18</td></tr>
+            <tr><td>Boyle Heights</td><td>Area 4</td></tr>
+            <tr><td>San Pedro</td><td>Area 5</td></tr>
+            <tr><td>Hollywood</td><td>Area 6</td></tr>
+            <tr><td>Wilshire</td><td>Areas 7, 20</td></tr>
+            <tr><td>West Los Angeles</td><td>Area 8</td></tr>
+            <tr><td>Van Nuys</td><td>Area 9</td></tr>
+            <tr><td>Reseda</td><td>Area 10</td></tr>
+            <tr><td>Northeast Los Angeles</td><td>Area 11</td></tr>
+            <tr><td>Southeast Los Angeles</td><td>Areas 12, 18</td></tr>
+            <tr><td>Palms-Mar Vista-Del Rey</td><td>Area 14</td></tr>
+            <tr><td>North Hollywood</td><td>Area 15</td></tr>
+            <tr><td>Sun Valley-La Tuna Canyon</td><td>Area 16</td></tr>
+            <tr><td>Northridge</td><td>Area 17</td></tr>
+            <tr><td>Mission Hills</td><td>Area 19</td></tr>
+            <tr><td>Canoga Park</td><td>Area 21</td></tr>
+            </tbody>
+        </table>
+
+        <h3>3. Calculating Crime Rates:</h3>
+        <p>For each neighborhood, the total number of crimes was calculated by summing crimes reported in the corresponding area numbers. The crime rate was then calculated by dividing the total number of crimes by the population of the neighborhood and multiplying by 1,000 to get the crime rate per 1,000 people.</p>
+
+        <h3>4. Weighting Serious Crimes:</h3>
+        <p>Crimes were weighted based on their severity. More serious crimes, such as Part I Violent Crimes, received higher weights. A weighted score was assigned to each crime based on its type and severity.</p>
+
+        <h3>5. Calculating Safety Scores:</h3>
+        <p>The crime rate per 1,000 people was inverted to calculate a basic safety score. Safety scores were normalized to a scale of 0 to 100, with higher scores indicating safer neighborhoods.</p>
+
+        <h3>Considerations and Limitations:</h3>
+        <ul>
+            <li><strong>Approximation:</strong> The calculation is an approximation as some neighborhoods have multiple police stations (e.g., South LA with areas 3 and 13). This may affect the accuracy of the safety scores.</li>
+            <li><strong>Neighborhood Boundaries:</strong> Some neighborhoods might have areas with varying safety levels which are not captured due to data aggregation at the police station level.</li>
+            <li class="important"><strong>Bias:</strong> The intention is solely to provide a useful tool for potential homeowners, not to create bias against any neighborhood. It is acknowledged that areas with higher reported crime rates might also have more police presence, potentially making them safer than the data might suggest.</li>
+        </ul>
+
+        <h2>Example Calculation Code</h2>
+        <pre>
+@Override
+public Map&lt;String, Double&gt; calculateAndSetNeighborhoodSafetyScores() {
+    Map&lt;Neighborhood, Double&gt; neighborhoodCrimeRatesInverted = new HashMap&lt;&gt;();
+    List&lt;Neighborhood&gt; neighborhoods = this.findAll();
+
+    for (Neighborhood neighborhood : neighborhoods) {
+        String neighborhoodName = neighborhood.getName();
+        Double totalWeightedCrimeSum = 0.0;
+        Long population = neighborhood.getPopulation();
+
+        SqlParameterSource namedParameter = new MapSqlParameterSource("neighborhood_name", neighborhoodName);
+        List&lt;Integer&gt; areaNums = namedParameterJdbcTemplate.queryForList(
+                "SELECT area_num FROM neighborhood_areas WHERE neighborhood_name = :neighborhood_name",
+                namedParameter, Integer.class
+        );
+
+        for (Integer areaNum : areaNums) {
+            List&lt;CrimeData&gt; crimeDataList = crimeDataRepository.findCrimeDataByAreaNum(areaNum);
+
+            for (CrimeData crime : crimeDataList) {
+                totalWeightedCrimeSum += getWeightedScore(crime);
+            }
+        }
+
+        Double crimeRate = (totalWeightedCrimeSum / population) * 1000;
+        Double invertedSafetyScore = 1 / crimeRate;
+        neighborhoodCrimeRatesInverted.put(neighborhood, crimeRate);
+    }
+
+    Map&lt;String, Double&gt; neighborhoodSafetyScores = new HashMap&lt;&gt;();
+    Double maxInvertedCrimeRate = Collections.max(neighborhoodCrimeRatesInverted.values());
+    Double minInvertedCrimeRate = Collections.min(neighborhoodCrimeRatesInverted.values());
+
+    for (Neighborhood neighborhood : neighborhoodCrimeRatesInverted.keySet()) {
+        Double normalizedSafetyScore = ((neighborhoodCrimeRatesInverted.get(neighborhood) - minInvertedCrimeRate) / (maxInvertedCrimeRate - minInvertedCrimeRate)) * 100;
+        neighborhood.setSafetyScore(normalizedSafetyScore);
+        neighborhoodSafetyScores.put(neighborhood.getName(), normalizedSafetyScore);
+        this.update(neighborhood);
+    }
+
+    return neighborhoodSafetyScores;
+}
+
+private Integer getWeightedScore(CrimeData crimeData) {
+    Integer crmCd = crimeData.getCrmCd();
+    if (isViolentCrime(crmCd)) return 6;
+    if (isPropertyCrime(crmCd)) return 5;
+    if (crimeData.getCrmCd2() != null) return 4;
+    if (crimeData.getCrmCd3() != null) return 3;
+    if (crimeData.getCrmCd4() != null) return 2;
+    return 1;
+}
+        </pre>
+        <p>This methodology ensures transparency in how safety scores are calculated and aims to provide a useful tool for evaluating neighborhood safety based on available data. For any questions or feedback, please feel free to contact <a href="mailto: seyeonlim@gmail.com">seyeonlim@gmail.com</a>.</p>
+    </div>
+</div>
+</body>
+
+</html>
