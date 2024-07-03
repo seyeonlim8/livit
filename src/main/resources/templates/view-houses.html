@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SafeStay - View Houses</title>
+    <title>Livit - View Houses</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
@@ -207,6 +207,7 @@
             height: 200px;
             overflow: hidden;
             border-radius: 8px;
+            margin-bottom: 10px;
         }
 
         .house-item img {
@@ -269,9 +270,9 @@
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
-        <li><a href="/features" class="navbar_menu_item">Features</a></li>
-        <li><a href="/contact" class="navbar_menu_item">Contact</a></li>
         <li><a href="/how-it-works" class="navbar_menu_item">How It Works</a></li>
+        <li><a href="/contact" class="navbar_menu_item">Contact Us</a></li>
+
     </ul>
     <div class="profile">
         Hello, <span th:text="${userdetail.username}"></span>
@@ -285,10 +286,10 @@
     <div class="sidebar">
         <h3>Filters</h3>
         <form th:action="@{/view-houses}" method="get">
-            <label for="name">House Name:</label>
+            <label for="name">Name</label>
             <input type="text" id="name" name="name">
 
-            <label for="neighborhood">Neighborhood:</label>
+            <label for="neighborhood">Neighborhood</label>
             <select id="neighborhood" name="neighborhood">
                 <option value="">All</option>
                 <option value="Boyle Heights">Boyle Heights</option>
@@ -312,7 +313,7 @@
             </select>
 
             <div class="range-slider">
-                <label for="priceRange">Price Range:</label>
+                <label for="priceRange">Price Range(USD)</label>
                 <div id="priceRange"></div>
                 <div class="range-values">
                     <span id="minPriceOutput">0</span>
@@ -322,7 +323,7 @@
                 <input type="hidden" id="maxPrice" name="maxPrice">
             </div>
 
-            <label for="sort">Sort By:</label>
+            <label for="sort">Sort By</label>
             <select id="sort" name="sort">
                 <option value="">Select</option>
                 <option value="priceLowHigh">Price: Low to High</option>
@@ -346,8 +347,10 @@
                 </div>
                 <div class="house-details">
                     <strong th:text="${house.name}"></strong>
-                    <span th:text="${house.neighborhood}"></span>
-                    <span class="house-price" th:text="${house.price}"></span>
+                    <span th:text="${house.address}"></span>
+                    <div>
+                        $<span class="house-price" th:text="${house.price}"></span>
+                    </div>
                 </div>
                 <div class="house-actions">
                     <button th:onclick="'location.href=\'/houses/' + ${house.id} + '\''">View Details</button>

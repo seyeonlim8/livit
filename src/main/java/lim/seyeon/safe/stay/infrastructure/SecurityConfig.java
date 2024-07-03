@@ -35,8 +35,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/crime-datas/**").permitAll()
                         .requestMatchers("/api/areas/**").permitAll()
                         .requestMatchers("/api/neighborhoods/**").permitAll()
-                        .requestMatchers("/static/**", "/resources/**", "/webjars/**").permitAll()
+                        .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                         .requestMatchers("/houses", "/roommate-search", "/features").authenticated()
+                        .requestMatchers("/contact/send").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

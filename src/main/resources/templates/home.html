@@ -113,17 +113,59 @@
             color: #333;
             line-height: 1.6;
         }
+
+        .content_section {
+            display: flex;
+            align-items: center;
+            padding: 60px 40px;
+            background-color: #ffffff;
+        }
+
+        .content_section:nth-child(even) {
+            flex-direction: row-reverse;
+            background-color: #f9f9f9;
+        }
+
+        .content_image {
+            flex: 1;
+            max-width: 50%;
+            padding: 20px;
+        }
+
+        .content_image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content_text {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .content_text h2 {
+            font-size: 28px;
+            color: #568CD4;
+            margin-bottom: 20px;
+        }
+
+        .content_text p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+        }
     </style>
 </head>
 
 <body>
 <div class="navbar">
-    <a href="#" class="navbar_logo"><img src="LivitLogo.png" alt="SafeStay Logo"></a>
+    <a href="#" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
         <li><a href="/how-it-works" class="navbar_menu_item">How It Works</a></li>
-        <li><a href="/contact" class="navbar_menu_item">Contact</a></li>
+        <li><a href="/contact" class="navbar_menu_item">Contact Us</a></li>
     </ul>
     <div class="profile">
         Hello, <span th:text="${userdetail.username}"></span>
@@ -141,9 +183,39 @@
 </div>
 
 <div class="content">
-    <h2 class="content_title">Your Perfect Home Awaits</h2>
-    <p class="content_text">Discover a variety of houses and find your ideal roommate with SafeStay. Our platform
+    <h2 class="content_title">Your Perfect Home in LA Awaits</h2>
+    <p class="content_text">Discover a variety of houses and find your ideal roommate with Livit. Our platform
         ensures safety and comfort for everyone.</p>
+</div>
+
+<div class="content_section">
+    <div class="content_image">
+        <img src="safe_home_la.jpg" alt="Safe home in LA">
+    </div>
+    <div class="content_text">
+        <h2>Your Safe Haven in Los Angeles</h2>
+        <p>We understand the apprehension that comes with finding temporary accommodation in a new city or country. At Livit, we're committed to providing a secure and comfortable living experience in Los Angeles. Our carefully vetted homes ensure peace of mind, allowing you to focus on embracing the vibrant LA lifestyle. With our extensive network of trusted property owners, you can rest easy knowing you've found a safe place to call home during your stay.</p>
+    </div>
+</div>
+
+<div class="content_section">
+    <div class="content_image">
+        <img src="roommate_matching.jpg" alt="Roommate matching">
+    </div>
+    <div class="content_text">
+        <h2>Find Your Perfect Roommate</h2>
+        <p>Sharing a home is about more than just splitting bills - it's about creating meaningful connections. Our innovative roommate matching service considers your lifestyle preferences, interests, and habits to pair you with like-minded individuals. Whether you're looking for a study buddy, a fitness enthusiast, or someone who shares your love for LA's food scene, we'll help you find the ideal roommate. Turn your living situation into an opportunity to forge new friendships and make the most of your time in the City of Angels.</p>
+    </div>
+</div>
+
+<div class="content_section">
+    <div class="content_image">
+        <img src="online_community.jpg" alt="Online community">
+    </div>
+    <div class="content_text">
+        <h2>Join Our Thriving Online Community</h2>
+        <p>Become part of a dynamic online community designed exclusively for Livit members. Our platform allows you to connect with fellow residents, share local insights, and stay updated on the latest happenings in your neighborhood. From restaurant recommendations to upcoming events, our community board is your go-to resource for all things LA. Engage in discussions, like and comment on posts, and build a network of friends who are also navigating life in this exciting city. With Livit, you're not just finding a place to live - you're joining a supportive community that makes LA feel like home.</p>
+    </div>
 </div>
 
 <script>

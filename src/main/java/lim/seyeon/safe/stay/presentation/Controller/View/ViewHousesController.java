@@ -1,7 +1,6 @@
 package lim.seyeon.safe.stay.presentation.Controller.View;
 
 import lim.seyeon.safe.stay.application.HouseService;
-import lim.seyeon.safe.stay.domain.House.House;
 import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
 import lim.seyeon.safe.stay.presentation.DTO.HouseFilter;
 import org.springframework.beans.factory.annotation.Autowired;

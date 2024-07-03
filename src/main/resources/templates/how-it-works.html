@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SafeStay - How It Works</title>
+    <title>Livit - How It Works</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
@@ -161,12 +161,12 @@
 
 <body>
 <div class="navbar">
-    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="SafeStay Logo"></a>
+    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
         <li><a href="/how-it-works" class="navbar_menu_item">How It Works</a></li>
-        <li><a href="/contact" class="navbar_menu_item">Contact</a></li>
+        <li><a href="/contact" class="navbar_menu_item">Contact Us</a></li>
     </ul>
     <div class="profile">
         Hello, <span th:text="${userdetail.username}"></span>
@@ -178,13 +178,13 @@
 
 <div class="container">
     <div class="content">
-        <h1>Neighborhood Safety Score Calculation Methodology</h1>
-        <p>The website aims to help potential homeowners in Los Angeles make informed decisions by providing a safety score for each neighborhood based on crime rates. The safety scores are calculated using <strong><a href="https://catalog.data.gov/dataset/crime-data-from-2020-to-present" target="_blank">crime data</a></strong> from the Los Angeles Police Department (LAPD) and <strong><a href="https://planning.lacity.gov/resources/demographics" target="_blank">population data</a></strong> from Los Angeles City Planning. Crime data from <span class="highlight">2022 to 2024</span> was used in the calculations. Below is a detailed explanation of the methodology:</p>
+        <h1>Safety Score Calculation Methodology</h1>
+        <p>The website aims to help potential homeowners in Los Angeles make informed decisions by providing a safety score for each neighborhood based on crime rates. Below is a detailed explanation of the methodology:</p>
 
         <h2>Data Sources</h2>
         <ul>
-            <li><strong>Crime Data:</strong> Obtained from the LAPD's Crime Data, an official U.S. government website.</li>
-            <li><strong>Population Data:</strong> Sourced from Los Angeles City Planning.</li>
+            <li><strong><a href="https://catalog.data.gov/dataset/crime-data-from-2020-to-present" target="_blank">Crime data</a>:</strong> Obtained from the Los Angeles Police Department (LAPD) Crime Data on <a href="https://data.gov/" target="_blank">DATA.GOV</a>, an official U.S. government website.</li>
+            <li><strong><a href="https://planning.lacity.gov/resources/demographics" target="_blank">Population data</a>:</strong> Sourced from Los Angeles City Planning.</li>
         </ul>
 
         <h2>Calculation Steps</h2>
@@ -202,7 +202,7 @@
             <tbody>
             <tr><td>Central City</td><td>Area 1</td></tr>
             <tr><td>Westlake</td><td>Area 2</td></tr>
-            <tr><td>South Los Angeles</td><td>Areas 3, 13, 18</td></tr>
+            <tr><td>South Los Angeles</td><td>Areas 3, 13</td></tr>
             <tr><td>Boyle Heights</td><td>Area 4</td></tr>
             <tr><td>San Pedro</td><td>Area 5</td></tr>
             <tr><td>Hollywood</td><td>Area 6</td></tr>
@@ -239,7 +239,6 @@
 
         <h2>Example Calculation Code</h2>
         <pre>
-@Override
 public Map&lt;String, Double&gt; calculateAndSetNeighborhoodSafetyScores() {
     Map&lt;Neighborhood, Double&gt; neighborhoodCrimeRatesInverted = new HashMap&lt;&gt;();
     List&lt;Neighborhood&gt; neighborhoods = this.findAll();
@@ -292,7 +291,7 @@ private Integer getWeightedScore(CrimeData crimeData) {
     return 1;
 }
         </pre>
-        <p>This methodology ensures transparency in how safety scores are calculated and aims to provide a useful tool for evaluating neighborhood safety based on available data. For any questions or feedback, please feel free to contact <a href="mailto: seyeonlim@gmail.com">seyeonlim@gmail.com</a>.</p>
+        <p>This methodology ensures transparency in how safety scores are calculated and aims to provide a useful tool for evaluating neighborhood safety based on available data. For any questions or feedback, please feel free to contact via the Contact Us tab.</p>
     </div>
 </div>
 </body>
