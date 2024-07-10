@@ -109,7 +109,7 @@ public class RoommatePreferenceDTO {
         return lang;
     }
 
-    public void setUserId(Long user_id) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

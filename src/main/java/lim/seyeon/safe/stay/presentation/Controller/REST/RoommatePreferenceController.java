@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lim.seyeon.safe.stay.application.RoommatePreferenceService;
 import lim.seyeon.safe.stay.domain.RoommatePreference.RoommatePreference;
 import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,9 @@ public class RoommatePreferenceController {
         this.roommatePreferenceService = roommatePreferenceService;
     }
 
-    @PostMapping("/submit")
-    public RoommatePreferenceDTO createRoommatePreference(@Valid @RequestBody RoommatePreferenceDTO roommatePreferenceDTO) {
+    @PostMapping
+    public RoommatePreferenceDTO createRoommatePreference(@RequestBody RoommatePreferenceDTO roommatePreferenceDTO) {
+        System.out.println(roommatePreferenceDTO);
         return roommatePreferenceService.add(roommatePreferenceDTO);
     }
 
