@@ -18,7 +18,7 @@ public class NeighborhoodService {
     private ValidationService validationService;
 
     @Autowired
-    public NeighborhoodService(NeighborhoodRepository neighborhoodRepository, CrimeDataRepository crimeDataRepository, ValidationService validationService) {
+    NeighborhoodService(NeighborhoodRepository neighborhoodRepository, CrimeDataRepository crimeDataRepository, ValidationService validationService) {
         this.neighborhoodRepository = neighborhoodRepository;
         this.crimeDataRepository = crimeDataRepository;
         this.validationService = validationService;

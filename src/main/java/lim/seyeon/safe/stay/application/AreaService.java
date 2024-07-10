@@ -15,7 +15,7 @@ public class AreaService {
     private ValidationService validationService;
 
     @Autowired
-    public AreaService(AreaRepository areaRepository, ValidationService validationService) {
+    AreaService(AreaRepository areaRepository, ValidationService validationService) {
         this.areaRepository = areaRepository;
         this.validationService = validationService;
     }

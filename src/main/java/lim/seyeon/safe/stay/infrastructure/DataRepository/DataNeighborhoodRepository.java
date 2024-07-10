@@ -79,7 +79,8 @@ public class DataNeighborhoodRepository implements NeighborhoodRepository {
         SqlParameterSource namedParameter = new MapSqlParameterSource("name", name);
         namedParameterJdbcTemplate.update(
                 "DELETE FROM neighborhoods WHERE name = :name",
-                namedParameter);
+                namedParameter
+        );
     }
 
     @Override

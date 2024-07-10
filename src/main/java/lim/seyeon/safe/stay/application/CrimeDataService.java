@@ -17,7 +17,7 @@ public class CrimeDataService {
     private CrimeDataRepository crimeDataRepository;
 
     @Autowired
-    public CrimeDataService(CrimeDataRepository crimeDataRepository) {
+    CrimeDataService(CrimeDataRepository crimeDataRepository) {
         this.crimeDataRepository = crimeDataRepository;
     }
 

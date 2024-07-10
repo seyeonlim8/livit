@@ -161,30 +161,6 @@
             color: #333;
         }
 
-        .noUi-target {
-            background: #f5f5f5;
-        }
-
-        .noUi-connect {
-            background: #299d00;
-        }
-
-        .noUi-handle {
-            background: #568CD4;
-            border-radius: 50%;
-            height: 20px;
-            width: 20px;
-            top: -5px;
-            cursor: pointer;
-            box-shadow: none;
-        }
-
-        .noUi-horizontal .noUi-handle {
-            width: 20px;
-            height: 20px;
-            top: -3px;
-        }
-
         .house-list {
             display: flex;
             flex-wrap: wrap;
@@ -353,7 +329,7 @@
                     </div>
                 </div>
                 <div class="house-actions">
-                    <button th:onclick="'location.href=\'/houses/' + ${house.id} + '\''">View Details</button>
+                    <button th:onclick="'location.href=\'/view-houses/' + ${house.id} + '\''">View Details</button>
                 </div>
             </div>
         </div>

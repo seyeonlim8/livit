@@ -25,7 +25,7 @@ public class ReviewService {
     private HouseService houseService;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, ValidationService validationService
+    ReviewService(ReviewRepository reviewRepository, ValidationService validationService
     , UserServiceImpl userService, HouseService houseService, NeighborhoodService neighborhoodService) {
         this.reviewRepository = reviewRepository;
         this.validationService = validationService;
