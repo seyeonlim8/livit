@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Roommate Preferences</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar_logo img {
+            height: 40px;
+            margin-left: 20px;
+        }
+
+        .navbar_menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar_menu_item {
+            color: #568CD4;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .navbar_menu_item:hover {
+            color: #299d00;
+        }
+
+        .profile {
+            color: #568CD4;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout a {
+            color: #fff;
+            background-color: #568CD4;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+            margin-right: 33px;
+        }
+
+        .logout a:hover {
+            background-color: #299d00;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: 300px; /* Fixed height for all cards */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .options input {
+            display: none;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .options input:checked + label:before {
+            background-color: #299d00;
+            border-color: #299d00;
+        }
+
+        .options label:before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #568CD4;
+            border-radius: 4px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+            background-color: white;
+        }
+
+        .next-button {
+            background-color: #568CD4;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .next-button:hover {
+            background-color: #299d00;
+        }
+
+        .country-list, .language-list, .hobby-list {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .country-list select, .language-list select, .hobby-list select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
+    <ul class="navbar_menu">
+        <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
+        <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
+        <li><a href="/how-it-works" class="navbar_menu_item">How It Works</a></li>
+        <li><a href="/contact" class="navbar_menu_item">Contact Us</a></li>
+    </ul>
+    <div class="profile">
+        Hello, <span th:text="${userdetail.username}"></span>!
+        <div class="logout">
+            <a href="/logout" sec:authorize="isAuthenticated">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card" id="introCard">
+        <div class="question">Hello, <span th:text="${userdetail.username}"></span>! Let's find your best fit roommate. Answer the questions to get started.</div>
+        <button class="next-button" onclick="startQuestions()">Start</button>
+    </div>
+
+    <div class="card" id="questionCard" style="display:none;">
+        <div class="question" id="question">Question text</div>
+        <div class="options" id="options">
+            <!-- Options will be dynamically inserted here -->
+        </div>
+        <div class="country-list" id="countryList">
+            <label for="country">Select your preferred country:</label>
+            <select id="country">
+                <option value="1">Afghanistan</option>
+                <option value="2">Albania</option>
+                <option value="3">Algeria</option>
+                <!-- Add more countries as needed -->
+            </select>
+        </div>
+        <div class="language-list" id="languageList">
+            <label for="language">Select your preferred language:</label>
+            <select id="language">
+                <option value="1">English</option>
+                <option value="2">Spanish</option>
+                <option value="3">Chinese</option>
+                <!-- Add more languages as needed -->
+            </select>
+        </div>
+        <div class="hobby-list" id="hobbyList">
+            <label for="interaction">Select your hobbies:</label>
+            <select id="interaction">
+                <option value="1">Sports and Fitness</option>
+                <option value="2">Arts and Music</option>
+                <option value="3">Reading and Writing</option>
+                <option value="4">Gaming and Technology</option>
+                <option value="5">Cooking and Baking</option>
+                <option value="6">Traveling and Adventure</option>
+                <!-- Add more hobbies as needed -->
+            </select>
+        </div>
+        <button class="next-button" id="nextButton" onclick="nextQuestion()">Next</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const userId = /*[[${userid}]]*/ 0;
+
+    const questions = [
+        {
+            text: "What time do you usually wake up and go to bed?",
+            options: [
+                { text: "Early (Wake up before 7 AM, Sleep before 10 PM)", value: 1 },
+                { text: "Moderate (Wake up between 7-9 AM, Sleep between 10 PM-12 AM)", value: 2 },
+                { text: "Late (Wake up after 9 AM, Sleep after 12 AM)", value: 3 }
+            ],
+            key: "bedtime"
+        },
+        {
+            text: "Do you prefer a quiet living environment, or are you okay with noise?",
+            options: [
+                { text: "Quiet (Prefer minimal noise)", value: 1 },
+                { text: "Moderate (Some noise is okay)", value: 2 },
+                { text: "Noisy (Comfortable with high noise levels)", value: 3 }
+            ],
+            key: "noise"
+        },
+        {
+            text: "How clean and tidy do you like to keep your living space?",
+            options: [
+                { text: "Very Clean (Daily cleaning)", value: 1 },
+                { text: "Moderately Clean (Weekly cleaning)", value: 2 },
+                { text: "Flexible (Not particular about cleanliness)", value: 3 }
+            ],
+            key: "cleanliness"
+        },
+        {
+            text: "How often do you have guests over, and how do you feel about your roommate having guests?",
+            options: [
+                { text: "Rarely (Less than once a month)", value: 1 },
+                { text: "Occasionally (Once or twice a month)", value: 2 },
+                { text: "Frequently (Weekly or more)", value: 3 }
+            ],
+            key: "visitors"
+        },
+        {
+            text: "Do you smoke, and are you comfortable living with someone who does?",
+            options: [
+                { text: "I smoke and I’m comfortable with others doing the same", value: 1 },
+                { text: "I don’t smoke but I’m comfortable living with someone who does", value: 2 },
+                { text: "I don’t smoke and prefer a non-smoking roommate", value: 3 }
+            ],
+            key: "smoking"
+        },
+        {
+            text: "Do you drink, and are you comfortable living with someone who does?",
+            options: [
+                { text: "I drink and I’m comfortable with others doing the same", value: 1 },
+                { text: "I don’t drink but I’m comfortable living with someone who does", value: 2 },
+                { text: "I don’t drink and prefer a non-drinking roommate", value: 3 }
+            ],
+            key: "drinking"
+        },
+        {
+            text: "Do you have any pets, or are you comfortable living with pets?",
+            options: [
+                { text: "I have pets", value: 1 },
+                { text: "I don’t have pets but comfortable with them", value: 2 },
+                { text: "I don’t have pets and prefer no pets in the house", value: 3 }
+            ],
+            key: "pets"
+        },
+        {
+            text: "Do you prefer a close friendship or just a respectful cohabitation with your roommate?",
+            options: [
+                { text: "Respectful Cohabitation (Respect each other’s space and privacy)", value: 1 },
+                { text: "Close Friendship (Prefer to spend time together)", value: 2}
+            ],
+            key: "interaction"
+        },
+        {
+            text: "Do you have a preference for a roommate of a specific gender?",
+            options: [
+                { text: "Male", value: 1 },
+                { text: "Female", value: 2 },
+                { text: "No preference", value: 3 }
+            ],
+            key: "gender"
+        },
+        {
+            text: "Do you have any cultural or lifestyle preferences for a roommate?",
+            options: [
+                { text: "Yes", value: 1 },
+                { text: "No", value: 2 }
+            ],
+            key: "culture"
+        },
+        {
+            text: "Are there any specific languages you prefer to speak at home?",
+            options: [
+                { text: "Yes", value: 1 },
+                { text: "No", value: 2 }
+            ],
+            key: "lang"
+        }
+    ];
+
+    const countries = [
+        { text: "Afghanistan", value: 1 },
+        { text: "Albania", value: 2 },
+        { text: "Algeria", value: 3 },
+        // Add more countries as needed
+    ];
+
+    const languages = [
+        { text: "English", value: 1 },
+        { text: "Spanish", value: 2 },
+        { text: "Chinese", value: 3 },
+        // Add more languages as needed
+    ];
+
+    const hobbies = [
+        { text: "Sports and Fitness", value: 1 },
+        { text: "Arts and Music", value: 2 },
+        { text: "Reading and Writing", value: 3 },
+        { text: "Gaming and Technology", value: 4 },
+        { text: "Cooking and Baking", value: 5 },
+        { text: "Traveling and Adventure", value: 6 },
+        // Add more hobbies as needed
+    ];
+
+    let currentQuestionIndex = -1;
+    const userAnswers = {
+        userId: userId // Dynamically get the user ID from the model
+    };
+
+    function handleOptionChange() {
+        const selectedOption = document.querySelector('input[name="option"]:checked');
+        const currentQuestion = questions[currentQuestionIndex];
+        const countryList = document.getElementById("countryList");
+        const languageList = document.getElementById("languageList");
+        const hobbyList = document.getElementById("hobbyList");
+
+        // Hide all lists by default
+        countryList.style.display = "none";
+        languageList.style.display = "none";
+        hobbyList.style.display = "none";
+
+        if (selectedOption) {
+            if (currentQuestion.key === "culture" && selectedOption.value === "1") {
+                countryList.style.display = "block";
+            } else if (currentQuestion.key === "lang" && selectedOption.value === "1") {
+                languageList.style.display = "block";
+            } else if (currentQuestion.key === "interaction" && selectedOption.value === "2") {
+                hobbyList.style.display = "block";
+            }
+        }
+    }
+
+    function renderQuestion() {
+        const introCard = document.getElementById("introCard");
+        const questionCard = document.getElementById("questionCard");
+
+        if (currentQuestionIndex === -1) {
+            introCard.style.display = "flex";
+            questionCard.style.display = "none";
+            return;
+        }
+
+        introCard.style.display = "none";
+        questionCard.style.display = "flex";
+
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const currentQuestion = questions[currentQuestionIndex];
+
+        questionElement.textContent = currentQuestion.text;
+        optionsElement.innerHTML = "";
+
+        currentQuestion.options.forEach((option, index) => {
+            const optionId = `option${index}`;
+            const optionElement = document.createElement("div");
+            optionElement.innerHTML = `
+            <input type="radio" id="${optionId}" name="option" value="${option.value}">
+            <label for="${optionId}">${option.text}</label>
+        `;
+            optionsElement.appendChild(optionElement);
+        });
+
+        // Remove existing event listeners
+        const oldElement = optionsElement;
+        const newElement = oldElement.cloneNode(true);
+        oldElement.parentNode.replaceChild(newElement, oldElement);
+
+        // Add new event listener
+        newElement.addEventListener('change', handleOptionChange);
+
+        // Initial check for selected option
+        handleOptionChange();
+    }
+
+    function startQuestions() {
+        currentQuestionIndex = 0;
+        renderQuestion();
+    }
+
+    function nextQuestion() {
+        const selectedOption = document.querySelector('input[name="option"]:checked');
+        if (!selectedOption) {
+            alert("Please select an option.");
+            return;
+        }
+
+        const currentQuestion = questions[currentQuestionIndex];
+        userAnswers[currentQuestion.key] = selectedOption.value;
+
+        if (currentQuestion.key === "interaction" && selectedOption.value === "2") {
+            const selectedHobby = document.getElementById("interaction").value;
+            userAnswers["which_hobby"] = selectedHobby;
+        } else if (currentQuestion.key === "culture" && selectedOption.value === "1") {
+            const selectedCountry = document.getElementById("country").value;
+            userAnswers["which_culture"] = selectedCountry;
+        } else if (currentQuestion.key === "lang" && selectedOption.value === "1") {
+            const selectedLanguage = document.getElementById("language").value;
+            userAnswers["which_lang"] = selectedLanguage;
+        }
+
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length) {
+            renderQuestion();
+        } else {
+            console.log(userAnswers); // Log the JSON object to the console
+            fetch('/api/roommate-preferences', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userAnswers)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Preferences saved successfully.");
+                    // Redirect or perform other actions
+                })
+                .catch(error => {
+                    console.error("Error submitting preferences:", error);
+                });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", renderQuestion);
+</script>
+</body>
+</html>

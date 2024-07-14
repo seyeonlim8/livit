@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/roommate-preferences")
+@RequestMapping("/api/roommate-preferences")
 public class RoommatePreferenceController {
 
     public RoommatePreferenceService roommatePreferenceService;
@@ -24,7 +24,6 @@ public class RoommatePreferenceController {
 
     @PostMapping
     public RoommatePreferenceDTO createRoommatePreference(@RequestBody RoommatePreferenceDTO roommatePreferenceDTO) {
-        System.out.println(roommatePreferenceDTO);
         return roommatePreferenceService.add(roommatePreferenceDTO);
     }
 
