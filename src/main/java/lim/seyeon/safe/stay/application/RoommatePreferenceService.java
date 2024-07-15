@@ -2,6 +2,7 @@ package lim.seyeon.safe.stay.application;
 
 import lim.seyeon.safe.stay.domain.RoommatePreference.RoommatePreference;
 import lim.seyeon.safe.stay.domain.RoommatePreference.RoommatePreferenceRepository;
+import lim.seyeon.safe.stay.presentation.DTO.RoommateFilter;
 import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,17 @@ public class RoommatePreferenceService {
 
     public void delete(Long userId) {
         roommatePreferenceRepository.delete(userId);
+    }
+
+    public boolean exists(Long userId) {
+        return roommatePreferenceRepository.exists(userId);
+    }
+
+    public List<RoommatePreferenceDTO> findRoommates(RoommateFilter filter) {
+        List<RoommatePreference> roommatePreferences = roommatePreferenceRepository.findRoommates(filter);
+        List<RoommatePreferenceDTO> roommatePreferenceDTOS = roommatePreferences.stream()
+                .map(roommatePreference -> RoommatePreferenceDTO.toDTO(roommatePreference))
+                .toList();
+        return roommatePreferenceDTOS;
     }
 }
