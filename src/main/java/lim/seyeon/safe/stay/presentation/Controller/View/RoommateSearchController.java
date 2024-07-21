@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/roommate-search")
@@ -46,6 +48,7 @@ public class RoommateSearchController {
                                  @RequestParam(required = false) Integer gender,
                                  @RequestParam(required = false) Integer culture,
                                  @RequestParam(required = false) Integer lang,
+                                 @RequestParam(required = false) String sort,
                                  Model model,
                                  Principal principal) {
 
@@ -72,9 +75,24 @@ public class RoommateSearchController {
         filter.setGender(gender);
         filter.setCulture(culture);
         filter.setLang(lang);
+        filter.setSort(sort);
 
-        List<RoommatePreferenceDTO> roommates = roommatePreferenceService.findRoommates(filter);
+        List<RoommatePreferenceDTO> roommates = roommatePreferenceService.findRoommates(filter, userId);
+        Map<Long, Integer> matchRates = new HashMap<>();
+        for(RoommatePreferenceDTO roommate : roommates) {
+            // Remove original user from the list
+            if(roommate.getUserId().equals(userId)) {
+                roommates.remove(roommate);
+                continue;
+            }
+            Integer matchRate = roommatePreferenceService.getMatchRate(userId, roommate.getUserId());
+            if(matchRate == null) {
+                matchRate = roommatePreferenceService.calculateAndAddMatchRate(userId, roommate.getUserId());
+            }
+            matchRates.put(roommate.getUserId(), matchRate);
+        }
         model.addAttribute("roommates", roommates);
+        model.addAttribute("matchRates", matchRates);
 
         return "view-roommates";
     }

@@ -5,6 +5,7 @@ import lim.seyeon.safe.stay.domain.RoommatePreference.RoommatePreference;
 import lim.seyeon.safe.stay.domain.RoommatePreference.RoommatePreferenceRepository;
 import lim.seyeon.safe.stay.infrastructure.RowMapper.RoommatePreferenceRowMapper;
 import lim.seyeon.safe.stay.presentation.DTO.RoommateFilter;
+import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -94,9 +95,10 @@ public class DataRoommatePreferenceRepository implements RoommatePreferenceRepos
     }
 
     @Override
-    public List<RoommatePreference> findRoommates(RoommateFilter filter) {
-        String baseSql = "SELECT * FROM roommate_preferences WHERE 1=1";
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
+    public List<RoommatePreference> findRoommates(RoommateFilter filter, Long currentUserId) {
+        String baseSql = "SELECT * FROM roommate_preferences WHERE user_id != :currentUserId";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("currentUserId", currentUserId);
 
         Map<String, Integer> filterColumns = new HashMap<>();
         if (filter.getBedtime() != null) filterColumns.put("bedtime", filter.getBedtime());
@@ -117,5 +119,93 @@ public class DataRoommatePreferenceRepository implements RoommatePreferenceRepos
         }
 
         return namedParameterJdbcTemplate.query(baseSql, parameters, new RoommatePreferenceRowMapper());
+    }
+
+    @Override
+    public Integer getMatchRate(Long user_id1, Long user_id2) {
+        SqlParameterSource namedParameter = new MapSqlParameterSource()
+                .addValue("user_id1", Math.min(user_id1, user_id2))
+                .addValue("user_id2", Math.max(user_id1, user_id2));
+
+        Integer matchRate;
+        try {
+            matchRate = namedParameterJdbcTemplate.queryForObject(
+                    "SELECT match_rate FROM match_rate_cache WHERE user_id1 = :user_id1 AND user_id2 = :user_id2",
+                    namedParameter, Integer.class
+            );
+        } catch (EmptyResultDataAccessException e) {
+             matchRate = null;
+        }
+        return matchRate;
+    }
+
+    @Override
+    public Integer addMatchRate(Long user_id1, Long user_id2) {
+        RoommatePreference userPreference = findRoommatePreferenceByUserId(user_id1);
+        RoommatePreference otherUserPreference = findRoommatePreferenceByUserId(user_id2);
+        Integer matchRate = calculateMatchRate(userPreference, otherUserPreference);
+        SqlParameterSource namedParameter = new MapSqlParameterSource()
+                .addValue("user_id1", Math.min(user_id1, user_id2))
+                .addValue("user_id2", Math.max(user_id1, user_id2))
+                .addValue("matchRate", matchRate);
+
+        namedParameterJdbcTemplate.update(
+                "INSERT INTO match_rate_cache (user_id1, user_id2, match_rate) VALUES (:user_id1, :user_id2, :matchRate)"
+                + "ON DUPLICATE KEY UPDATE match_rate = :matchRate",
+                namedParameter
+        );
+        return matchRate;
+    }
+
+    private int calculateMatchRate(RoommatePreference userPreference, RoommatePreference otherUserPreference) {
+        int matchScore = 0;
+        int numOfQuestions = 11;
+
+        if(userPreference.getBedtime().equals(otherUserPreference.getBedtime())) matchScore++;
+
+        if(userPreference.getNoise().equals(otherUserPreference.getNoise())) matchScore++;
+
+        if(userPreference.getCleanliness().equals(otherUserPreference.getCleanliness())) matchScore++;
+
+        if(userPreference.getVisitors().equals(otherUserPreference.getVisitors())) matchScore++;
+
+        // Both option 2 and 3 don't smoke
+        if(userPreference.getSmoking().equals(otherUserPreference.getSmoking())
+                || (userPreference.getSmoking() == 1 && otherUserPreference.getSmoking() == 2)
+                || (userPreference.getSmoking() == 2 && otherUserPreference.getSmoking() == 1)
+                || (userPreference.getSmoking() == 2 && otherUserPreference.getSmoking() == 3)
+                || userPreference.getSmoking() == 3 && otherUserPreference.getSmoking() == 2) matchScore++;
+        // Both option 2 and 3 don't drink
+        if(userPreference.getDrinking().equals(otherUserPreference.getDrinking())
+                || (userPreference.getDrinking() == 1 && otherUserPreference.getDrinking() == 2)
+                || (userPreference.getDrinking() == 2 && otherUserPreference.getDrinking() == 1)
+                || (userPreference.getDrinking() == 2 && otherUserPreference.getDrinking() == 3)
+                || userPreference.getDrinking() == 3 && otherUserPreference.getDrinking() == 2) matchScore++;
+        // Both option 2 and 3 don't have ptes
+        if(userPreference.getPets().equals(otherUserPreference.getPets())
+                || (userPreference.getPets() == 1 && otherUserPreference.getPets() == 2)
+                || (userPreference.getPets() == 2 && otherUserPreference.getPets() == 1)
+                || (userPreference.getPets() == 2 && otherUserPreference.getPets() == 3)
+                || userPreference.getPets() == 3 && otherUserPreference.getPets() == 2) matchScore++;
+
+        if(userPreference.getInteraction().equals(otherUserPreference.getInteraction())) matchScore++;
+
+        // Option 3 - no preference
+        if(userPreference.getGender().equals(otherUserPreference.getGender())
+                || userPreference.getGender() == 3
+                || otherUserPreference.getGender() == 3) matchScore++;
+
+        // Option 3 - no preference
+        if(userPreference.getCulture().equals(otherUserPreference.getCulture())
+                || userPreference.getCulture() == 0
+                || otherUserPreference.getCulture() == 0) matchScore++;
+
+        if(userPreference.getLang().equals(otherUserPreference.getLang())
+                || userPreference.getLang() == 0
+                || otherUserPreference.getLang() == 0) matchScore++;
+
+        // Match rate out of 100
+        int matchRate = (matchScore * 100) / numOfQuestions;
+        return matchRate;
     }
 }

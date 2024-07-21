@@ -12,5 +12,7 @@ public interface RoommatePreferenceRepository {
     RoommatePreference update(RoommatePreference roommatePreference);
     void delete(Long user_id);
     boolean exists(Long user_id);
-    List<RoommatePreference> findRoommates(RoommateFilter filter);
+    List<RoommatePreference> findRoommates(RoommateFilter filter, Long currentUserId);
+    Integer getMatchRate(Long user_id1, Long user_id2);
+    Integer addMatchRate(Long user_id1, Long user_id2);
 }

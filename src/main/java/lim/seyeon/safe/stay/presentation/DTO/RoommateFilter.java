@@ -12,6 +12,7 @@ public class RoommateFilter {
     private Integer gender;
     private Integer culture;
     private Integer lang;
+    private String sort;
 
     public Integer getBedtime() {
         return bedtime;
@@ -57,6 +58,8 @@ public class RoommateFilter {
         return lang;
     }
 
+    public String getSort() { return sort; }
+
     public void setBedtime(Integer bedtime) {
         this.bedtime = bedtime;
     }
@@ -100,4 +103,6 @@ public class RoommateFilter {
     public void setLang(Integer lang) {
         this.lang = lang;
     }
+
+    public void setSort(String sort) { this.sort = sort; }
 }

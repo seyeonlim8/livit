@@ -53,7 +53,7 @@ public class RoommatePreferenceServiceTest {
     }
 
     @Test
-    @DisplayName("All areas should be retrieved")
+    @DisplayName("All roommate preferences should be retrieved")
     void findAllAreasTest() {
         RoommatePreferenceDTO roommatePreferenceDTO1 = new RoommatePreferenceDTO(1L, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
         RoommatePreferenceDTO roommatePreferenceDTO2 = new RoommatePreferenceDTO(2L, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -84,5 +84,18 @@ public class RoommatePreferenceServiceTest {
 
         roommatePreferenceService.delete(roommatePreferenceDTO.getUserId());
         assertThrows(EntityNotFoundException.class, () -> roommatePreferenceService.findRoommatePreferenceByUserId(1L));
+    }
+
+    @Test
+    @DisplayName("Match rate of two roommate preferences should be successfully calculated and displayed")
+    void calculateAndAddMatchRate() {
+        RoommatePreferenceDTO roommatePreferenceDTO1 = new RoommatePreferenceDTO(1L, 2, 1, 1, 1, 1, 2, 1, 0, 1, 1, 1);
+        RoommatePreferenceDTO roommatePreferenceDTO2 = new RoommatePreferenceDTO(2L, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+        roommatePreferenceService.add(roommatePreferenceDTO1);
+        roommatePreferenceService.add(roommatePreferenceDTO2);
+        roommatePreferenceService.calculateAndAddMatchRate(roommatePreferenceDTO1.getUserId(), roommatePreferenceDTO2.getUserId());
+        System.out.println(roommatePreferenceService.getMatchRate(roommatePreferenceDTO1.getUserId(), roommatePreferenceDTO2.getUserId()));
+        assertEquals(81, roommatePreferenceService.getMatchRate(roommatePreferenceDTO1.getUserId(), roommatePreferenceDTO2.getUserId()));
     }
 }

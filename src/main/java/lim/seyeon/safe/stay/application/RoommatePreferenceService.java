@@ -7,6 +7,8 @@ import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -59,11 +61,30 @@ public class RoommatePreferenceService {
         return roommatePreferenceRepository.exists(userId);
     }
 
-    public List<RoommatePreferenceDTO> findRoommates(RoommateFilter filter) {
-        List<RoommatePreference> roommatePreferences = roommatePreferenceRepository.findRoommates(filter);
+    public List<RoommatePreferenceDTO> findRoommates(RoommateFilter filter, Long currentUserId) {
+        List<RoommatePreference> roommatePreferences = roommatePreferenceRepository.findRoommates(filter, currentUserId);
         List<RoommatePreferenceDTO> roommatePreferenceDTOS = roommatePreferences.stream()
                 .map(roommatePreference -> RoommatePreferenceDTO.toDTO(roommatePreference))
                 .toList();
+        List<RoommatePreferenceDTO> mutableRoommatePreferenceDTOS = new ArrayList<>(roommatePreferenceDTOS);
+        return sort(mutableRoommatePreferenceDTOS, currentUserId, filter.getSort());
+    }
+
+    public List<RoommatePreferenceDTO> sort(List<RoommatePreferenceDTO> roommatePreferenceDTOS, Long userId, String sort) {
+        if("matchRateLowHigh".equals(sort)) {
+            roommatePreferenceDTOS.sort(Comparator.comparing(roommatePreferenceDTO -> getMatchRate(userId, roommatePreferenceDTO.getUserId())));
+        } else if("matchRateHighLow".equals(sort)) {
+            Comparator<RoommatePreferenceDTO> comparator = Comparator.comparing(roommatePreferenceDTO -> getMatchRate(userId, roommatePreferenceDTO.getUserId()));
+            roommatePreferenceDTOS.sort(comparator.reversed());
+        }
         return roommatePreferenceDTOS;
+    }
+
+    public Integer getMatchRate(Long user_id1, Long user_id2) {
+        return roommatePreferenceRepository.getMatchRate(user_id1, user_id2);
+    }
+
+    public Integer calculateAndAddMatchRate(Long user_id1, Long user_id2) {
+        return roommatePreferenceRepository.addMatchRate(user_id1, user_id2);
     }
 }

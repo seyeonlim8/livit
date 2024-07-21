@@ -690,8 +690,8 @@
             <label for="sort">Sort By</label>
             <select id="sort" name="sort">
                 <option value="">Select</option>
-                <option value="matchLowHigh">Match Rate: Low to High</option>
-                <option value="matchHighLow">Match Rate: High to Low</option>
+                <option value="matchRateHighLow">Match Rate: High to Low</option>
+                <option value="matchRateLowHigh">Match Rate: Low to High</option>
             </select>
 
             <button type="submit">Apply Filters</button>
@@ -709,7 +709,7 @@
                 </div>
                 <div class="roommate-details">
                     <strong th:text="${otherusername}"></strong>
-                    <!--<span th:text="'Match Rate: ' + ${roommate.matchRate} + '%'"></span>-->
+                    <span th:text="'Match Rate: ' + ${#maps.containsKey(matchRates, roommate.userId) ? matchRates[roommate.userId] : 'N/A'} + '%'"></span>
                 </div>
                 <div class="roommate-actions">
                     <button th:onclick="'location.href=\'/roommate-search/' + ${roommate.userId} + '\''">View Details</button>
