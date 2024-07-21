@@ -162,6 +162,41 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
+        /* Modern input styles */
+        .input-group {
+            margin-bottom: 15px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #568CD4;
+            outline: none;
+        }
+
+        /* Email input with validation */
+        .input-group input[type="email"] {
+            border-color: #ccc;
+        }
+
+        .input-group input[type="email"]:valid {
+            border-color: #299d00;
+        }
+
+        .input-group input[type="email"]:invalid {
+            border-color: #ff0000;
+        }
+
     </style>
 </head>
 <body>
@@ -185,6 +220,18 @@
     <div class="card" id="introCard">
         <div class="question">Hello, <span th:text="${userdetail.username}"></span>! Let's find your best fit roommate. Answer the questions to get started.</div>
         <button class="next-button" onclick="startQuestions()">Start</button>
+    </div>
+
+    <div class="card" id="nameEmailCard" style="display:none;">
+        <div class="question">Please provide your full name and email:</div>
+        <div class="input-group">
+            <input type="text" id="fullName" placeholder="Full Name" required>
+        </div>
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Email" required>
+        </div>
+        <div>(People will reach out to you via this email.)</div>
+        <button class="next-button" onclick="saveUserDetail()">Next</button>
     </div>
 
     <div class="card" id="questionCard" style="display:none;">
@@ -667,10 +714,54 @@
         }
     ];
 
-    let currentQuestionIndex = -1;
+    let currentQuestionIndex = -2;
     const userAnswers = {
         userId: userId // Dynamically get the user ID from the model
     };
+
+    // Flag for preventing multiple submission
+    let isSubmitting = false;
+
+    function saveUserDetail() {
+        // Prevent multiple submissions
+        if (isSubmitting) return;
+        isSubmitting = true;
+
+        const fullName = document.getElementById("fullName").value;
+        const email = document.getElementById("email").value;
+        const emailField = document.getElementById("email");
+
+        if (!fullName || !email) {
+            alert("Please enter both your full name and email.");
+            return;
+        }
+
+        // Check for email validity
+        if (!emailField.checkValidity()) {
+            alert("Please enter a valid email address.");
+            isSubmitting = false; // Reset the flag
+            return;
+        }
+
+        fetch('/api/user-detail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId, fullName, email })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Transition to the question cards only if the user details save is successful
+                currentQuestionIndex = 0;
+                renderQuestion();
+            })
+            .catch(error => {
+                console.error("Error saving user info:", error);
+                // Reset the flag in case of an error
+                isSubmitting = false;
+            });
+    }
 
     function handleOptionChange() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
@@ -696,15 +787,25 @@
 
     function renderQuestion() {
         const introCard = document.getElementById("introCard");
+        const nameEmailCard = document.getElementById("nameEmailCard");
         const questionCard = document.getElementById("questionCard");
 
-        if (currentQuestionIndex === -1) {
+        if (currentQuestionIndex === -2) {
             introCard.style.display = "flex";
+            nameEmailCard.style.display = "none";
+            questionCard.style.display = "none";
+            return;
+        }
+
+        if(currentQuestionIndex === -1) {
+            introCard.style.display = "none";
+            nameEmailCard.style.display = "flex";
             questionCard.style.display = "none";
             return;
         }
 
         introCard.style.display = "none";
+        nameEmailCard.style.display = "none";
         questionCard.style.display = "flex";
 
         const questionElement = document.getElementById("question");
@@ -737,7 +838,12 @@
     }
 
     function startQuestions() {
-        currentQuestionIndex = 0;
+        if (currentQuestionIndex === -2) {
+            // Move to name and email card
+            currentQuestionIndex = -1;
+        } else {
+            currentQuestionIndex = 0;
+        }
         renderQuestion();
     }
 

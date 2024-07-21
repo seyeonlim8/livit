@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Username or password is incorrect");
         }
-        return new CustomUserDetails(user.getUsername(), user.getPassword(), authorities());
+        return new CustomUserDetails(user.getId(), user.getUsername(), user.getPassword(), authorities());
     }
 
     public Collection<? extends GrantedAuthority> authorities() {

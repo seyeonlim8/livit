@@ -1,11 +1,9 @@
 package lim.seyeon.safe.stay.presentation.Controller.View;
 
 import lim.seyeon.safe.stay.application.RoommatePreferenceService;
+import lim.seyeon.safe.stay.application.UserDetailService;
 import lim.seyeon.safe.stay.application.UserServiceImpl;
-import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
-import lim.seyeon.safe.stay.presentation.DTO.RoommateFilter;
-import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
-import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
+import lim.seyeon.safe.stay.presentation.DTO.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +27,13 @@ public class RoommateSearchController {
 
     private UserServiceImpl userServiceImpl;
     private RoommatePreferenceService roommatePreferenceService;
+    private final UserDetailService userDetailService;
 
     @Autowired
-    RoommateSearchController(UserServiceImpl userServiceImpl, RoommatePreferenceService roommatePreferenceService) {
+    RoommateSearchController(UserServiceImpl userServiceImpl, RoommatePreferenceService roommatePreferenceService, UserDetailService userDetailService) {
         this.userServiceImpl = userServiceImpl;
         this.roommatePreferenceService = roommatePreferenceService;
+        this.userDetailService = userDetailService;
     }
 
     @GetMapping
@@ -78,6 +78,7 @@ public class RoommateSearchController {
         filter.setSort(sort);
 
         List<RoommatePreferenceDTO> roommates = roommatePreferenceService.findRoommates(filter, userId);
+        Map<Long, UserDetailDTO> userDetails = new HashMap<>();
         Map<Long, Integer> matchRates = new HashMap<>();
         for(RoommatePreferenceDTO roommate : roommates) {
             // Remove original user from the list
@@ -90,8 +91,12 @@ public class RoommateSearchController {
                 matchRate = roommatePreferenceService.calculateAndAddMatchRate(userId, roommate.getUserId());
             }
             matchRates.put(roommate.getUserId(), matchRate);
+
+            UserDetailDTO userDetailDTO = userDetailService.findUserDetailByUserId(roommate.getUserId());
+            userDetails.put(roommate.getUserId(), userDetailDTO);
         }
         model.addAttribute("roommates", roommates);
+        model.addAttribute("userDetails", userDetails);
         model.addAttribute("matchRates", matchRates);
 
         return "view-roommates";

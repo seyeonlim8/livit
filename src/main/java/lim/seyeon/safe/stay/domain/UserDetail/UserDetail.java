@@ -1,5 +1,6 @@
 package lim.seyeon.safe.stay.domain.UserDetail;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -8,8 +9,13 @@ import jakarta.persistence.Table;
 @Table(name = "user_name_and_email")
 public class UserDetail {
     @Id
+    @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "full_name")
     private String fullName;
+
+    @Column(name = "email")
     private String email;
 
     public UserDetail() {}

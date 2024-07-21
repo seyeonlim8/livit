@@ -41,7 +41,7 @@ public class DataUserDetailRepository implements UserDetailRepository {
                     namedParameter, new BeanPropertyRowMapper<>(UserDetail.class)
             );
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("User Detail with id " + userId + " not found");
+            throw new EntityNotFoundException("User with id " + userId + " has no user details");
         }
 
         return userDetail;
@@ -57,7 +57,9 @@ public class DataUserDetailRepository implements UserDetailRepository {
 
     public UserDetail update(UserDetail userDetail) {
         Long userId = userDetail.getUserId();
-        SqlParameterSource namedParameter = new MapSqlParameterSource("userId", userId);
+        findUserDetailByUserId(userId);
+
+        SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(userDetail);
         namedParameterJdbcTemplate.update(
                 "UPDATE user_name_and_email SET full_name = :fullName, email = :email WHERE user_id = :userId",
                 namedParameter

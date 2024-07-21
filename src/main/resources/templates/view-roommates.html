@@ -173,16 +173,22 @@
 
         .roommate-item .image-container {
             width: 100%;
-            height: 200px;
+            height: 0;
+            padding-bottom: 100%;
+            position: relative;
+            border-radius: 50%;
             overflow: hidden;
-            border-radius: 8px;
             margin-bottom: 10px;
         }
 
         .roommate-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 50%;
         }
 
         .roommate-details {
@@ -708,7 +714,7 @@
                     <img th:src="'/roommate-images/' + ${roommate.userId} + '.jpg'" alt="Roommate Image">
                 </div>
                 <div class="roommate-details">
-                    <strong th:text="${otherusername}"></strong>
+                    <strong th:text="${#maps.containsKey(userDetails, roommate.userId) ? userDetails[roommate.userId].fullName : 'N/A'}"></strong>
                     <span th:text="'Match Rate: ' + ${#maps.containsKey(matchRates, roommate.userId) ? matchRates[roommate.userId] : 'N/A'} + '%'"></span>
                 </div>
                 <div class="roommate-actions">
