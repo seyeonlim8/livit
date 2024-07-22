@@ -192,4 +192,8 @@ public class RoommatePreferenceDTO {
         );
         return roommatePreferenceDTO;
     }
+
+    public static String getAnswer(String question, int answer) {
+
+    }
 }

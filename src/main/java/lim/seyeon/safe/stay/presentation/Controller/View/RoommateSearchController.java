@@ -27,7 +27,7 @@ public class RoommateSearchController {
 
     private UserServiceImpl userServiceImpl;
     private RoommatePreferenceService roommatePreferenceService;
-    private final UserDetailService userDetailService;
+    private UserDetailService userDetailService;
 
     @Autowired
     RoommateSearchController(UserServiceImpl userServiceImpl, RoommatePreferenceService roommatePreferenceService, UserDetailService userDetailService) {
@@ -108,8 +108,10 @@ public class RoommateSearchController {
         UserDTO userDTO = userServiceImpl.findUserByUsername(username);
         model.addAttribute("userdetail", userDTO);
 
-        String otherUsername = userServiceImpl.findUserById(otherUserId).getUsername();
-        model.addAttribute("otherusername", otherUsername);
+        UserDTO otherUserDTO = userServiceImpl.findUserById(otherUserId);
+        model.addAttribute("otheruser", otherUserDTO);
+        UserDetailDTO userDetailDTO = userDetailService.findUserDetailByUserId(otherUserId);
+        model.addAttribute("userNameAndEmail", userDetailDTO);
         RoommatePreferenceDTO roommatePreferenceDTO = roommatePreferenceService.findRoommatePreferenceByUserId(otherUserId);
         model.addAttribute("roommatepreference", roommatePreferenceDTO);
 
