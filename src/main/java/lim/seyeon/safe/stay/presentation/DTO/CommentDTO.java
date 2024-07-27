@@ -17,6 +17,13 @@ public class CommentDTO {
 
     public CommentDTO() {}
 
+    public CommentDTO(String content, LocalDateTime createdAt, Long userId, Long postId) {
+        this.content = content;
+        this.createdAt = createdAt;
+        this.userId = userId;
+        this.postId = postId;
+    }
+
     public CommentDTO(Long id, String content, LocalDateTime createdAt, Long userId, Long postId) {
         this.id = id;
         this.content = content;

@@ -29,6 +29,14 @@ public class Comment {
 
     public Comment() {}
 
+    public Comment(String content, LocalDateTime createdAt, User user, Post post) {
+        this.id = id;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.user = user;
+        this.post = post;
+    }
+
     public Comment(Long id, String content, LocalDateTime createdAt, User user, Post post) {
         this.id = id;
         this.content = content;

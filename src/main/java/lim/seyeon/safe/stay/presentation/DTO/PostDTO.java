@@ -20,20 +20,29 @@ public class PostDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long userId;
-    private Category category;
+    private Long categoryId;
     private List<Photo> photos = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
 
     public PostDTO() {}
 
-    public PostDTO(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, Long userId, Category category) {
+    public PostDTO(String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, Long userId, Long categoryId) {
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.userId = userId;
+        this.categoryId = categoryId;
+    }
+
+    public PostDTO(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, Long userId, Long categoryId) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.userId = userId;
-        this.category = category;
+        this.categoryId = categoryId;
     }
 
     public Long getId() {
@@ -60,8 +69,8 @@ public class PostDTO {
         return userId;
     }
 
-    public Category getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
     public List<Photo> getPhotos() {
@@ -96,8 +105,8 @@ public class PostDTO {
         this.userId = userId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public void setPhotos(List<Photo> photos) {
@@ -108,7 +117,7 @@ public class PostDTO {
         this.comments = comments;
     }
 
-    public static Post toEntity(PostDTO postDTO, User user) {
+    public static Post toEntity(PostDTO postDTO, User user, Category category) {
         Post post = new Post (
                 postDTO.getId(),
                 postDTO.getTitle(),
@@ -116,7 +125,7 @@ public class PostDTO {
                 postDTO.getCreatedAt(),
                 postDTO.getUpdatedAt(),
                 user,
-                postDTO.getCategory()
+                category
         );
         return post;
     }
@@ -129,7 +138,7 @@ public class PostDTO {
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 post.getUser().getId(),
-                post.getCategory()
+                post.getCategory().getId()
         );
         return postDTO;
     }

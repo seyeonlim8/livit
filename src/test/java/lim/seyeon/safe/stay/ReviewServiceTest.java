@@ -38,7 +38,7 @@ public class ReviewServiceTest {
 
     @Test
     @DisplayName("Retrieves the newly added house when house id is queried")
-    void addAndFindReviewByIdIntegration() {
+    void addAndFindReviewByIdTest() {
         UserDTO userDTO = new UserDTO( "username", "password");
         HouseDTO houseDTO = new HouseDTO( "houseName", "address", "city", "state",
                 "zipCode", 100.0, "description", "Central City");

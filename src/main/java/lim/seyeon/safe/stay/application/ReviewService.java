@@ -36,20 +36,9 @@ public class ReviewService {
 
     public ReviewDTO add(ReviewDTO reviewDTO) {
         UserDTO userDTO = userService.findUserById(reviewDTO.getUserid());
-        if (userDTO == null) {
-            throw new EntityNotFoundException("User with ID " + reviewDTO.getUserid() + " not found");
-        }
         User user = UserDTO.toEntity(userDTO);
-
         HouseDTO houseDTO = houseService.findHouseById(reviewDTO.getHouseid());
-        if (houseDTO == null) {
-            throw new EntityNotFoundException("House with ID " + reviewDTO.getHouseid() + " not found");
-        }
-
         NeighborhoodDTO neighborhoodDTO = neighborhoodService.findNeighborhoodByName(houseDTO.getNeighborhood());
-        if(neighborhoodDTO == null) {
-            throw new EntityNotFoundException("Neighborhood with name " + houseDTO.getNeighborhood() + " not found");
-        }
         Neighborhood neighborhood = NeighborhoodDTO.toEntity(neighborhoodDTO);
         House house = HouseDTO.toEntity(houseDTO, neighborhood);
 
@@ -63,9 +52,6 @@ public class ReviewService {
 
     public ReviewDTO findReviewById(Long id) {
         Review review = reviewRepository.findReviewById(id);
-        if (review == null) {
-            throw new EntityNotFoundException("Review with ID " + id + " not found");
-        }
         ReviewDTO reviewDTO = ReviewDTO.toDTO(review);
         return reviewDTO;
     }
@@ -102,20 +88,9 @@ public class ReviewService {
 
     public ReviewDTO update(ReviewDTO reviewDTO) {
         UserDTO userDTO = userService.findUserById(reviewDTO.getUserid());
-        if (userDTO == null) {
-            throw new EntityNotFoundException("User with ID " + reviewDTO.getUserid() + " not found");
-        }
         User user = UserDTO.toEntity(userDTO);
-
         HouseDTO houseDTO = houseService.findHouseById(reviewDTO.getHouseid());
-        if (houseDTO == null) {
-            throw new EntityNotFoundException("House with ID " + reviewDTO.getHouseid() + " not found");
-        }
-
         NeighborhoodDTO neighborhoodDTO = neighborhoodService.findNeighborhoodByName(houseDTO.getNeighborhood());
-        if(neighborhoodDTO == null) {
-            throw new EntityNotFoundException("Neighborhood with name " + houseDTO.getNeighborhood() + " not found");
-        }
         Neighborhood neighborhood = NeighborhoodDTO.toEntity(neighborhoodDTO);
         House house = HouseDTO.toEntity(houseDTO, neighborhood);
 
