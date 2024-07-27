@@ -67,10 +67,14 @@ public class DataNeighborhoodRepository implements NeighborhoodRepository {
     @Override
     public Neighborhood update(Neighborhood neighborhood) {
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(neighborhood);
-        namedParameterJdbcTemplate.update(
+        int rowsAffected = namedParameterJdbcTemplate.update(
                 "UPDATE neighborhoods SET population = :population, safety_score = :safety_score WHERE name = :name",
                 namedParameter
         );
+
+        if(rowsAffected == 0) {
+            throw new EntityNotFoundException("Neighborhood with name " + neighborhood.getName() + " not found");
+        }
         return neighborhood;
     }
 

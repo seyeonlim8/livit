@@ -71,7 +71,11 @@ public class DataRoommatePreferenceRepository implements RoommatePreferenceRepos
         String sql1 = "UPDATE roommate_preferences SET bedtime = :bedtime, noise = :noise, cleanliness = :cleanliness, visitors = :visitors, smoking = :smoking, drinking = :drinking, pets = :pets, interaction = :interaction, gender = :gender, culture = :culture, lang = :lang ";
         String sql2 = "WHERE user_id = :userId";
 
-        namedParameterJdbcTemplate.update(sql1 + sql2, namedParameter);
+        int rowsAffected = namedParameterJdbcTemplate.update(sql1 + sql2, namedParameter);
+
+        if(rowsAffected == 0) {
+            throw new EntityNotFoundException("RoommatePreference for user with id " + roommatePreference.getUserId() + " not found");
+        }
         return roommatePreference;
     }
 
@@ -155,6 +159,29 @@ public class DataRoommatePreferenceRepository implements RoommatePreferenceRepos
                 namedParameter
         );
         return matchRate;
+    }
+
+    @Override
+    public Integer getQuestionId(String questionKey) {
+        SqlParameterSource namedParameter = new MapSqlParameterSource("questionKey", questionKey);
+        Integer questionId = namedParameterJdbcTemplate.queryForObject(
+                "SELECT id FROM questions WHERE question_key = :questionKey",
+                namedParameter, Integer.class
+        );
+        return questionId;
+    }
+
+    @Override
+    public String getAnswerText(String questionKey, int answerNum) {
+        Integer questionId = getQuestionId(questionKey);
+        SqlParameterSource namedParameter = new MapSqlParameterSource()
+                .addValue("questionId", questionId)
+                .addValue("answerNum", answerNum);
+        String answerText = namedParameterJdbcTemplate.queryForObject(
+                "SELECT text FROM answers WHERE question_id = :questionId AND answer_num = :answerNum",
+                namedParameter, String.class
+        );
+        return answerText;
     }
 
     private int calculateMatchRate(RoommatePreference userPreference, RoommatePreference otherUserPreference) {

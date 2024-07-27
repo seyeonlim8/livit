@@ -122,23 +122,14 @@ public class DataHouseRepository implements HouseRepository {
 
     @Override
     public House update(House house) {
-        Long id = house.getId();
-        SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
-
-        try {
-            namedParameterJdbcTemplate.queryForObject(
-                    "SELECT * FROM houses WHERE id = :id",
-                    namedParameter, new HouseRowMapper()
-            );
-        } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("House with id " + id + " not found");
-        }
-
         SqlParameterSource namedParameter2 = new BeanPropertySqlParameterSource(house);
-        namedParameterJdbcTemplate.update(
+        int rowsAffected = namedParameterJdbcTemplate.update(
                 "UPDATE houses SET name = :name, address = :address, city = :city, state = :state, zipcode = :zipcode, price = :price, description = :description WHERE id = :id",
                 namedParameter2
         );
+        if(rowsAffected == 0) {
+            throw new EntityNotFoundException("House with id " + house.getId() + " not found");
+        }
         return house;
     }
 

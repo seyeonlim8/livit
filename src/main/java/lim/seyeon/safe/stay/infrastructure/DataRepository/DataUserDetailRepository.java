@@ -60,10 +60,13 @@ public class DataUserDetailRepository implements UserDetailRepository {
         findUserDetailByUserId(userId);
 
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(userDetail);
-        namedParameterJdbcTemplate.update(
+        int rowsAffected = namedParameterJdbcTemplate.update(
                 "UPDATE user_name_and_email SET full_name = :fullName, email = :email WHERE user_id = :userId",
                 namedParameter
         );
+        if(rowsAffected == 0) {
+            throw new EntityNotFoundException("User with id " + userId + " has no user details");
+        }
         return userDetail;
     }
 

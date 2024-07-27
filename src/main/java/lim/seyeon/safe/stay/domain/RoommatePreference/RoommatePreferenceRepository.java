@@ -15,4 +15,6 @@ public interface RoommatePreferenceRepository {
     List<RoommatePreference> findRoommates(RoommateFilter filter, Long currentUserId);
     Integer getMatchRate(Long user_id1, Long user_id2);
     Integer addMatchRate(Long user_id1, Long user_id2);
+    Integer getQuestionId(String questionKey);
+    String getAnswerText(String questionKey, int answerNum);
 }

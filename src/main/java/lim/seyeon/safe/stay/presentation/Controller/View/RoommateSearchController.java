@@ -3,12 +3,11 @@ package lim.seyeon.safe.stay.presentation.Controller.View;
 import lim.seyeon.safe.stay.application.RoommatePreferenceService;
 import lim.seyeon.safe.stay.application.UserDetailService;
 import lim.seyeon.safe.stay.application.UserServiceImpl;
-import lim.seyeon.safe.stay.presentation.DTO.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lim.seyeon.safe.stay.presentation.DTO.RoommateFilter;
+import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
+import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
+import lim.seyeon.safe.stay.presentation.DTO.UserDetailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,8 +112,13 @@ public class RoommateSearchController {
         model.addAttribute("otheruser", otherUserDTO);
         UserDetailDTO userDetailDTO = userDetailService.findUserDetailByUserId(otherUserId);
         model.addAttribute("userNameAndEmail", userDetailDTO);
+
+        Integer matchRate = roommatePreferenceService.getMatchRate(userDTO.getId(), otherUserDTO.getId());
+        model.addAttribute("matchRate", matchRate);
+
         RoommatePreferenceDTO roommatePreferenceDTO = roommatePreferenceService.findRoommatePreferenceByUserId(otherUserId);
-        model.addAttribute("roommatepreference", roommatePreferenceDTO);
+        List<String> answerTexts = roommatePreferenceService.getAnswerTexts(roommatePreferenceDTO);
+        model.addAttribute("answerTexts", answerTexts);
 
         return "roommate-details";
     }

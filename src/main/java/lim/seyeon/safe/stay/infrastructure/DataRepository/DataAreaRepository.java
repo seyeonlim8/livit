@@ -63,10 +63,13 @@ public class DataAreaRepository implements AreaRepository {
     @Override
     public Area update(Area area) {
         SqlParameterSource namedParameter = new BeanPropertySqlParameterSource(area);
-        namedParameterJdbcTemplate.update(
+        int rowsAffected = namedParameterJdbcTemplate.update(
                 "UPDATE areas SET name = :name WHERE area_num = :area_num",
                 namedParameter
         );
+        if(rowsAffected == 0) {
+            throw new EntityNotFoundException("Area with area number " + area.getArea_num() + " not found");
+        }
         return area;
     }
 

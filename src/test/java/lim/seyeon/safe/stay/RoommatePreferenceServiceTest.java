@@ -23,7 +23,7 @@ public class RoommatePreferenceServiceTest {
 
     @Test
     @DisplayName("Retrieves the newly added roommate preference when user id is queried")
-    void addAndFindRoommatePreferenceByUserId() {
+    void addAndFindRoommatePreferenceByUserIdTest() {
         RoommatePreferenceDTO roommatePreferenceDTO = new RoommatePreferenceDTO(
                 1L, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
         );
@@ -67,7 +67,7 @@ public class RoommatePreferenceServiceTest {
 
     @Test
     @DisplayName("Roommate Preference should be successfully updated")
-    void updateRoommatePreference() {
+    void updateRoommatePreferenceTest() {
         RoommatePreferenceDTO roommatePreferenceDTO = new RoommatePreferenceDTO(1L, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
         RoommatePreferenceDTO addedRoommatePreference = roommatePreferenceService.add(roommatePreferenceDTO);
 
@@ -78,7 +78,7 @@ public class RoommatePreferenceServiceTest {
 
     @Test
     @DisplayName("Roommate Preference should be successfully deleted")
-    void deleteRoommatePreference() {
+    void deleteRoommatePreferenceTest() {
         RoommatePreferenceDTO roommatePreferenceDTO = new RoommatePreferenceDTO(1L, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
         roommatePreferenceService.add(roommatePreferenceDTO);
 
@@ -88,7 +88,7 @@ public class RoommatePreferenceServiceTest {
 
     @Test
     @DisplayName("Match rate of two roommate preferences should be successfully calculated and displayed")
-    void calculateAndAddMatchRate() {
+    void calculateAndAddMatchRateTest() {
         RoommatePreferenceDTO roommatePreferenceDTO1 = new RoommatePreferenceDTO(1L, 2, 1, 1, 1, 1, 2, 1, 0, 1, 1, 1);
         RoommatePreferenceDTO roommatePreferenceDTO2 = new RoommatePreferenceDTO(2L, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
@@ -97,5 +97,15 @@ public class RoommatePreferenceServiceTest {
         roommatePreferenceService.calculateAndAddMatchRate(roommatePreferenceDTO1.getUserId(), roommatePreferenceDTO2.getUserId());
         System.out.println(roommatePreferenceService.getMatchRate(roommatePreferenceDTO1.getUserId(), roommatePreferenceDTO2.getUserId()));
         assertEquals(81, roommatePreferenceService.getMatchRate(roommatePreferenceDTO1.getUserId(), roommatePreferenceDTO2.getUserId()));
+    }
+
+    @Test
+    @DisplayName("When given the matching question key and answer number, its text answer should be returned")
+    void getQuestionAnswerTest() {
+        String questionKey = "bedtime";
+        int answerNum = 1;
+        String answerText = roommatePreferenceService.getAnswerText(questionKey, answerNum);
+
+        assertEquals("Early (Wake up before 7 AM, Sleep before 10 PM)", answerText);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -86,5 +87,27 @@ public class RoommatePreferenceService {
 
     public Integer calculateAndAddMatchRate(Long user_id1, Long user_id2) {
         return roommatePreferenceRepository.addMatchRate(user_id1, user_id2);
+    }
+
+    public String getAnswerText(String questionKey, int answerNum) {
+        return roommatePreferenceRepository.getAnswerText(questionKey, answerNum);
+    }
+
+    public List<String> getAnswerTexts(RoommatePreferenceDTO roommatePreferenceDTO) {
+        String bedtime = "Bedtime: " + roommatePreferenceRepository.getAnswerText("bedtime", roommatePreferenceDTO.getBedtime());
+        String noise = "Noise: " + roommatePreferenceRepository.getAnswerText("noise", roommatePreferenceDTO.getNoise());
+        String cleanliness = "Cleanliness: " + roommatePreferenceRepository.getAnswerText("cleanliness", roommatePreferenceDTO.getCleanliness());
+        String visitors = "Visitors: " + roommatePreferenceRepository.getAnswerText("visitors", roommatePreferenceDTO.getVisitors());
+        String smoking = "Smoking: " + roommatePreferenceRepository.getAnswerText("smoking", roommatePreferenceDTO.getSmoking());
+        String drinking = "Drinking: " + roommatePreferenceRepository.getAnswerText("drinking", roommatePreferenceDTO.getDrinking());
+        String pets = "Pets: " + roommatePreferenceRepository.getAnswerText("pets", roommatePreferenceDTO.getPets());
+        String interaction = "Interaction with roommate: " + roommatePreferenceRepository.getAnswerText("interaction", roommatePreferenceDTO.getInteraction());
+        String gender = "Preferred Gender: " + roommatePreferenceRepository.getAnswerText("gender", roommatePreferenceDTO.getGender());
+        String culture = "Preferred Culture: " + roommatePreferenceRepository.getAnswerText("culture", roommatePreferenceDTO.getCulture());
+        String lang = "Preferred Language spoken at home: " + roommatePreferenceRepository.getAnswerText("lang", roommatePreferenceDTO.getLang());
+
+        List<String> answerTexts
+                = new ArrayList<>(Arrays.asList(bedtime, noise, cleanliness, visitors, smoking, drinking, pets, interaction, gender, culture, lang));
+        return answerTexts;
     }
 }

@@ -104,10 +104,14 @@ public class DataReviewRepository implements ReviewRepository {
                 .addValue("content", review.getContent())
                 .addValue("createdat", review.getCreatedat()
                 );
-        namedParameterJdbcTemplate.update(
-                "UPDATE reviews SET userid = :userid, houseid = :houseid, stars = :stars, title = :title, content = :content, createdat = :createdat",
+        int rowsAffected = namedParameterJdbcTemplate.update(
+                "UPDATE reviews SET userid = :userid, houseid = :houseid, stars = :stars, title = :title, content = :content, createdat = :createdat WHERE id = :id",
                 namedParameter
         );
+
+        if(rowsAffected == 0) {
+            throw new EntityNotFoundException("Review with id " + review.getId() + " not found");
+        }
         return review;
     }
 

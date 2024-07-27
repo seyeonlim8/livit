@@ -260,6 +260,11 @@
             color: #666;
         }
 
+        .review-card .date {
+            font-size: 12px;
+            color: #666;
+        }
+
         .separator {
             width: 100%;
             height: 1px;
@@ -331,9 +336,10 @@
                 <div class="stars">
                     <span th:each="star : ${#numbers.sequence(1, 5)}" th:classappend="${star <= review.stars} ? 'fas fa-star' : 'far fa-star'"></span>
                 </div>
-                <div class="title" th:text="${review.title}">Review Title...</div>
+                <div class="title" th:text="${review.getTitle()}">Review Title...</div>
                 <div class="content" th:utext="|&quot;${review.content}&quot;|">Review content...</div>
-            <div class="author" th:text="${#maps.containsKey(reviewers, review.id) ? reviewers[review.id] : 'N/A'}">Author name</div>
+                <div class="author" th:text="${#maps.containsKey(reviewers, review.id) ? reviewers[review.id] : 'N/A'}">Author name</div>
+                <div class="date" th:text="${review.getCreatedat()}">Created at</div>
             </div>
         </div>
     </div>
