@@ -2,6 +2,7 @@ package lim.seyeon.safe.stay.presentation.DTO;
 
 import jakarta.validation.constraints.NotNull;
 import lim.seyeon.safe.stay.domain.Photo.Photo;
+import lim.seyeon.safe.stay.domain.Post.Post;
 
 public class PhotoDTO {
     private Long id;
@@ -10,6 +11,11 @@ public class PhotoDTO {
     private Long postId;
 
     public PhotoDTO() {}
+
+    public PhotoDTO(String url, Long postId) {
+        this.url = url;
+        this.postId = postId;
+    }
 
     public PhotoDTO(Long id, String url, Long postId) {
         this.id = id;
@@ -21,7 +27,7 @@ public class PhotoDTO {
         return id;
     }
 
-    public @NotNull String getUrl() {
+    public String getUrl() {
         return url;
     }
 
@@ -33,7 +39,7 @@ public class PhotoDTO {
         this.id = id;
     }
 
-    public void setUrl(@NotNull String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -41,5 +47,21 @@ public class PhotoDTO {
         this.postId = postId;
     }
 
+    public static Photo toEntity(PhotoDTO photoDTO, Post post) {
+        Photo photo = new Photo(
+                photoDTO.getId(),
+                photoDTO.getUrl(),
+                post
+        );
+        return photo;
+    }
 
+    public static PhotoDTO toDTO(Photo photo) {
+        PhotoDTO photoDTO = new PhotoDTO(
+                photo.getId(),
+                photo.getUrl(),
+                photo.getPost().getId()
+        );
+        return photoDTO;
+    }
 }

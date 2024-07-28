@@ -3,6 +3,7 @@ package lim.seyeon.safe.stay.infrastructure.DataRepository;
 import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
 import lim.seyeon.safe.stay.domain.UserDetail.UserDetail;
 import lim.seyeon.safe.stay.domain.UserDetail.UserDetailRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -18,6 +19,7 @@ public class DataUserDetailRepository implements UserDetailRepository {
 
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Autowired
     public DataUserDetailRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }

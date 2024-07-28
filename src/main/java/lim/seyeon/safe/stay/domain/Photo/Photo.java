@@ -18,6 +18,11 @@ public class Photo {
 
     public Photo() {}
 
+    public Photo(String url, Post post) {
+        this.url = url;
+        this.post = post;
+    }
+
     public Photo(Long id, String url, Post post) {
         this.id = id;
         this.url = url;

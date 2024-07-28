@@ -21,6 +21,7 @@ public class Like {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Column(name = "liked_at")
     private LocalDateTime likedAt;
 
     public Like() {}

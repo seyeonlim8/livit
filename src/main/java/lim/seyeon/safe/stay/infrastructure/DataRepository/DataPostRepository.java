@@ -64,6 +64,26 @@ public class DataPostRepository implements PostRepository {
     }
 
     @Override
+    public List<Post> findPostByUserId(Long userId) {
+        SqlParameterSource namedParameter = new MapSqlParameterSource("userId", userId);
+        List<Post> posts = namedParameterJdbcTemplate.query(
+                "SELECT * FROM posts WHERE user_id = :userId",
+                namedParameter, new PostRowMapper()
+        );
+        return posts;
+    }
+
+    @Override
+    public List<Post> findPostByCategoryId(Long categoryId) {
+        SqlParameterSource namedParameter = new MapSqlParameterSource("categoryId", categoryId);
+        List<Post> posts = namedParameterJdbcTemplate.query(
+                "SELECT * FROM posts WHERE category_id = :categoryId",
+                namedParameter, new PostRowMapper()
+        );
+        return posts;
+    }
+
+    @Override
     public List<Post> findAllPosts() {
         List<Post> posts = namedParameterJdbcTemplate.query(
                 "SELECT * FROM posts", new PostRowMapper()

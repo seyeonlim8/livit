@@ -11,6 +11,7 @@ import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,6 +47,22 @@ public class PostService {
         Post post = postRepository.findPostById(id);
         PostDTO postDTO = PostDTO.toDTO(post);
         return postDTO;
+    }
+
+    public List<PostDTO> findPostByUserId(Long userId) {
+        List<Post> posts = postRepository.findPostByUserId(userId);
+        List<PostDTO> postDTOS = posts.stream()
+                .map(post -> PostDTO.toDTO(post))
+                .toList();
+        return postDTOS;
+    }
+
+    public List<PostDTO> findPostByCategoryId(Long categoryId) {
+        List<Post> posts = postRepository.findPostByCategoryId(categoryId);
+        List<PostDTO> postDTOS = posts.stream()
+                .map(post -> PostDTO.toDTO(post))
+                .toList();
+        return postDTOS;
     }
 
     public List<PostDTO> findAllPosts() {
