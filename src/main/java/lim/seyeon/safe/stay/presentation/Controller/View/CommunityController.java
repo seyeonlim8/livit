@@ -1,13 +1,10 @@
-package lim.seyeon.safe.stay.presentation.Controller;
+package lim.seyeon.safe.stay.presentation.Controller.View;
 
 import lim.seyeon.safe.stay.application.CategoryService;
 import lim.seyeon.safe.stay.application.CommentService;
 import lim.seyeon.safe.stay.application.PostService;
 import lim.seyeon.safe.stay.domain.User.UserService;
-import lim.seyeon.safe.stay.presentation.DTO.CategoryDTO;
-import lim.seyeon.safe.stay.presentation.DTO.CommentDTO;
-import lim.seyeon.safe.stay.presentation.DTO.PostDTO;
-import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
+import lim.seyeon.safe.stay.presentation.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/community")
@@ -55,6 +54,19 @@ public class CommunityController {
         model.addAttribute("userdetail", userDetails);
         model.addAttribute("posts", posts);
         model.addAttribute("categories", categories);
+        Map<Long, String> postIdAndCategoryName = new HashMap<>();
+        for (PostDTO post : posts) {
+            postIdAndCategoryName.put(post.getId(), categoryService.findCategoryById(post.getCategoryId()).getName());
+        }
+        model.addAttribute("postIdAndCategoryName", postIdAndCategoryName);
+
+        for (PostDTO post : posts) {
+            List<PhotoDTO> photos = post.getPhotos();
+            System.out.println(photos.size());
+            for(PhotoDTO photo : photos) {
+                System.out.println(photo.getUrl());
+            }
+        }
 
         return "community";
     }

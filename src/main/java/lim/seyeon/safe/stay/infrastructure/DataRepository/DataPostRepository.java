@@ -1,6 +1,7 @@
 package lim.seyeon.safe.stay.infrastructure.DataRepository;
 
 import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
+import lim.seyeon.safe.stay.domain.Photo.PhotoRepository;
 import lim.seyeon.safe.stay.domain.Post.Post;
 import lim.seyeon.safe.stay.domain.Post.PostRepository;
 import lim.seyeon.safe.stay.infrastructure.RowMapper.PostRowMapper;
@@ -20,10 +21,12 @@ import java.util.List;
 public class DataPostRepository implements PostRepository {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private PhotoRepository photoRepository;
 
     @Autowired
-    public DataPostRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public DataPostRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, PhotoRepository photoRepository) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.photoRepository = photoRepository;
     }
 
     public Post add(Post post) {
@@ -55,7 +58,7 @@ public class DataPostRepository implements PostRepository {
         try {
             post = namedParameterJdbcTemplate.queryForObject(
                     "SELECT * FROM posts WHERE id = :id",
-                    namedParameter, new PostRowMapper()
+                    namedParameter, new PostRowMapper(photoRepository)
             );
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Post with id " + id + " not found");
@@ -68,7 +71,7 @@ public class DataPostRepository implements PostRepository {
         SqlParameterSource namedParameter = new MapSqlParameterSource("userId", userId);
         List<Post> posts = namedParameterJdbcTemplate.query(
                 "SELECT * FROM posts WHERE user_id = :userId",
-                namedParameter, new PostRowMapper()
+                namedParameter, new PostRowMapper(photoRepository)
         );
         return posts;
     }
@@ -78,7 +81,7 @@ public class DataPostRepository implements PostRepository {
         SqlParameterSource namedParameter = new MapSqlParameterSource("categoryId", categoryId);
         List<Post> posts = namedParameterJdbcTemplate.query(
                 "SELECT * FROM posts WHERE category_id = :categoryId",
-                namedParameter, new PostRowMapper()
+                namedParameter, new PostRowMapper(photoRepository)
         );
         return posts;
     }
@@ -86,7 +89,7 @@ public class DataPostRepository implements PostRepository {
     @Override
     public List<Post> findAllPosts() {
         List<Post> posts = namedParameterJdbcTemplate.query(
-                "SELECT * FROM posts", new PostRowMapper()
+                "SELECT * FROM posts", new PostRowMapper(photoRepository)
         );
         return posts;
     }

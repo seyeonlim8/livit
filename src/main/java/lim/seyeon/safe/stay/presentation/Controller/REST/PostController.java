@@ -1,6 +1,7 @@
 package lim.seyeon.safe.stay.presentation.Controller.REST;
 
 import jakarta.validation.Valid;
+import lim.seyeon.safe.stay.application.PhotoService;
 import lim.seyeon.safe.stay.application.PostService;
 import lim.seyeon.safe.stay.application.S3Service;
 import lim.seyeon.safe.stay.presentation.DTO.PhotoDTO;
@@ -20,25 +21,34 @@ import java.util.List;
 public class PostController {
 
     private PostService postService;
+    private PhotoService photoService;
     private S3Service s3Service;
 
     @Autowired
-    public PostController(PostService postService, S3Service s3Service) {
+    public PostController(PostService postService, PhotoService photoService, S3Service s3Service) {
         this.postService = postService;
+        this.photoService = photoService;
         this.s3Service = s3Service;
     }
 
     @PostMapping
     public PostDTO create(@RequestPart("post") PostDTO postDTO, @RequestPart("files") List<MultipartFile> files) throws IOException {
+        // 1. Save the post to get the generated post ID
+        PostDTO savedPost = postService.add(postDTO);
+
+        // 2. Save the photos using the generated post ID
         List<PhotoDTO> photos = new ArrayList<>();
         for (MultipartFile file : files) {
             String fileName = s3Service.uploadFile(file);
-            PhotoDTO photoDTO = new PhotoDTO();
-            photoDTO.setUrl(s3Service.getFileUrl(fileName));
-            photos.add(photoDTO);
+            PhotoDTO photoDTO = new PhotoDTO(s3Service.getFileUrl(fileName), savedPost.getId());
+            PhotoDTO savedPhoto = photoService.add(photoDTO);
+            photos.add(savedPhoto);
         }
-        postDTO.setPhotos(photos);
-        return postService.add(postDTO);
+
+        // 3. Update the saved post with the list of photos
+        savedPost.setPhotos(photos);
+
+        return savedPost;
     }
 
     @GetMapping(value = "/{id}")

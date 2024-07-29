@@ -134,7 +134,7 @@
 </head>
 <body>
 <div class="navbar">
-    <a href="/home" class="navbar_logo"><img src="/LivitLogo.png" alt="Livit Logo"></a>
+    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
@@ -165,9 +165,11 @@
     <div class="posts">
         <a href="/community/new" class="add-post-button">Add New Post</a>
         <div th:each="post : ${posts}" class="post">
-            <img th:src="@{'/post-images/' + ${post.id} + '.jpeg'}" alt="Post Image">
+            <div th:each="photo : ${post.photos}">
+                <img th:src="${photo.url}" alt="Post Image">
+            </div>
             <div class="post-title" th:text="${post.title}">Post Title</div>
-            <div class="post-category" th:text="${categoryName}">Category Name</div>
+            <div class="post-category" th:text="${#maps.containsKey(postIdAndCategoryName, post.id) ? postIdAndCategoryName[post.id] : 'N/A'}">Category Name</div>
             <a th:href="@{'/community/' + ${post.id}}">View Post</a>
         </div>
     </div>

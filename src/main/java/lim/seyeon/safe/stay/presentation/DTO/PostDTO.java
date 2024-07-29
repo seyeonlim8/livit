@@ -10,6 +10,7 @@ import lim.seyeon.safe.stay.domain.User.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PostDTO {
     private Long id;
@@ -127,6 +128,12 @@ public class PostDTO {
                 user,
                 category
         );
+        post.setPhotos(postDTO.getPhotos().stream()
+                .map(photoDTO -> PhotoDTO.toEntity(photoDTO, post))
+                .toList());
+        post.setComments(postDTO.getComments().stream()
+                .map(commentDTO -> CommentDTO.toEntity(commentDTO, post.getUser(), post))
+                .toList());
         return post;
     }
 
@@ -140,6 +147,12 @@ public class PostDTO {
                 post.getUser().getId(),
                 post.getCategory().getId()
         );
+        postDTO.setPhotos(post.getPhotos().stream()
+                .map(photo -> PhotoDTO.toDTO(photo))
+                .collect(Collectors.toList()));
+        postDTO.setComments(post.getComments().stream()
+                .map(comment -> CommentDTO.toDTO(comment))
+                .collect(Collectors.toList()));
         return postDTO;
     }
 }

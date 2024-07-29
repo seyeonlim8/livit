@@ -1,14 +1,26 @@
 package lim.seyeon.safe.stay.infrastructure.RowMapper;
 
+import lim.seyeon.safe.stay.application.PhotoService;
 import lim.seyeon.safe.stay.domain.Category.Category;
+import lim.seyeon.safe.stay.domain.Photo.Photo;
+import lim.seyeon.safe.stay.domain.Photo.PhotoRepository;
 import lim.seyeon.safe.stay.domain.Post.Post;
 import lim.seyeon.safe.stay.domain.User.User;
+import lim.seyeon.safe.stay.presentation.DTO.PhotoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class PostRowMapper implements RowMapper<Post> {
+
+    private PhotoRepository photoRepository;
+
+    public PostRowMapper(PhotoRepository photoRepository) {
+        this.photoRepository = photoRepository;
+    }
 
     @Override
     public Post mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -26,6 +38,9 @@ public class PostRowMapper implements RowMapper<Post> {
         Category category = new Category();
         category.setId(rs.getLong("category_id"));
         post.setCategory(category);
+
+        List<Photo> photos = photoRepository.findPhotosByPostId(post.getId());
+        post.setPhotos(photos);
 
         return post;
     }

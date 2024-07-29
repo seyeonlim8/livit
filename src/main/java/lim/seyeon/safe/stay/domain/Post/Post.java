@@ -82,6 +82,14 @@ public class Post {
         return category;
     }
 
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -108,5 +116,13 @@ public class Post {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

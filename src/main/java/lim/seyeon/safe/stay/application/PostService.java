@@ -81,6 +81,7 @@ public class PostService {
 
         Post updatedPost = postRepository.update(post);
         PostDTO updatedPostDTO = PostDTO.toDTO(updatedPost);
+
         return updatedPostDTO;
     }
 

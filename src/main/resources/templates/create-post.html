@@ -132,7 +132,7 @@
 </head>
 <body>
 <div class="navbar">
-    <a href="#" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
+    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
@@ -209,7 +209,10 @@
             body: formData
         })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data);
+                window.location.href = '/community';
+            })
             .catch(error => console.error('Error:', error));
     });
 </script>
