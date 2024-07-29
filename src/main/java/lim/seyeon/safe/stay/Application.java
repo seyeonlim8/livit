@@ -13,6 +13,8 @@ public class Application {
 
 		Dotenv dotenv = Dotenv.load();
 		System.setProperty("LIVIT_EMAIL_PASSWORD", dotenv.get("LIVIT_EMAIL_PASSWORD"));
+		System.setProperty("aws.bucketName", dotenv.get("aws.bucketName"));
+		System.setProperty("aws.region", dotenv.get("aws.region"));
 
 		SpringApplication.run(Application.class, args);
 	}

@@ -21,8 +21,8 @@ public class PostDTO {
     private LocalDateTime updatedAt;
     private Long userId;
     private Long categoryId;
-    private List<Photo> photos = new ArrayList<>();
-    private List<Comment> comments = new ArrayList<>();
+    private List<PhotoDTO> photos = new ArrayList<>();
+    private List<CommentDTO> comments = new ArrayList<>();
 
     public PostDTO() {}
 
@@ -73,11 +73,11 @@ public class PostDTO {
         return categoryId;
     }
 
-    public List<Photo> getPhotos() {
+    public List<PhotoDTO> getPhotos() {
         return photos;
     }
 
-    public List<Comment> getComments() {
+    public List<CommentDTO> getComments() {
         return comments;
     }
 
@@ -109,11 +109,11 @@ public class PostDTO {
         this.categoryId = categoryId;
     }
 
-    public void setPhotos(List<Photo> photos) {
+    public void setPhotos(List<PhotoDTO> photos) {
         this.photos = photos;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentDTO> comments) {
         this.comments = comments;
     }
 

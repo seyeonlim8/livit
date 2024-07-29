@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Community - View Posts</title>
+    <title>Community - Livit</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f5f5f5;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
 
         .navbar {
@@ -67,28 +67,68 @@
 
         .content {
             display: flex;
-        }
-
-        .filters {
-            width: 20%;
-            padding: 10px;
-        }
-
-        .posts {
-            width: 80%;
-            padding: 10px;
-        }
-
-        .post {
-            background-color: #ffffff;
+            margin-top: 20px;
             padding: 20px;
-            margin-bottom: 20px;
+            width: 80%;
+        }
+
+        .filter {
+            width: 20%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        .posts {
+            width: 75%;
+            margin-left: 5%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .post {
+            width: calc(33.333% - 20px);
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+        }
+
         .post img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .post-category {
+            font-size: 14px;
+            color: #777;
+            padding-bottom: 10px;
+        }
+
+        .add-post-button {
+            background-color: #568CD4;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .add-post-button:hover {
+            background-color: #299d00;
         }
     </style>
 </head>
@@ -111,30 +151,26 @@
 </div>
 
 <div class="content">
-    <div class="filters">
+    <div class="filter">
         <h3>Filter by Category</h3>
-        <ul>
-            <li><a href="/community?categoryId=1">House Review</a></li>
-            <li><a href="/community?categoryId=2">Looking for Roommate</a></li>
-            <li><a href="/community?categoryId=3">Tips</a></li>
-            <!-- Add more categories as needed -->
-        </ul>
+        <form method="get" action="/community">
+            <select name="categoryId" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"></option>
+            </select>
+        </form>
     </div>
     <div class="posts">
-        <h2>All Posts</h2>
-        <a href="/community/add" class="button">Add Post</a>
-        <div th:each="post : ${posts}">
-            <div class="post">
-                <h3 th:text="${post.title}">Post Title</h3>
-                <p th:text="${post.content}">Post content...</p>
-                <div th:each="photo : ${post.photos}">
-                    <img th:src="${photo.url}" alt="Post Image">
-                </div>
-                <p><a th:href="'/community/' + ${post.id}">Read more</a></p>
-            </div>
+        <a href="/community/new" class="add-post-button">Add New Post</a>
+        <div th:each="post : ${posts}" class="post">
+            <img th:src="@{'/post-images/' + ${post.id} + '.jpeg'}" alt="Post Image">
+            <div class="post-title" th:text="${post.title}">Post Title</div>
+            <div class="post-category" th:text="${categoryName}">Category Name</div>
+            <a th:href="@{'/community/' + ${post.id}}">View Post</a>
         </div>
     </div>
 </div>
-
 </body>
 </html>

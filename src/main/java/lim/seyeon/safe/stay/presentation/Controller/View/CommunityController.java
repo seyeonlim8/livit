@@ -3,9 +3,11 @@ package lim.seyeon.safe.stay.presentation.Controller;
 import lim.seyeon.safe.stay.application.CategoryService;
 import lim.seyeon.safe.stay.application.CommentService;
 import lim.seyeon.safe.stay.application.PostService;
+import lim.seyeon.safe.stay.domain.User.UserService;
 import lim.seyeon.safe.stay.presentation.DTO.CategoryDTO;
 import lim.seyeon.safe.stay.presentation.DTO.CommentDTO;
 import lim.seyeon.safe.stay.presentation.DTO.PostDTO;
+import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,13 +29,15 @@ public class CommunityController {
     private CategoryService categoryService;
     private UserDetailsService userDetailsService;
     private CommentService commentService;
+    private UserService userService;
 
     @Autowired
-    public CommunityController(PostService postService, CategoryService categoryService, UserDetailsService userDetailsService, CommentService commentService) {
+    public CommunityController(PostService postService, CategoryService categoryService, UserDetailsService userDetailsService, CommentService commentService, UserService userService) {
         this.postService = postService;
         this.categoryService = categoryService;
         this.userDetailsService = userDetailsService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -64,8 +68,22 @@ public class CommunityController {
         model.addAttribute("userdetail", userDetails);
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
+        CategoryDTO categoryDTO = categoryService.findCategoryById(post.getCategoryId());
+        model.addAttribute("categoryName", categoryDTO.getName());
 
         return "post-details";
+    }
+
+    @GetMapping("/new")
+    public String addNewPost(Principal principal, Model model) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+        model.addAttribute("userdetail", userDetails);
+
+        UserDTO userDTO = userService.findUserByUsername(principal.getName());
+        Long userId = userDTO.getId();
+        model.addAttribute("userid", userId);
+
+        return "create-post";
     }
 }
 
