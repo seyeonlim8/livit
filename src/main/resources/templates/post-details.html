@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Community - Post Details</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar_logo img {
+            height: 40px;
+        }
+
+        .navbar_menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar_menu_item {
+            color: #568CD4;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .navbar_menu_item:hover {
+            color: #299d00;
+        }
+
+        .profile {
+            color: #568CD4;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout a {
+            color: #fff;
+            background-color: #568CD4;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .logout a:hover {
+            background-color: #299d00;
+        }
+
+        .post-details {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-details img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .comments {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comments h3 {
+            margin-top: 0;
+        }
+
+        .comment {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <a href="/home" class="navbar_logo"><img src="/LivitLogo.png" alt="Livit Logo"></a>
+    <ul class="navbar_menu">
+        <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
+        <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
+        <li><a href="/how-it-works" class="navbar_menu_item">How It Works</a></li>
+        <li><a href="/contact" class="navbar_menu_item">Contact Us</a></li>
+        <li><a href="/community" class="navbar_menu_item">Community</a></li>
+    </ul>
+    <div class="profile">
+        Hello, <span th:text="${userdetail.username}"></span>
+        <div class="logout">
+            <a href="/logout" sec:authorize="isAuthenticated">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="post-details">
+    <h2 th:text="${post.title}">Post Title</h2>
+    <p th:text="${post.content}">Post content...</p>
+    <div th:each="photo : ${post.photos}">
+        <img th:src="${photo.url}" alt="Post Image">
+    </div>
+</div>
+
+<div class="comments">
+    <h3>Comments</h3>
+    <div th:each="comment : ${comments}">
+        <div class="comment">
+            <p><strong th:text="${comment.user.username}">Username</strong>: <span th:text="${comment.content}">Comment content...</span></p>
+        </div>
+    </div>
+    <form action="/api/comments" method="post">
+        <input type="hidden" name="postId" th:value="${post.id}">
+        <input type="hidden" name="userId" th:value="${userdetail.id}">
+        <label for="content">Add a comment:</label>
+        <textarea id="content" name="content" required></textarea><br><br>
+        <input type="submit" value="Post Comment">
+    </form>
+</div>
+
+</body>
+</html>
