@@ -2,6 +2,8 @@ package lim.seyeon.safe.stay.infrastructure.RowMapper;
 
 import lim.seyeon.safe.stay.application.PhotoService;
 import lim.seyeon.safe.stay.domain.Category.Category;
+import lim.seyeon.safe.stay.domain.Like.Like;
+import lim.seyeon.safe.stay.domain.Like.LikeRepository;
 import lim.seyeon.safe.stay.domain.Photo.Photo;
 import lim.seyeon.safe.stay.domain.Photo.PhotoRepository;
 import lim.seyeon.safe.stay.domain.Post.Post;

@@ -8,6 +8,7 @@ import java.util.List;
 public interface LikeRepository {
     Like add(Like like);
     Like findLikeById(Long id);
+    Like findLikeByPostIdAndUserId(Long postId, Long userId);
     List<Like> findLikesByUserId(Long userId);
     List<Like> findLikesByPostId(Long postId);
     List<Like> findAllLikes();

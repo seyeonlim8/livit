@@ -1,17 +1,20 @@
 package lim.seyeon.safe.stay.application;
 
 import lim.seyeon.safe.stay.domain.Category.Category;
+import lim.seyeon.safe.stay.domain.Like.Like;
 import lim.seyeon.safe.stay.domain.Post.Post;
 import lim.seyeon.safe.stay.domain.Post.PostRepository;
 import lim.seyeon.safe.stay.domain.User.User;
 import lim.seyeon.safe.stay.domain.User.UserService;
 import lim.seyeon.safe.stay.presentation.DTO.CategoryDTO;
+import lim.seyeon.safe.stay.presentation.DTO.LikeDTO;
 import lim.seyeon.safe.stay.presentation.DTO.PostDTO;
 import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {

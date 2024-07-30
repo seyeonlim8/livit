@@ -2,15 +2,12 @@ package lim.seyeon.safe.stay.presentation.DTO;
 
 import jakarta.validation.constraints.NotNull;
 import lim.seyeon.safe.stay.domain.Category.Category;
-import lim.seyeon.safe.stay.domain.Comment.Comment;
-import lim.seyeon.safe.stay.domain.Photo.Photo;
 import lim.seyeon.safe.stay.domain.Post.Post;
 import lim.seyeon.safe.stay.domain.User.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PostDTO {
     private Long id;
@@ -149,10 +146,10 @@ public class PostDTO {
         );
         postDTO.setPhotos(post.getPhotos().stream()
                 .map(photo -> PhotoDTO.toDTO(photo))
-                .collect(Collectors.toList()));
+                .toList());
         postDTO.setComments(post.getComments().stream()
                 .map(comment -> CommentDTO.toDTO(comment))
-                .collect(Collectors.toList()));
+                .toList());
         return postDTO;
     }
 }

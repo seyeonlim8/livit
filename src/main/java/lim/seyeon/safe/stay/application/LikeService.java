@@ -46,6 +46,8 @@ public class LikeService {
         User likeUser = UserDTO.toEntity(likeUserDTO);
 
         Like like = LikeDTO.toEntity(likeDTO, likeUser, post);
+        validationService.checkValid(like);
+
         Like savedLike = likeRepository.add(like);
         LikeDTO savedLikeDTO = LikeDTO.toDTO(savedLike);
         return savedLikeDTO;
@@ -71,6 +73,12 @@ public class LikeService {
                 .map(like -> LikeDTO.toDTO(like))
                 .toList();
         return likeDTOS;
+    }
+
+    public LikeDTO findLikeByPostIdAndUserId(Long postId, Long userId) {
+        Like like = likeRepository.findLikeByPostIdAndUserId(postId, userId);
+        LikeDTO likeDTO = LikeDTO.toDTO(like);
+        return likeDTO;
     }
 
     public List<LikeDTO> findAllLikes() {

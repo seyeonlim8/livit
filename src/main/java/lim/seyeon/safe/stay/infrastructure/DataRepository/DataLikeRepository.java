@@ -25,6 +25,7 @@ public class DataLikeRepository implements LikeRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
+    @Override
     public Like add(Like like){
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource namedParameter = new MapSqlParameterSource()
@@ -42,6 +43,7 @@ public class DataLikeRepository implements LikeRepository {
         return like;
     }
 
+    @Override
     public Like findLikeById(Long id){
         SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
         Like like = null;
@@ -57,6 +59,25 @@ public class DataLikeRepository implements LikeRepository {
         return like;
     }
 
+    @Override
+    public Like findLikeByPostIdAndUserId(Long postId, Long userId) {
+        SqlParameterSource namedParameter = new MapSqlParameterSource()
+                .addValue("userId", userId)
+                .addValue("postId", postId);
+        Like like = null;
+
+        try {
+            like = namedParameterJdbcTemplate.queryForObject(
+                    "SELECT * FROM likes WHERE user_id = :userId AND post_id = :postId",
+                    namedParameter, new LikeRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Like with postId " + postId + " and userId "+ userId + " not found");
+        }
+        return like;
+    }
+
+    @Override
     public List<Like> findLikesByUserId(Long userId){
         SqlParameterSource namedParameter = new MapSqlParameterSource("userId", userId);
         List<Like> likes = namedParameterJdbcTemplate.query(
@@ -66,6 +87,7 @@ public class DataLikeRepository implements LikeRepository {
         return likes;
     }
 
+    @Override
     public List<Like> findLikesByPostId(Long postId){
         SqlParameterSource namedParameter = new MapSqlParameterSource("postId", postId);
         List<Like> likes = namedParameterJdbcTemplate.query(
@@ -75,6 +97,7 @@ public class DataLikeRepository implements LikeRepository {
         return likes;
     }
 
+    @Override
     public List<Like> findAllLikes(){
         List<Like> likes = namedParameterJdbcTemplate.query(
                 "SELECT * FROM likes",
@@ -83,6 +106,7 @@ public class DataLikeRepository implements LikeRepository {
         return likes;
     }
 
+    @Override
     public Like update(Like like){
         SqlParameterSource namedParameter = new MapSqlParameterSource()
                 .addValue("id", like.getId())
@@ -99,6 +123,7 @@ public class DataLikeRepository implements LikeRepository {
         return like;
     }
 
+    @Override
     public void delete(Long id){
         SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
         namedParameterJdbcTemplate.update(

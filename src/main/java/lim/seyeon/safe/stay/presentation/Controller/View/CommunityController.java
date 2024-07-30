@@ -2,6 +2,7 @@ package lim.seyeon.safe.stay.presentation.Controller.View;
 
 import lim.seyeon.safe.stay.application.CategoryService;
 import lim.seyeon.safe.stay.application.CommentService;
+import lim.seyeon.safe.stay.application.LikeService;
 import lim.seyeon.safe.stay.application.PostService;
 import lim.seyeon.safe.stay.domain.User.UserService;
 import lim.seyeon.safe.stay.presentation.DTO.*;
@@ -29,14 +30,16 @@ public class CommunityController {
     private UserDetailsService userDetailsService;
     private CommentService commentService;
     private UserService userService;
+    private LikeService likeService;
 
     @Autowired
-    public CommunityController(PostService postService, CategoryService categoryService, UserDetailsService userDetailsService, CommentService commentService, UserService userService) {
+    public CommunityController(PostService postService, CategoryService categoryService, UserDetailsService userDetailsService, CommentService commentService, UserService userService, LikeService likeService) {
         this.postService = postService;
         this.categoryService = categoryService;
         this.userDetailsService = userDetailsService;
         this.commentService = commentService;
         this.userService = userService;
+        this.likeService = likeService;
     }
 
     @GetMapping
@@ -55,18 +58,13 @@ public class CommunityController {
         model.addAttribute("posts", posts);
         model.addAttribute("categories", categories);
         Map<Long, String> postIdAndCategoryName = new HashMap<>();
+        Map<Long, Integer> postIdAndLikeCount = new HashMap<>();
         for (PostDTO post : posts) {
             postIdAndCategoryName.put(post.getId(), categoryService.findCategoryById(post.getCategoryId()).getName());
+            postIdAndLikeCount.put(post.getId(), likeService.findLikesByPostId(post.getId()).size());
         }
         model.addAttribute("postIdAndCategoryName", postIdAndCategoryName);
-
-        for (PostDTO post : posts) {
-            List<PhotoDTO> photos = post.getPhotos();
-            System.out.println(photos.size());
-            for(PhotoDTO photo : photos) {
-                System.out.println(photo.getUrl());
-            }
-        }
+        model.addAttribute("postIdAndLikeCount", postIdAndLikeCount);
 
         return "community";
     }

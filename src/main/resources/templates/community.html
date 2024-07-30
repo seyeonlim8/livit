@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Community - Livit</title>
@@ -67,34 +67,38 @@
 
         .content {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-top: 20px;
             padding: 20px;
-            width: 80%;
+            width: 100%;
         }
 
         .filter {
-            width: 20%;
+            width: 80%;
             padding: 20px;
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
         .posts {
-            width: 75%;
-            margin-left: 5%;
+            width: 80%;
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
+            justify-content: space-between;
         }
 
         .post {
-            width: calc(33.333% - 20px);
+            width: calc(50% - 10px);
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             text-align: center;
+            position: relative;
         }
 
         .post img {
@@ -129,6 +133,31 @@
 
         .add-post-button:hover {
             background-color: #299d00;
+        }
+
+        .like-icon {
+            cursor: pointer;
+            font-size: 18px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .liked {
+            color: red;
+        }
+
+        .like-count {
+            font-size: 14px;
+            color: #777;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
         }
     </style>
 </head>
@@ -170,9 +199,58 @@
             </div>
             <div class="post-title" th:text="${post.title}">Post Title</div>
             <div class="post-category" th:text="${#maps.containsKey(postIdAndCategoryName, post.id) ? postIdAndCategoryName[post.id] : 'N/A'}">Category Name</div>
-            <a th:href="@{'/community/' + ${post.id}}">View Post</a>
+            <div class="post-actions">
+                <a th:href="@{'/community/' + ${post.id}}">View Post</a>
+                <div class="like-icon" th:classappend="${@likeUtil.isLiked(post.id, userdetail.id) ? 'liked' : ''}" th:attr="data-post-id=${post.id}" onclick="toggleLike(this)">
+                    <img th:src="${@likeUtil.isLiked(post.id, userdetail.id) ? 'heart_filled.png' : 'heart_unfilled.png'}" alt="Like">
+                </div>
+                <div class="like-count" th:text="${postIdAndLikeCount[post.id]}">0</div>
+            </div>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    async function toggleLike(element) {
+        const postId = element.getAttribute('data-post-id');
+        const userId = /*[[${userdetail.id}]]*/ 0; // Replace with the actual user ID
+        const heartIcon = element.querySelector('img');
+
+        try {
+            const response = await fetch(`/api/likes/check?userId=${userId}&postId=${postId}`);
+            if (response.ok) {
+                // Like exists, delete it
+                const like = await response.json();
+                await fetch(`/api/likes/${like.id}`, {
+                    method: 'DELETE'
+                });
+                element.classList.remove('liked');
+                heartIcon.src = 'heart_unfilled.png';
+                element.nextElementSibling.innerText = parseInt(element.nextElementSibling.innerText) - 1;
+            } else if (response.status === 404) {
+                // Like does not exist, create it
+                const createResponse = await fetch('/api/likes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        postId: postId,
+                        userId: userId
+                    })
+                });
+                const newLike = await createResponse.json();
+                element.classList.add('liked');
+                heartIcon.src = 'heart_filled.png';
+                element.nextElementSibling.innerText = parseInt(element.nextElementSibling.innerText) + 1;
+                element.setAttribute('data-like-id', newLike.id);
+            } else {
+                throw new Error('Unexpected response status');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+</script>
 </body>
 </html>

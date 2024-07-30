@@ -3,6 +3,7 @@ package lim.seyeon.safe.stay.domain.Post;
 import jakarta.persistence.*;
 import lim.seyeon.safe.stay.domain.Category.Category;
 import lim.seyeon.safe.stay.domain.Comment.Comment;
+import lim.seyeon.safe.stay.domain.Like.Like;
 import lim.seyeon.safe.stay.domain.Photo.Photo;
 import lim.seyeon.safe.stay.domain.User.User;
 import java.time.LocalDateTime;

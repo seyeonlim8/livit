@@ -3,9 +3,11 @@ package lim.seyeon.safe.stay.presentation.Controller.REST;
 import lim.seyeon.safe.stay.application.LikeService;
 import lim.seyeon.safe.stay.presentation.DTO.LikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/likes")
@@ -26,6 +28,12 @@ public class LikeController {
     @GetMapping(value = "/{id}")
     public LikeDTO findLikeById(@PathVariable Long id) {
         return likeService.findLikeById(id);
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<LikeDTO> checkLike(@RequestParam Long userId, @RequestParam Long postId) {
+        Optional<LikeDTO> like = Optional.ofNullable(likeService.findLikeByPostIdAndUserId(postId, userId));
+        return like.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping

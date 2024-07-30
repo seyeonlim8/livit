@@ -1,6 +1,7 @@
 package lim.seyeon.safe.stay.infrastructure.DataRepository;
 
 import lim.seyeon.safe.stay.domain.Exception.EntityNotFoundException;
+import lim.seyeon.safe.stay.domain.Like.LikeRepository;
 import lim.seyeon.safe.stay.domain.Photo.PhotoRepository;
 import lim.seyeon.safe.stay.domain.Post.Post;
 import lim.seyeon.safe.stay.domain.Post.PostRepository;
