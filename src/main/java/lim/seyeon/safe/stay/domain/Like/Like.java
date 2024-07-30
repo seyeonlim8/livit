@@ -21,16 +21,12 @@ public class Like {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @Column(name = "liked_at")
-    private LocalDateTime likedAt;
-
     public Like() {}
 
-    public Like(Long id, User user, Post post, LocalDateTime likedAt) {
+    public Like(Long id, User user, Post post) {
         this.id = id;
         this.user = user;
         this.post = post;
-        this.likedAt = likedAt;
     }
 
     public Long getId() {
@@ -45,10 +41,6 @@ public class Like {
         return post;
     }
 
-    public LocalDateTime getLikedAt() {
-        return likedAt;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -59,9 +51,5 @@ public class Like {
 
     public void setPost(Post post) {
         this.post = post;
-    }
-
-    public void setLikedAt(LocalDateTime likedAt) {
-        this.likedAt = likedAt;
     }
 }

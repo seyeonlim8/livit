@@ -49,7 +49,7 @@ public class LikeServiceTest {
 
         UserDTO likedUserDTO = new UserDTO("likedUser", "password");
         UserDTO savedLikedUserDTO = userService.save(likedUserDTO);
-        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId(), LocalDateTime.now());
+        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId());
 
         LikeDTO savedLikeDTO = likeService.add(likeDTO);
         LikeDTO foundLikeDTO = likeService.findLikeById(savedLikeDTO.getId());
@@ -57,8 +57,6 @@ public class LikeServiceTest {
         assertEquals(savedLikeDTO.getId(), foundLikeDTO.getId());
         assertEquals(savedLikeDTO.getUserId(), foundLikeDTO.getUserId());
         assertEquals(savedLikeDTO.getPostId(), foundLikeDTO.getPostId());
-        Duration durationUpdated = Duration.between(savedLikeDTO.getLikedAt(), foundLikeDTO.getLikedAt());
-        assertTrue(Math.abs(durationUpdated.getSeconds()) <= 1, "updatedAt timestamps differ by more than 1 second");
     }
 
     @Test
@@ -82,8 +80,8 @@ public class LikeServiceTest {
         UserDTO savedLikedUserDTO = userService.save(likedUserDTO);
         UserDTO likedUserDTO2 = new UserDTO("likedUser2", "password");
         UserDTO savedLikedUserDTO2 = userService.save(likedUserDTO2);
-        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId(), LocalDateTime.now());
-        LikeDTO likeDTO2 = new LikeDTO(savedLikedUserDTO2.getId(), savedPostDTO.getId(), LocalDateTime.now());
+        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId());
+        LikeDTO likeDTO2 = new LikeDTO(savedLikedUserDTO2.getId(), savedPostDTO.getId());
 
         likeService.add(likeDTO);
         likeService.add(likeDTO2);
@@ -106,8 +104,8 @@ public class LikeServiceTest {
 
         UserDTO likedUserDTO = new UserDTO("likedUser", "password");
         UserDTO savedLikedUserDTO = userService.save(likedUserDTO);
-        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId(), LocalDateTime.now());
-        LikeDTO likeDTO2 = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO2.getId(), LocalDateTime.now());
+        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId());
+        LikeDTO likeDTO2 = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO2.getId());
 
         likeService.add(likeDTO);
         likeService.add(likeDTO2);
@@ -130,8 +128,8 @@ public class LikeServiceTest {
 
         UserDTO likedUserDTO = new UserDTO("likedUser", "password");
         UserDTO savedLikedUserDTO = userService.save(likedUserDTO);
-        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId(), LocalDateTime.now());
-        LikeDTO likeDTO2 = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO2.getId(), LocalDateTime.now());
+        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId());
+        LikeDTO likeDTO2 = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO2.getId());
 
         likeService.add(likeDTO);
         likeService.add(likeDTO2);
@@ -149,16 +147,17 @@ public class LikeServiceTest {
         CategoryDTO savedCategoryDTO = categoryService.add(categoryDTO);
         PostDTO postDTO = new PostDTO("title", "content", LocalDateTime.now(), LocalDateTime.now(), savedUserDTO.getId(), savedCategoryDTO.getId());
         PostDTO savedPostDTO = postService.add(postDTO);
+        PostDTO postDTO2 = new PostDTO("title", "content", LocalDateTime.now(), LocalDateTime.now(), savedUserDTO.getId(), savedCategoryDTO.getId());
+        PostDTO savedPostDTO2 = postService.add(postDTO2);
 
         UserDTO likedUserDTO = new UserDTO("likedUser", "password");
         UserDTO savedLikedUserDTO = userService.save(likedUserDTO);
-        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId(), LocalDateTime.now());
+        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId());
         LikeDTO savedLikeDTO = likeService.add(likeDTO);
 
-        LocalDateTime newTime = LocalDateTime.now().plusHours(1);
-        savedLikeDTO.setLikedAt(newTime);
+        savedLikeDTO.setPostId(savedPostDTO2.getId());
         LikeDTO updatedLikeDTO = likeService.update(savedLikeDTO);
-        assertEquals(newTime, updatedLikeDTO.getLikedAt());
+        assertEquals(savedPostDTO.getId(), updatedLikeDTO.getPostId());
     }
 
     @Test
@@ -173,7 +172,7 @@ public class LikeServiceTest {
 
         UserDTO likedUserDTO = new UserDTO("likedUser", "password");
         UserDTO savedLikedUserDTO = userService.save(likedUserDTO);
-        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId(), LocalDateTime.now());
+        LikeDTO likeDTO = new LikeDTO(savedLikedUserDTO.getId(), savedPostDTO.getId());
         LikeDTO savedLikeDTO = likeService.add(likeDTO);
 
         likeService.delete(savedLikeDTO.getId());

@@ -10,21 +10,18 @@ public class LikeDTO {
     private Long id;
     private Long userId;
     private Long postId;
-    private LocalDateTime likedAt;
 
     public LikeDTO() {}
 
-    public LikeDTO(Long userId, Long postId, LocalDateTime likedAt) {
+    public LikeDTO(Long userId, Long postId) {
         this.userId = userId;
         this.postId = postId;
-        this.likedAt = likedAt;
     }
 
-    public LikeDTO(Long id, Long userId, Long postId, LocalDateTime likedAt) {
+    public LikeDTO(Long id, Long userId, Long postId) {
         this.id = id;
         this.userId = userId;
         this.postId = postId;
-        this.likedAt = likedAt;
     }
 
     public Long getId() {
@@ -39,10 +36,6 @@ public class LikeDTO {
         return postId;
     }
 
-    public LocalDateTime getLikedAt() {
-        return likedAt;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -55,16 +48,11 @@ public class LikeDTO {
         this.postId = postId;
     }
 
-    public void setLikedAt(LocalDateTime likedAt) {
-        this.likedAt = likedAt;
-    }
-
     public static Like toEntity(LikeDTO likeDTO, User user, Post post) {
         Like like = new Like(
                 likeDTO.getId(),
                 user,
-                post,
-                likeDTO.getLikedAt()
+                post
         );
         return like;
     }
@@ -73,8 +61,7 @@ public class LikeDTO {
         LikeDTO likeDTO = new LikeDTO(
                 like.getId(),
                 like.getUser().getId(),
-                like.getPost().getId(),
-                like.getLikedAt()
+                like.getPost().getId()
         );
         return likeDTO;
     }

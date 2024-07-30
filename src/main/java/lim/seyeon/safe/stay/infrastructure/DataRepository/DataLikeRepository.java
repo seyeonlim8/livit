@@ -31,10 +31,9 @@ public class DataLikeRepository implements LikeRepository {
         SqlParameterSource namedParameter = new MapSqlParameterSource()
                 .addValue("id", like.getId())
                 .addValue("userId", like.getUser().getId())
-                .addValue("postId", like.getPost().getId())
-                .addValue("likedAt", like.getLikedAt());
+                .addValue("postId", like.getPost().getId());
         namedParameterJdbcTemplate.update(
-                "INSERT INTO likes (id, user_id, post_id, liked_at) VALUES (:id, :userId, :postId, :likedAt)",
+                "INSERT INTO likes (id, user_id, post_id) VALUES (:id, :userId, :postId)",
                 namedParameter, keyHolder
         );
 
@@ -111,10 +110,9 @@ public class DataLikeRepository implements LikeRepository {
         SqlParameterSource namedParameter = new MapSqlParameterSource()
                 .addValue("id", like.getId())
                 .addValue("userId", like.getUser().getId())
-                .addValue("postId", like.getPost().getId())
-                .addValue("likedAt", like.getLikedAt());
+                .addValue("postId", like.getPost().getId());
         int rowsAffected = namedParameterJdbcTemplate.update(
-                "UPDATE likes SET user_id = :userId, post_id = :postId, liked_at = :likedAt WHERE id = :id",
+                "UPDATE likes SET user_id = :userId, post_id = :postId WHERE id = :id",
                 namedParameter
         );
         if(rowsAffected == 0) {

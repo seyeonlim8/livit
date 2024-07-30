@@ -23,14 +23,6 @@ public class LikeRowMapper implements RowMapper<Like> {
         post.setId(rs.getLong("post_id"));
         like.setPost(post);
 
-        // Handle possible null value for liked_at
-        Timestamp likedAtTimestamp = rs.getTimestamp("liked_at");
-        if (likedAtTimestamp != null) {
-            like.setLikedAt(likedAtTimestamp.toLocalDateTime());
-        } else {
-            like.setLikedAt(null); // Or set to a default value
-        }
-
         return like;
     }
 }
