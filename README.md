@@ -20,6 +20,7 @@ Livit is a comprehensive web application designed to help users find their ideal
 
 ### Houses Search Function
 ![Livit - View Houses](https://github.com/user-attachments/assets/25b2cb85-8484-4362-8e24-dcaa1bcef0e5)
+![house1 - Livit](https://github.com/user-attachments/assets/13283d09-c73e-40bd-b374-dafe0491898e)
 - **Filter Houses:** Users can filter houses based on various criteria such as price, location, and safety score.
 - **View Houses:** Detailed view of each house including images, description, price, and safety score.
 - **Write/View Reviews:** Users can write reviews for houses they have stayed in and view reviews written by others.
