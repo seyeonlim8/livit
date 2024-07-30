@@ -15,7 +15,8 @@ public class Application {
 		System.setProperty("LIVIT_EMAIL_PASSWORD", dotenv.get("LIVIT_EMAIL_PASSWORD"));
 		System.setProperty("aws.bucketName", dotenv.get("aws.bucketName"));
 		System.setProperty("aws.region", dotenv.get("aws.region"));
-
+		System.setProperty("spring.datasource.password", dotenv.get("spring.datasource.password"));
+		System.setProperty("spring.datasource.username", dotenv.get("spring.datasource.username"));
 		SpringApplication.run(Application.class, args);
 	}
 
