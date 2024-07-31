@@ -132,7 +132,7 @@
 </head>
 <body>
 <div class="navbar">
-    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
+    <a href="/home" class="navbar_logo"><img th:src="@{/LivitLogo.png}" alt="Livit Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
@@ -179,7 +179,6 @@
         </form>
     </div>
 </div>
-
 <script th:inline="javascript">
     const userId = /*[[${userid}]]*/ 0;
 
@@ -200,8 +199,10 @@
 
         formData.append('post', new Blob([JSON.stringify(post)], { type: 'application/json' }));
 
-        for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
+        if (files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
         }
 
         fetch('/api/posts', {
@@ -211,6 +212,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                alert('Post created successfully.');
                 window.location.href = '/community';
             })
             .catch(error => console.error('Error:', error));

@@ -5,6 +5,8 @@ import lim.seyeon.safe.stay.presentation.DTO.LikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 // Custom Thymeleaf utility class to check if the current user liked the post
@@ -33,6 +35,11 @@ public class LikeUtil {
         } catch (Exception e) {
             return Optional.empty();  // Return empty if any exception occurs
         }
+    }
+
+    public static String formatDateTime(LocalDateTime dateTime, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return dateTime.format(formatter);
     }
 }
 

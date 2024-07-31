@@ -1,4 +1,4 @@
-package lim.seyeon.safe.stay.presentation.DTO;
+package lim.seyeon.safe.stay.presentation.Filter;
 
 public class RoommateFilter {
     private Integer bedtime;

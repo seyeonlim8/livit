@@ -10,9 +10,12 @@ import lim.seyeon.safe.stay.presentation.DTO.CategoryDTO;
 import lim.seyeon.safe.stay.presentation.DTO.LikeDTO;
 import lim.seyeon.safe.stay.presentation.DTO.PostDTO;
 import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
+import lim.seyeon.safe.stay.presentation.Filter.PostFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,4 +95,21 @@ public class PostService {
         postRepository.delete(id);
     }
 
+    public List<PostDTO> findPosts(PostFilter filter) {
+        List<Post> posts = postRepository.findPosts(filter);
+        List<PostDTO> postDTOS = posts.stream()
+                .map(post -> PostDTO.toDTO(post))
+                .toList();
+        List<PostDTO> mutablePostDTOS = new ArrayList<>(postDTOS);
+        return sort(mutablePostDTOS, filter);
+    }
+
+    private List<PostDTO> sort(List<PostDTO> postDTOS, PostFilter filter) {
+        if("oldestToNewest".equals(filter.getSort())) {
+            postDTOS.sort(Comparator.comparing(PostDTO::getCreatedAt));
+        } else if("newestToOldest".equals(filter.getSort())) {
+            postDTOS.sort(Comparator.comparing(PostDTO::getCreatedAt).reversed());
+        }
+        return postDTOS;
+    }
 }

@@ -40,9 +40,6 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-
     public Post() {}
 
     public Post(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, User user, Category category) {
@@ -87,10 +84,6 @@ public class Post {
         return photos;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -121,9 +114,5 @@ public class Post {
 
     public void setPhotos(List<Photo> photos) {
         this.photos = photos;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
     }
 }

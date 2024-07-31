@@ -1,13 +1,5 @@
 package lim.seyeon.safe.stay.infrastructure.Specifications;
 
-import lim.seyeon.safe.stay.domain.House.House;
-import lim.seyeon.safe.stay.presentation.DTO.HouseFilter;
-import org.springframework.data.jpa.domain.Specification;
-
-import java.util.ArrayList;
-import java.util.List;
-import jakarta.persistence.criteria.Predicate;
-
 /*
 public class HouseSpecifications {
 

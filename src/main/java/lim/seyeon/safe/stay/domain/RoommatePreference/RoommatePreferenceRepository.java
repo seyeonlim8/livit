@@ -1,7 +1,6 @@
 package lim.seyeon.safe.stay.domain.RoommatePreference;
 
-import lim.seyeon.safe.stay.domain.House.House;
-import lim.seyeon.safe.stay.presentation.DTO.RoommateFilter;
+import lim.seyeon.safe.stay.presentation.Filter.RoommateFilter;
 
 import java.util.List;
 

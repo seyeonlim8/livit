@@ -2,8 +2,9 @@ package lim.seyeon.safe.stay.presentation.Controller.View;
 
 import lim.seyeon.safe.stay.application.HouseService;
 import lim.seyeon.safe.stay.application.ReviewService;
+import lim.seyeon.safe.stay.domain.User.UserService;
 import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
-import lim.seyeon.safe.stay.presentation.DTO.HouseFilter;
+import lim.seyeon.safe.stay.presentation.Filter.HouseFilter;
 import lim.seyeon.safe.stay.presentation.DTO.ReviewDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,14 @@ public class ViewHousesController {
 
     private HouseService houseService;
     private UserDetailsService userDetailsService;
+    private UserService userService;
 
     @Autowired
-    public ViewHousesController(HouseService houseService, UserDetailsService userDetailsService, ReviewService reviewService) {
+    public ViewHousesController(HouseService houseService, UserDetailsService userDetailsService, ReviewService reviewService, UserService userService) {
         this.houseService = houseService;
         this.userDetailsService = userDetailsService;
         this.reviewService = reviewService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -81,7 +84,7 @@ public class ViewHousesController {
         Map<Long, String> reviewers = new HashMap<>();
         for (ReviewDTO reviewDTO : reviewDTOS) {
             Long reviewId = reviewDTO.getId();
-            String reviewerName = userDetailsService.loadUserByUsername(username).getUsername();
+            String reviewerName = userService.findUserById(reviewDTO.getUserid()).getUsername();
             reviewers.put(reviewId, reviewerName);
         }
         model.addAttribute("reviews", reviewDTOS);

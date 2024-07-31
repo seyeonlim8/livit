@@ -2,7 +2,7 @@ package lim.seyeon.safe.stay.application;
 
 import lim.seyeon.safe.stay.domain.RoommatePreference.RoommatePreference;
 import lim.seyeon.safe.stay.domain.RoommatePreference.RoommatePreferenceRepository;
-import lim.seyeon.safe.stay.presentation.DTO.RoommateFilter;
+import lim.seyeon.safe.stay.presentation.Filter.RoommateFilter;
 import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

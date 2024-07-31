@@ -88,7 +88,8 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: space-between;
+            justify-content: center; /* Center the posts */
+            margin: 0 auto; /* Center the container within the page */
         }
 
         .post {
@@ -99,6 +100,7 @@
             overflow: hidden;
             text-align: center;
             position: relative;
+            padding: 15px;
         }
 
         .post img {
@@ -114,6 +116,12 @@
 
         .post-category {
             font-size: 14px;
+            color: #777;
+            padding-bottom: 10px;
+        }
+
+        .post-createdAt{
+            font-size: 12px;
             color: #777;
             padding-bottom: 10px;
         }
@@ -137,11 +145,12 @@
 
         .like-icon {
             cursor: pointer;
-            font-size: 10px;
+            font-size: 14px;
             display: inline-block;
             vertical-align: middle;
             width: 24px;
             height: 24px;
+            margin-right: 5px;
         }
 
         .like-count {
@@ -157,11 +166,31 @@
             align-items: center;
             padding: 10px;
         }
+
+        .post-actions .left {
+            display: flex;
+            align-items: center;
+        }
+
+        .view-post-button {
+            margin-top: 10px;
+            background-color: #568CD4;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .view-post-button:hover {
+            background-color: #299d00;
+        }
     </style>
 </head>
 <body>
 <div class="navbar">
-    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
+    <a href="/home" class="navbar_logo"><img th:src="@{/LivitLogo.png}" alt="Livit Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
@@ -179,31 +208,46 @@
 
 <div class="content">
     <div class="filter">
-        <h3>Filter by Category</h3>
+        <h3>Filter</h3>
         <form method="get" action="/community">
-            <select name="categoryId" onchange="this.form.submit()">
+            <label for="categoryId">Category</label>
+            <select id="categoryId" name="categoryId">
                 <option value="">All Categories</option>
                 <option th:each="category : ${categories}"
                         th:value="${category.id}"
                         th:text="${category.name}"></option>
             </select>
+
+            <label for="sort">Sort By</label>
+            <select id="sort" name="sort">
+                <option value="">Select</option>
+                <option value="newestToOldest">Post: Latest to Oldest</option>
+                <option value="oldestToNewest">Price: Oldest to Latest</option>
+            </select>
+
+            <button type="submit">Apply Filters</button>
         </form>
+
     </div>
+    <a href="/community/new" class="add-post-button">Add New Post</a>
     <div class="posts">
-        <a href="/community/new" class="add-post-button">Add New Post</a>
         <div th:each="post : ${posts}" class="post">
             <div th:each="photo : ${post.photos}">
                 <img th:src="${photo.url}" alt="Post Image">
             </div>
+            <div class="post-author" th:text="${#maps.containsKey(postIdAndUsername, post.id) ? postIdAndCategoryName[post.id] : 'N/A'}">Category Name</div>
             <div class="post-title" th:text="${post.title}">Post Title</div>
             <div class="post-category" th:text="${#maps.containsKey(postIdAndCategoryName, post.id) ? postIdAndCategoryName[post.id] : 'N/A'}">Category Name</div>
             <div class="post-actions">
-                <a th:href="@{'/community/' + ${post.id}}">View Post</a>
-                <div class="like-icon" th:classappend="${@likeUtil.isLiked(post.id, userdetail.id) ? 'liked' : ''}" th:attr="data-post-id=${post.id}" onclick="toggleLike(this)">
-                    <img th:src="${@likeUtil.isLiked(post.id, userdetail.id) ? 'heart_filled.png' : 'heart_unfilled.png'}" alt="Like">
+                <div class="left">
+                    <div class="like-icon" th:classappend="${@likeUtil.isLiked(post.id, userdetail.id) ? 'liked' : ''}" th:attr="data-post-id=${post.id}" onclick="toggleLike(this)">
+                        <img th:src="${@likeUtil.isLiked(post.id, userdetail.id) ? 'heart_filled.png' : 'heart_unfilled.png'}" alt="Like">
+                    </div>
+                    <div class="like-count" th:text="${postIdAndLikeCount[post.id]}">0</div>
                 </div>
-                <div class="like-count" th:text="${postIdAndLikeCount[post.id]}">0</div>
             </div>
+            <div class="post-createdAt" th:text="${@likeUtil.formatDateTime(post.createdAt, 'yyyy-MM-dd HH:mm')}">Post Created At</div>
+            <a th:href="@{'/community/' + ${post.id}}" class="view-post-button">View Post</a>
         </div>
     </div>
 </div>

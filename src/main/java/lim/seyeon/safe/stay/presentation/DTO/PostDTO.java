@@ -20,7 +20,6 @@ public class PostDTO {
     private Long userId;
     private Long categoryId;
     private List<PhotoDTO> photos = new ArrayList<>();
-    private List<CommentDTO> comments = new ArrayList<>();
 
     public PostDTO() {}
 
@@ -75,10 +74,6 @@ public class PostDTO {
         return photos;
     }
 
-    public List<CommentDTO> getComments() {
-        return comments;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -111,10 +106,6 @@ public class PostDTO {
         this.photos = photos;
     }
 
-    public void setComments(List<CommentDTO> comments) {
-        this.comments = comments;
-    }
-
     public static Post toEntity(PostDTO postDTO, User user, Category category) {
         Post post = new Post (
                 postDTO.getId(),
@@ -127,9 +118,6 @@ public class PostDTO {
         );
         post.setPhotos(postDTO.getPhotos().stream()
                 .map(photoDTO -> PhotoDTO.toEntity(photoDTO, post))
-                .toList());
-        post.setComments(postDTO.getComments().stream()
-                .map(commentDTO -> CommentDTO.toEntity(commentDTO, post.getUser(), post))
                 .toList());
         return post;
     }
@@ -146,9 +134,6 @@ public class PostDTO {
         );
         postDTO.setPhotos(post.getPhotos().stream()
                 .map(photo -> PhotoDTO.toDTO(photo))
-                .toList());
-        postDTO.setComments(post.getComments().stream()
-                .map(comment -> CommentDTO.toDTO(comment))
                 .toList());
         return postDTO;
     }

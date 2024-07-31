@@ -32,7 +32,7 @@ public class PostController {
     }
 
     @PostMapping
-    public PostDTO create(@RequestPart("post") PostDTO postDTO, @RequestPart("files") List<MultipartFile> files) throws IOException {
+    public PostDTO create(@RequestPart("post") PostDTO postDTO, @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
         // 1. Save the post to get the generated post ID
         PostDTO savedPost = postService.add(postDTO);
 

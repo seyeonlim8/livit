@@ -70,11 +70,14 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .post-details img {
-            max-width: 100%;
+            max-width: 60%;
             height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
         .comments {
@@ -86,16 +89,57 @@
 
         .comments h3 {
             margin-top: 0;
+            color: #568CD4;
         }
 
         .comment {
             margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comment strong {
+            color: #568CD4;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comment-form label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .comment-form textarea {
+            resize: vertical;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+        }
+
+        .comment-form button {
+            align-self: flex-start;
+            background-color: #568CD4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .comment-form button:hover {
+            background-color: #299d00;
         }
     </style>
 </head>
 <body>
 <div class="navbar">
-    <a href="/home" class="navbar_logo"><img src="LivitLogo.png" alt="Livit Logo"></a>
+    <a href="/home" class="navbar_logo"><img th:src="@{/LivitLogo.png}" alt="Livit Logo"></a>
     <ul class="navbar_menu">
         <li><a href="/view-houses" class="navbar_menu_item">View Houses</a></li>
         <li><a href="/roommate-search" class="navbar_menu_item">Roommate Search</a></li>
@@ -113,27 +157,59 @@
 
 <div class="post-details">
     <h2 th:text="${post.title}">Post Title</h2>
-    <p th:text="${post.content}">Post content...</p>
     <div th:each="photo : ${post.photos}">
         <img th:src="${photo.url}" alt="Post Image">
     </div>
+    <p th:text="${post.content}">Post content...</p>
 </div>
 
 <div class="comments">
     <h3>Comments</h3>
-    <div th:each="comment : ${comments}">
-        <div class="comment">
-            <p><strong th:text="${comment.user.username}">Username</strong>: <span th:text="${comment.content}">Comment content...</span></p>
-        </div>
-    </div>
-    <form action="/api/comments" method="post">
+    <form id="commentForm" class="comment-form">
         <input type="hidden" name="postId" th:value="${post.id}">
         <input type="hidden" name="userId" th:value="${userdetail.id}">
         <label for="content">Add a comment:</label>
         <textarea id="content" name="content" required></textarea><br><br>
-        <input type="submit" value="Post Comment">
+        <button type="button" onclick="submitComment()">Submit Comment</button>
     </form>
+    <div th:each="comment : ${comments}">
+        <div class="comment">
+            <p><strong th:text="${#maps.containsKey(commentIdAndCommenterUsername, comment.id) ? commentIdAndCommenterUsername[comment.id] : 'N/A'}">Username</strong>: <span th:text="${comment.content}">Comment content...</span></p>
+        </div>
+    </div>
 </div>
+
+<script>
+    function submitComment() {
+        const commentContent = document.getElementById('content').value;
+        const createdAt = new Date().toISOString();
+        const commenterId = document.querySelector('input[name="userId"]').value;
+        const commentPostId = document.querySelector('input[name="postId"]').value;
+
+        const comment = {
+            content: commentContent,
+            createdAt: createdAt,
+            userId: commenterId,
+            postId: commentPostId
+        };
+
+        fetch('/api/comments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(comment)
+        })
+            .then(response => response.json())
+            .then(data => {
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error submitting comment:', error);
+                alert('Failed to submit comment.');
+            });
+    }
+</script>
 
 </body>
 </html>

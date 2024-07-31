@@ -4,7 +4,7 @@ import lim.seyeon.safe.stay.domain.House.House;
 import lim.seyeon.safe.stay.domain.House.HouseRepository;
 import lim.seyeon.safe.stay.domain.Neighborhood.Neighborhood;
 import lim.seyeon.safe.stay.presentation.DTO.HouseDTO;
-import lim.seyeon.safe.stay.presentation.DTO.HouseFilter;
+import lim.seyeon.safe.stay.presentation.Filter.HouseFilter;
 import lim.seyeon.safe.stay.presentation.DTO.NeighborhoodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

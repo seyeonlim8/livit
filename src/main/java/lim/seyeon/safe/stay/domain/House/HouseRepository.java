@@ -1,8 +1,6 @@
 package lim.seyeon.safe.stay.domain.House;
 
-import lim.seyeon.safe.stay.presentation.DTO.HouseFilter;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import lim.seyeon.safe.stay.presentation.Filter.HouseFilter;
 
 import java.util.List;
 

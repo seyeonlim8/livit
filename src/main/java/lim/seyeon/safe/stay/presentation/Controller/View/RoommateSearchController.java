@@ -3,7 +3,7 @@ package lim.seyeon.safe.stay.presentation.Controller.View;
 import lim.seyeon.safe.stay.application.RoommatePreferenceService;
 import lim.seyeon.safe.stay.application.UserDetailService;
 import lim.seyeon.safe.stay.application.UserServiceImpl;
-import lim.seyeon.safe.stay.presentation.DTO.RoommateFilter;
+import lim.seyeon.safe.stay.presentation.Filter.RoommateFilter;
 import lim.seyeon.safe.stay.presentation.DTO.RoommatePreferenceDTO;
 import lim.seyeon.safe.stay.presentation.DTO.UserDTO;
 import lim.seyeon.safe.stay.presentation.DTO.UserDetailDTO;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -6,6 +6,7 @@ import lim.seyeon.safe.stay.application.LikeService;
 import lim.seyeon.safe.stay.application.PostService;
 import lim.seyeon.safe.stay.domain.User.UserService;
 import lim.seyeon.safe.stay.presentation.DTO.*;
+import lim.seyeon.safe.stay.presentation.Filter.PostFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/community")
@@ -43,27 +42,33 @@ public class CommunityController {
     }
 
     @GetMapping
-    public String viewCommunity(@RequestParam(required = false) Long categoryId, Principal principal, Model model) {
-        List<PostDTO> posts;
-        if (categoryId == null) {
-            posts = postService.findAllPosts();
-        } else {
-            posts = postService.findPostByCategoryId(categoryId);
-        }
+    public String viewCommunity(@RequestParam(required = false) Long categoryId,
+                                @RequestParam(required = false) String sort,
+                                Principal principal,
+                                Model model) {
+        PostFilter filter = new PostFilter();
+        filter.setCategoryId(categoryId);
+        filter.setSort(sort);
+
+        List<PostDTO> posts = postService.findPosts(filter);
+        model.addAttribute("posts", posts);
 
         List<CategoryDTO> categories = categoryService.findAllCategories();
+        model.addAttribute("categories", categories);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         model.addAttribute("userdetail", userDetails);
-        model.addAttribute("posts", posts);
-        model.addAttribute("categories", categories);
+
         Map<Long, String> postIdAndCategoryName = new HashMap<>();
+        Map<Long, String> postIdAndUsername = new HashMap<>();
         Map<Long, Integer> postIdAndLikeCount = new HashMap<>();
         for (PostDTO post : posts) {
             postIdAndCategoryName.put(post.getId(), categoryService.findCategoryById(post.getCategoryId()).getName());
+            postIdAndUsername.put(post.getId(), userService.findUserById(post.getUserId()).getUsername());
             postIdAndLikeCount.put(post.getId(), likeService.findLikesByPostId(post.getId()).size());
         }
         model.addAttribute("postIdAndCategoryName", postIdAndCategoryName);
+        model.addAttribute("postIdAndUsername", postIdAndUsername);
         model.addAttribute("postIdAndLikeCount", postIdAndLikeCount);
 
         return "community";
@@ -72,12 +77,19 @@ public class CommunityController {
     @GetMapping("/{postId}")
     public String viewPostDetails(@PathVariable Long postId, Principal principal, Model model) {
         PostDTO post = postService.findPostById(postId);
+        model.addAttribute("post", post);
         List<CommentDTO> comments = commentService.findCommentsByPostId(postId);
-
+        model.addAttribute("comments", comments);
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         model.addAttribute("userdetail", userDetails);
-        model.addAttribute("post", post);
-        model.addAttribute("comments", comments);
+
+        Map<Long, String> commentIdAndCommenterUsername = new HashMap<>();
+        for (CommentDTO commentDTO : comments) {
+            String commenterName = userService.findUserById(commentDTO.getUserId()).getUsername();
+            commentIdAndCommenterUsername.put(commentDTO.getId(), commenterName);
+        }
+        model.addAttribute("commentIdAndCommenterUsername", commentIdAndCommenterUsername);
+
         CategoryDTO categoryDTO = categoryService.findCategoryById(post.getCategoryId());
         model.addAttribute("categoryName", categoryDTO.getName());
 

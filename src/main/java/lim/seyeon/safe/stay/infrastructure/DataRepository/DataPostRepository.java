@@ -6,6 +6,7 @@ import lim.seyeon.safe.stay.domain.Photo.PhotoRepository;
 import lim.seyeon.safe.stay.domain.Post.Post;
 import lim.seyeon.safe.stay.domain.Post.PostRepository;
 import lim.seyeon.safe.stay.infrastructure.RowMapper.PostRowMapper;
+import lim.seyeon.safe.stay.presentation.Filter.PostFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -16,7 +17,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class DataPostRepository implements PostRepository {
@@ -95,6 +98,20 @@ public class DataPostRepository implements PostRepository {
         return posts;
     }
 
+    @Override
+    public List<Post> findPosts(PostFilter filter) {
+        String baseSql = "SELECT * FROM posts WHERE 1=1";
+        MapSqlParameterSource namedParameter = new MapSqlParameterSource();
+
+        if(filter.getCategoryId() != null) {
+            baseSql += " AND category_id = :categoryId";
+            namedParameter.addValue("categoryId", filter.getCategoryId());
+        }
+
+        return namedParameterJdbcTemplate.query(baseSql, namedParameter, new PostRowMapper(photoRepository));
+    }
+
+    @Override
     public Post update(Post post) {
         SqlParameterSource namedParameter = new MapSqlParameterSource()
                 .addValue("id", post.getId())
@@ -116,6 +133,7 @@ public class DataPostRepository implements PostRepository {
         return post;
     }
 
+    @Override
     public void delete(Long id) {
         SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
         namedParameterJdbcTemplate.update(
