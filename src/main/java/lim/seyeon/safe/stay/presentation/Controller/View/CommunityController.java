@@ -93,6 +93,9 @@ public class CommunityController {
         CategoryDTO categoryDTO = categoryService.findCategoryById(post.getCategoryId());
         model.addAttribute("categoryName", categoryDTO.getName());
 
+        Integer likeCount = likeService.findLikesByPostId(postId).size();
+        model.addAttribute("likeCount", likeCount);
+
         return "post-details";
     }
 

@@ -161,6 +161,7 @@
         <img th:src="${photo.url}" alt="Post Image">
     </div>
     <p th:text="${post.content}">Post content...</p>
+    <div class="like-count" th:text="'Likes: '+ ${likeCount}">0</div>
 </div>
 
 <div class="comments">
