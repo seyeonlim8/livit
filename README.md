@@ -1,7 +1,5 @@
 # Livit - Find Your Ideal Home and Roommate
 
-![Livit - Welcome](https://github.com/user-attachments/assets/9cdcdb3f-9efb-432d-969f-282cce75336e)
-
 ![Livit - Home](https://github.com/user-attachments/assets/86c75a4f-b793-459b-b948-fdb33e4cf6ee)
 
 ## Tech Stack
